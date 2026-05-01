@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body{
+            background-image: url(https://static.vecteezy.com/system/resources/thumbnails/071/068/955/small/winding-road-through-autumn-forest-at-sunset-photo.jpeg);
+            background-repeat: no-repeat;
+          background-size: cover;
+          overflow: hidden;
+        }
+        .car{
+            /* border: 2px solid; */
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            left: 50%;
+        }
+
+        .car img{
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="car" id="car">
+        <img src="https://media3.giphy.com/avatars/Harley-DavidsonDuesseldorf/G8uV1LmQ4aab.gif" alt="">
+    </div>
+
+
+
+
+    <script>
+        let ltr = 0;
+        let ttb = 0;
+        let car = document.getElementById("car")
+        document.addEventListener("keyup", (e) => {
+            console.log(e.key); 
+            switch(e.key){
+                case "ArrowRight":
+                        ltr+=10  // 
+                        break;
+                case "ArrowLeft":
+                        ltr-=10  // 
+                        break;
+                case "ArrowUp":
+                        ttb-=10  // 
+                        break;
+                case "ArrowDown":
+                        ttb+=10  // 
+                        break; 
+            } 
+            // console.log("left",ltr);
+            // console.log("top",ttb);
+            car.style.left = ltr+'px'
+            car.style.top = ttb+'px'
+
+        })
+    </script>
+</body>
+
+</html>

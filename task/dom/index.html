@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            cursor: url(./img/cursor.png), auto;
+        }
+
+        body {
+            background: url(https://images8.alphacoders.com/122/thumb-1920-1227769.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        .box {
+            height: 100px;
+            width: 100px;
+            position: absolute;
+            /* transition: 1s; */
+        }
+         .box1 {
+            height: 150px;
+            width: 150px;
+            position: absolute;
+            /* transition: 1s; */
+        }
+        .box1 img{
+           height: 100%;
+            object-fit: cover;   
+        }
+
+        #butter1 {
+            position: absolute;
+            left: 30px;
+        }
+
+        .box img {
+            height: 100px;
+            object-fit: cover;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" id="butter">
+        <img src="https://clipart-library.com/images/8c65GEKoi.gif" alt="">
+    </div>
+
+    <div class="box" id="butter1">
+        <img src="https://clipart-library.com/img1/1663364.gif" alt="">
+        <img src="https://i.pinimg.com/originals/ec/be/aa/ecbeaaeeb4fdc5f0109351e63183e54b.gif" alt="">
+    </div>
+
+    <div class="box" id="butter2">
+        <img src="https://i.pinimg.com/originals/33/e5/d4/33e5d48e7e0e717c2ebe50c914b12f54.gif" alt="">
+    </div>
+    <!-- black egle -->
+
+    <div class="box" id="butter3">
+        <img src="https://img1.picmix.com/output/stamp/normal/1/5/4/3/283451_866c9.gif" alt="">
+    </div>
+    <!-- white egle -->
+    <div class="box1" id="butter4">
+        <img src="https://i.pinimg.com/originals/3a/b7/f3/3ab7f3fc4acc6a48013e131e1a1f339d.gif" alt="">
+    </div>
+    <!-- white butterfly -->
+
+    <script>
+        let slide = document.getElementById("butter")
+        document.addEventListener("mousemove", (event) => {
+            slide.style.transition = 1 + `s`
+            slide.style.left = event.clientX + `px`
+            slide.style.top = event.clientY + `px`
+        })
+
+        let slide1 = document.getElementById("butter1")
+        document.addEventListener("click", (event) => {
+            slide1.style.transition = 6 + `s`
+            slide1.style.left = event.clientX + `px`
+            slide1.style.top = event.clientY + `px`
+            for (let i = 50; i <= 800; i = i + 10) {
+                slide1.style.left = i + `px`
+            }
+        })
+        let slide2 = document.getElementById("butter2")
+        document.addEventListener("click", (event) => {
+            slide2.style.transition = 3 + `s`
+            slide2.style.left = event.clientX + `px`
+            slide2.style.top = event.clientY + `px`
+        })
+        let slide3 = document.getElementById("butter3")
+        document.addEventListener("mousemove", (event) => {
+            slide3.style.transition = 14 + `s`
+            slide3.style.left = event.clientX + `px`
+            slide3.style.top = event.clientY + `px`
+         
+        })
+        let slide4 = document.getElementById("butter4")
+        document.addEventListener("mousemove", (event) => {
+            slide4.style.transition = 15+ `s`
+            slide4.style.left = event.clientX + `px`
+            slide4.style.top = event.clientY + `px`
+            for (let i = 10; i <= 500; i = i + 10) {
+                slide3.style.left = i + `px`
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Video Events Demo</title>
+</head>
+
+<body>
+
+  <h2>Video Events Example 🎬</h2>
+
+  <!-- <video  src="./video/4177893-hd_1080_1920_30fps.mp4">
+  <source type="video/mp4">
+  Your browser does not support video.
+</video> -->
+  <video src="./video/4177893-hd_1080_1920_30fps.mp4" id="video" width="400" controls> Your browser does not support video.</video>
+
+  <p id="log">Status: Waiting...</p>
+
+  <script>
+    const video = document.getElementById("video");
+    const log = document.getElementById("log");
+
+    video.addEventListener("play", () => {
+      console.log("Playing");
+      log.textContent = "Status: Playing ▶️";
+    });
+
+    video.addEventListener("pause", () => {
+      console.log("Paused");
+      log.textContent = "Status: Paused ⏸️";
+      // video.src = "./video/4177893-hd_1080_1920_30fps.mp4"
+    });
+
+    video.addEventListener("ended", () => {
+      console.log("Ended");
+      log.textContent = "Status: Video Ended 🔁";
+      video.setAttribute("src",`./video/7426707-hd_1080_1920_25fps.mp4`)
+      // video.src = "./video/7426707-hd_1080_1920_25fps.mp4"
+
+    })
+
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dice Game</title>
+</head>
+<body id="bg">
+
+<h2>🎲 Dice Game</h2>
+
+<button onclick="rollDice()">Roll Dice</button>
+
+<h1 id="result">Result: </h1>
+<h2 id="status"></h2>
+
+<script>
+function rollDice() {
+
+    let dice = Math.floor(Math.random() * 6) + 1
+
+    // show number
+    document.getElementById("result").innerText = "Result: " + dice
+
+    // condition check
+    if (dice > 3) {
+        document.getElementById("status").innerText = "You Win 🎉"
+        document.getElementById("bg").style.backgroundColor = "lightgreen"
+    } else {
+        document.getElementById("status").innerText = "Try Again 😢"
+        document.getElementById("bg").style.backgroundColor = "lightcoral"
+    }
+}
+</script>
+
+</body>
+</html>

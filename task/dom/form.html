@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <!-- 
+    submit, blur,focus, change
+    
+    -->
+    <form action="" id="student_form" onsubmit="showForm(event)">
+        <input type="text" id="age"><br>
+        <input type="text" id="address"><br>
+        <select name="" id="clrs">
+            <option value="red">red</option>
+            <option value="green">green</option>
+            <option value="yellow">yellow</option>
+        </select><br>
+        <button type="submit">submit</button>
+    </form>
+
+
+    <script>
+
+
+      let student_form = document.getElementById("student_form")
+        student_form.addEventListener("submit", (evt) => {
+            evt.preventDefault()
+            console.log(evt.target[0].value);
+            console.log(evt.target[1].value);
+            console.log(evt.target[2].value); 
+            document.body.style.background="linear-gradient(blue,green)"
+
+        })
+
+
+      
+        let age = document.getElementById("age")
+        age.addEventListener("focus",()=>{
+            age.style.background = "green"
+        })
+
+        age.addEventListener("blur",()=>{
+            age.style.background = "white"
+        })
+
+        let clrs = document.getElementById("clrs")
+
+        clrs.addEventListener("change", () => {
+            console.log("change", clrs.value);
+
+            document.body.style.background = clrs.value
+
+        })
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // let showForm = (event) => {
+        //     event.preventDefault()
+        //     console.log(event);
+        //     console.log(event.target[0].value);
+        //     console.log(event.target[1].value);
+        //     console.log(event.target[2].value);
+        // }
+    </script>
+</body>
+
+</html>

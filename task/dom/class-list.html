@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class list</title>
+
+<head>
+  <style>
+    .active {
+      color: white;
+      background: green;
+    }
+
+    .bg-red {
+      color: red;
+    }
+
+    .bg-green {
+      color: green;
+    }
+
+    .bg-blue {
+      color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <p id="para1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, velit sequi minima a laudantium vitae
+    distinctio et veniam debitis nemo cum dicta hic nihil nam quaerat facilis rem voluptate. Perferendis sapiente qui
+    rem laboriosam hic voluptate quas aliquid? Animi a amet qui blanditiis laudantium harum assumenda accusamus vel
+    temporibus modi?</p>
+  <div id="box" class="acti"></div>
+
+  <button id="btn">Click Me</button>
+  <button id="btn1">Red</button>
+  <button id="btn2">Remove</button>
+  <button id="btn3">Blue toggle</button>
+
+
+  <script>
+    const btn = document.getElementById("btn");
+    let para1 = document.getElementById("para1")
+    let btn1 = document.getElementById("btn1")
+    let btn2 = document.getElementById("btn2")
+    let btn3 = document.getElementById("btn3")
+    let box = document.getElementById("box");
+
+    btn.addEventListener("click", () => {
+      btn.classList.add("active");
+    });
+
+    btn1.addEventListener("click", () => {
+      para1.classList.add("bg-red")
+    })
+
+    btn2.addEventListener("click", () => {
+      //  para1.classList.add("bg-green")
+      para1.classList.remove("bg-red")
+    })
+
+    btn3.addEventListener("click", () => {
+      para1.classList.toggle("bg-blue")
+    })
+
+
+    if (box.classList.contains("acti")) {
+      alert("Class exists");
+    }
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background: white;
+        color: black;
+        transition: 0.3s;
+    }
+
+    /* Dark mode */
+    .dark {
+        background: #111;
+        color: white;
+    }
+
+    .bg {
+        background-color: #111;
+        color: white;
+    }
+
+    .bg-dark {
+        background-color: white;
+        color: #111;
+    }
+
+    button {
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 20px;
+    }
+</style>
+
+<body>
+    <button id="toggle" class="bg">Dark Mode </button>
+
+    <h1>Hello </h1>
+    <p>This is theme switch </p>
+
+
+    <script>
+        let btn = document.getElementById("toggle");
+        debugger
+        btn.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            btn.classList.toggle("bg-dark")
+            btn.textContent = "Light mode"
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // btn.addEventListener("click", () => {
+        //     // switch class
+        //     document.body.classList.toggle("dark");
+
+        //     // button text change
+        //     if (document.body.classList.contains("dark")) {
+        //         btn.textContent = "Light Mode ☀️";
+        //     } else {
+        //         btn.textContent = "Dark Mode 🌙";
+        //     }
+        // });
+    </script>
+</body>
+
+</html>

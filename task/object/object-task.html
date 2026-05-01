@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            /* horizontal center */
+            align-items: center;
+            /* vertical center */
+            margin: 0;
+            background-image: url(https://01kiruthika.github.io/Flower-Boutique/image/login-page/bgg.avif);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .form {
+            /* border: 2px solid red; */
+            padding: 15px;
+            width: 280px;
+            background-color: #24384e2f;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 90%;
+            margin-bottom: 10px;
+            padding: 11px;
+            border-radius: 10px;
+        }
+
+        button {
+            display: flex;
+            justify-content: center;
+            width: 50%;
+            padding: 5px;
+            border-radius: 10px;
+            margin-left: 10vh;
+            background: linear-gradient(to right, blue, rgb(195, 0, 255));
+        }
+
+        h3 {
+            text-align: center;
+            color: aliceblue;
+            font-size: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form">
+        <h3>Login</h3>
+        <form action="" id="svp" onsubmit="savePhone(event)">
+            <input type="text" id="name" placeholder="Enter Name" required><br>
+            <input type="number" id="phoneno" placeholder="Enter the phone" required><br>
+            <input type="number" id="age" placeholder="Enter Your Age"><br>
+            <input type="email" id="mail" placeholder="Your G- mail"><br>
+            <button type="submit">submit</button>
+        </form>
+    </div>
+    <script>
+
+        // array of object
+        let phonebook = []
+        let nameinput = document.getElementById("name")
+        let phoneno = document.getElementById("phoneno")
+        let age = document.getElementById("age")
+        let mail = document.getElementById("mail")
+        let savePhone = (e) => {
+            e.preventDefault()
+            // console.log();
+            // console.log(e);
+            // let phone = e.target[0].value
+            // debugger
+
+            let phoneObj = {
+                phonename: nameinput.value,
+                phNo: phoneno.value,
+                Age: age.value,
+                G_mail: mail.value
+            }
+            console.log(phoneObj);
+            
+            phonebook.push(phoneObj)
+            console.log(phonebook);
+            document.getElementById("svp").reset()
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            border: 2px solid;
+            width: 500px;
+            height: 400px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+    <!-- 
+     dom event with object
+
+     mouse event => mousedown ,mouseup ,click ,dblclick,weel, mouseenter,mouseleave, mouseover
+    
+     addEventListener("event",()=>{
+
+     })
+    -->
+
+    <div class="box" id="box1" ></div>
+
+    <img src="" alt=""  style="width: 300px;height: 300px;border: 2px solid;" id="imgs">
+
+
+    <script>
+
+         let imgs = document.getElementById("imgs")
+
+         imgs.addEventListener("click",()=>{
+            imgs.style.width = "500px"
+            imgs.style.transition = "1s"
+            console.log(imgs.getAttribute("src"));
+
+            imgs.setAttribute("src",'https://static.vecteezy.com/system/resources/thumbnails/057/068/323/small/single-fresh-red-strawberry-on-table-green-background-food-fruit-sweet-macro-juicy-plant-image-photo.jpg')
+            
+         })
+         imgs.addEventListener("mouseleave",()=>{
+            imgs.style.width = "300px"
+             imgs.setAttribute("src",'https://img.freepik.com/free-photo/closeup-shot-beautiful-butterfly-with-interesting-textures-orange-petaled-flower_181624-7640.jpg')
+         })
+
+
+
+
+
+          let box1 = document.getElementById("box1")
+
+        //   box1.addEventListener("click",()=>{
+
+        //     box1.style.backgroundColor = "blue"
+
+        //   })
+          box1.addEventListener("mousedown",()=>{
+
+            box1.style.backgroundColor = "red"
+
+          })
+          box1.addEventListener("mouseup",()=>{
+
+            box1.style.backgroundColor = "white"
+
+          })
+          box1.addEventListener("mouseover",()=>{
+
+           console.log("mouseover");
+           
+
+          })
+
+          box1.addEventListener("mouseenter",()=>{
+            box1.innerHTML =`<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus placeat odit id modi recusandae quibusdam consequuntur optio doloribus ipsam ullam rerum, alias nulla quam. Nisi amet est aliquam mollitia voluptate?</p>`
+          })
+
+          box1.addEventListener("mouseleave",()=>{
+            box1.innerHTML = ''
+          })
+
+
+
+
+
+
+
+        document.addEventListener("click", () => {
+            console.log("click event");
+
+        })
+
+        let box = document.getElementById("box1")
+
+        box1.addEventListener("click",()=>{
+            console.log("box click"); 
+        })
+
+        box1.addEventListener("mousedown",()=>{
+            console.log("box mousedown"); 
+        })
+        box1.addEventListener("mouseup",()=>{
+            console.log("box mouseup"); 
+        })
+
+        box1.addEventListener("mouseenter", ()=>{
+            console.log("box mouseenter"); 
+        })
+        box1.addEventListener("mouseleave", ()=>{
+            console.log("box mouseleave"); 
+        })
+        box1.addEventListener("dblclick", ()=>{
+            console.log("box dblclick"); 
+        })
+        box1.addEventListener("wheel", ()=>{
+            console.log("box wheel"); 
+        })
+        box1.addEventListener("mousemove", ()=>{
+            console.log("box mousemove"); 
+        })
+    </script>
+
+</body>
+
+</html>

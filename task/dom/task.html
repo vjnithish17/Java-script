@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Network Events</title>
+</head>
+
+<body>
+
+  <h2>Network Status 🌐</h2>
+  <p id="status">Checking...</p>
+
+  <script>
+    const status = document.getElementById("status");
+
+    let updateStatus = () => {
+      // console.log(navigator);
+      if (navigator.onLine) {
+        status.textContent = "You are Online ✅"
+        // status.innerText = "You are Online ✅"
+        status.style.color = "green"
+      } else {
+        status.textContent = "Yor are offline ❌"
+        status.style.color = "red"
+      }
+    } 
+
+    updateStatus();
+
+    window.addEventListener("online", () => {
+      //  status.textContent = "Back Online ✅";
+      alert("You Are Online ✅")
+    })
+    window.addEventListener("offline", () => {
+    // status.textContent = "You are Offline ❌";
+      alert("You are Offline ❌")
+    })
+
+
+
+
+
+
+
+
+    // Check initial status
+    // function updateStatus() {
+    //   // console.log(navigator);
+    //   if (navigator.onLine) {
+    //     status.textContent = "You are Online ✅";
+    //   } else {
+    //     status.textContent = "You are Offline ❌";
+    //   }
+    // }
+
+
+    // updateStatus()
+    //   // When internet comes back
+    //   window.addEventListener("online", () => {
+    //     // status.textContent = "Back Online ✅";
+    //     alert ("Back Online ✅")
+    //   });
+
+    //   // When internet goes off
+    //   window.addEventListener("offline", () => {
+    //     // status.textContent = "You are Offline ❌";
+    //     alert("You are Offline ❌")
+
+    //   });
+
+
+
+  </script>
+
+</body>
+
+</html>

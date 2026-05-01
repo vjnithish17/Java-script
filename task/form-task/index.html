@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgba(250, 235, 215, 0.644);
+        }
+
+        .box {
+            display: flex;
+            /* justify-content: center; */
+            align-items: center;
+            height: 90vh;
+            gap: 30px;
+        }
+
+        form {
+            padding: 10px;
+            border: 1px dotted gray;
+            border-radius: 10px;
+            background-color: aquamarine;
+        }
+
+        input {
+            margin: 5px;
+            border-radius: 10px;
+            padding: 6px 14px 6px 3px;
+            border: none;
+            border-bottom: 1px solid;
+        }
+
+        textarea {
+            border-radius: 10px;
+            padding: 10px 14px 12px 3px;
+            margin: 5px;
+            border: none;
+            border-bottom: 1px solid;
+        }
+
+        select {
+            border-radius: 10px;
+            padding: 4px 40px 4px 0;
+            margin: 5px;
+            border: none;
+            border-bottom: 1px solid;
+        }
+
+        #user-details {
+            /* border: 1px solid #ccc; */
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            width: 300px;
+            background-color: cadetblue;
+        }
+
+        #p-details {
+            /* border: 1px solid #ccc; */
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            width: 300px;
+            background-color: rgba(95, 158, 160, 0.322);
+        }
+
+        button {
+            padding: 7px 30px;
+            border-radius: 8px;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="left">
+            <form action="" onsubmit="userdata(event)">
+                <h2>USER DETAILS :</h2>
+                <input type="text" placeholder="Enter your Name" id="name" required><br>
+                <input type="email" placeholder="E-Mail" id="mail" required><br>
+                <input type="number" placeholder="Phone Number" id="ph" required><br>
+                <input type="number" placeholder="Age" id="age" required><br>
+                <input type="time" id="time" required> <br>
+                <input type="date" id="dat" required><br>
+                <textarea name=" " id="Address" placeholder="Address" rows="2" required></textarea><br>
+                <button type="submit">login</button>
+            </form>
+        </div>
+        <div class="right">
+            <form action="" onsubmit="productdata(event)">
+                <h2>PRODUCT:</h2>
+                <label for="Prodect">Prodect Name</label> <br>
+                <input type="text" placeholder="Product Name" id="Product" required><br>
+                <label for="price">Enter price</label><br>
+                <input type="number" placeholder="Price" id="price" required><br>
+                <label for="">Category:</label><br>
+                <select id="category" required>
+                    <option value="moto">moto</option>
+                    <option value="vivo">vivo</option>
+                    <option value="oppo">oppo</option>
+                    <option value="Redmi">Redmi</option>
+                </select> <br><br>
+                <label>Access Type:</label><br>
+                <select id="accessType" required>
+                    <option value="select">Select Access</option>
+                    <option value="free">Free</option>
+                    <option value="paid">Paid</option>
+                    <option value="limited">Limited Use</option>
+                </select><br><br>
+                <button type="submit">Sumit</button>
+            </form>
+        </div>
+        <div id="user-details"></div>
+        <div id="p-details"></div>
+    </div>
+
+
+
+    <script>
+        // debugger
+        let userdata = (event) => {
+            event.preventDefault()
+            let name = document.getElementById("name")
+            let mail = document.getElementById("mail")
+            let ph = document.getElementById("ph")
+            let age = document.getElementById("age")
+            let time = document.getElementById("time")
+            let date = document.getElementById("dat")
+            let Address = document.getElementById("Address")
+
+            let user = document.getElementById("user-details")
+
+            user.innerHTML = `<p><b>👤 Username</b> :${name.value}</p>
+                           <P><b>E-mail</b> :${mail.value}</p>
+                           <P><b>Phone-Numper</b>:${ph.value}</p>
+                           <P><b>Age</b>:${age.value}</p>
+                           <P><b>Entry-time</b>:${time.value}</p>
+                           <P><b>Find Date</b>:${dat.value}</p>
+                           <P><b>Your Address</b>:${Address.value}</p>`
+        }
+
+        let productdata = (event) => {
+            event.preventDefault()
+            let Product = document.getElementById("Product")
+            let price = document.getElementById("price")
+            let category = document.getElementById("category")
+            let accessType = document.getElementById("accessType")
+
+            let product = document.getElementById("p-details")
+            product.innerHTML = `<p><b>📦 Product :</b>${Product.value}</p>
+                              <p><b>Product Price :</b>${price.value}</p>
+                              <p><b>Product Category :</b>${category.value}</p>
+                              <p><b>Payment-type :</b>${accessType.value}</p>`
+        }
+    </script>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!-- 
+    object => key : value
+    
+    let name = ""
+    let age = 20
+    let address = ""
+
+    class & object
+
+
+    class => blueprint of the attribute 
+
+    class className{
+        attribute
+        methods()
+    }
+
+    let c = new className() // object
+
+
+    constructor()
+    -->
+
+    <script>
+        class Car {
+            car_name = ""
+            car_price = 0
+            car_color = ""
+
+            constructor(c, p, clr) {
+                this.car_name = c
+                this.car_price = p
+                this.car_color = clr
+            } 
+            // setter
+            setCarDetails(c, p, clr) {
+                this.car_name = c
+                this.car_price = p
+                this.car_color = clr
+            }
+
+            // getter
+            getCarDetails(){
+                return [this.car_name,this.car_price,this.car_color]
+            }
+
+
+        }
+
+        let c2 = new Car("Benz", 300000, 'white')
+
+        console.log(c2);
+
+        let c3 = new Car();
+
+        c3.setCarDetails("saffari", 50000, 'orange')
+        console.log(c3);
+
+       console.log( c3.getCarDetails());
+       
+
+
+
+        // let c1 = new Car()
+        // console.log(c1);
+        // c1.car_name = "bmw new car"
+        // c1.car_price = 30000000
+        // c1.car_color = "red"
+
+        // console.log(c1);
+    </script>
+</body>
+
+</html>

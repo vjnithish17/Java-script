@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <!-- 
+    objects -a standalone entity that stores related data and functionality as a collection of key-value pairs
+    ============
+   key:value => pair
+
+   [10,40,"nithish",'trichy'] =>
+   syntax
+   =======
+   {
+   key1:value1,
+   key2:value2,
+   key3:value3,
+   key4:[ele,ele],
+   key5: {
+   
+   }
+
+   }
+
+    
+    -->
+
+    <script>
+    let family={
+        head:"ethumalai",
+        queen:"Rajeswari",
+        f_son:"Nithi",
+        s_son:"Gokul",
+        from:"Karur",
+        address:function(){
+           let ni=`${this.head} ${this.f_son}`
+           return ni
+        }
+    }
+    console.log(family);
+    
+family.edu="b.e"
+
+
+
+
+
+
+
+
+
+
+
+
+        // let name = "nithis"
+        let employee = {
+            empname: "Naveen",
+            fathername: "selladurai",
+            age: 22,
+            address: "Trichy",
+            phone: "9994556465",
+            email: "naveen@gmail.com",
+            salary: 30000.00,
+            fullAddress: {
+                doorno: 30,
+                streetname: "raja street",
+                village: "mangalam",
+                taluk: "trichy",
+                district: "trichy",
+            },
+            role: ["developer", "CEO"],
+
+            fullName: function () {
+                // return this.empname+" "+this.fathername
+                let fn = `${this.empname}  ${this.fathername} ${this.fullAddress.district}`
+                return fn
+            }
+
+        }
+
+        // console.log("My full name",employee.fullName());
+
+
+        // console.log(employee.empname + employee.fathername);
+
+
+        // console.log(employee, typeof employee);
+
+        // // access the object
+
+        // // dot notation , bracket notation
+
+        // // bracket
+        // console.log("name => ",employee['empname']);
+        // console.log("age => ",employee["age"]);
+        // console.log("door no => ",employee['fullAddress']['doorno']);
+
+        // // dot notation
+
+        // console.log(employee.address);
+        // console.log(employee.age);
+        // console.log(employee.email);
+        // console.log(`${employee.fullAddress.doorno} ${employee.fullAddress.district}`);
+
+        // console.log(employee.role[0]);
+        // console.log(employee.role[1]);
+
+        // add new key
+
+        // employee.mothername = "jeyanthi"
+        // employee.friendname = "nithish"
+
+        // // edit the exist key value
+        // employee.age = 25
+
+        // // delete
+
+        // delete employee.phone
+
+
+        // console.log(employee);
+    </script>
+
+</body>
+
+</html>
