@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <form action="" id="svp" onsubmit="savePhone(event)">
+        <input type="text" id="name" placeholder="enter Name" required>
+        <input type="text" id="phoneno" placeholder="enter the phone" required>
+        <button type="submit">submit</button>
+    </form>
+
+    <div class="table-box">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Name</th>
+                    <th>PhNo</th>
+                </tr>
+            </thead>
+            <tbody id="phonebookrows">
+                <tr>
+                    <td>1</td>
+                    <td>Raja</td>
+                    <td>8464656</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+
+        // array of object
+        let phonebook = []
+        let savePhone = (e) => {
+            e.preventDefault()
+
+            // console.log();
+            // console.log(e);
+// debugger
+            let name = e.target[0].value
+            let phoneno = e.target[1].value
+// debugger
+            // let name = document.getElementById("name")
+
+            // let phoneno = document.getElementById("phoneno")
+
+            let phoneObj = {
+                phonename: name,
+                phNo:phoneno
+
+            }
+
+            // console.log(phoneObj);
+
+
+            phonebook.push(phoneObj)
+
+            console.log(phonebook);
+
+
+            svp.reset()
+
+            // for(let i=0;i< phonebook.length;i++){}
+
+            // for(let idx in phonebook){phonebook[idx] }
+
+            // +=
+            let trow='';
+            let idx=1
+            for (const element of phonebook) {
+                debugger
+                trow+=`
+                         <tr>
+                            <td>${idx++}</td>
+                            <td>${element.phonename}</td>
+                            <td>${element.phNo}</td>
+                         </tr>
+                `
+                //  console.log(trow);
+                
+            }
+
+            document.getElementById("phonebookrows").innerHTML = trow
+
+        }
+    </script>
+
+</body>
+
+</html>

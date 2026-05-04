@@ -1,0 +1,1333 @@
+Copy
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Milk Society Management System</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --sidebar-bg: #0d2137;
+  --sidebar-active: #1a6fc4;
+  --sidebar-hover: rgba(255,255,255,0.07);
+  --brand-blue: #1a6fc4;
+  --brand-blue-light: #e8f1fb;
+  --topbar-h: 58px;
+  --sidebar-w: 230px;
+  --body-bg: #eef2f7;
+  --card-shadow: 0 2px 8px rgba(13,33,55,0.08), 0 0 0 1px rgba(13,33,55,0.04);
+  --green: #16a34a;
+  --red: #dc2626;
+  --amber: #d97706;
+  --purple: #7c3aed;
+}
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--body-bg); margin: 0; }
+ 
+/* ─── LOGIN ──────────────────────────────── */
+#loginPage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d2137 0%, #1a3d6b 60%, #0d2137 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.login-card {
+  background: #fff; border-radius: 20px; padding: 44px 40px;
+  width: 400px; box-shadow: 0 30px 80px rgba(0,0,0,0.28);
+}
+.login-logo-wrap {
+  width: 68px; height: 68px;
+  background: linear-gradient(135deg, #4a90d9, #1a6fc4);
+  border-radius: 18px; display: flex; align-items: center; justify-content: center;
+  font-size: 34px; margin: 0 auto 14px;
+}
+.login-card h4 { font-weight: 700; color: #0d2137; }
+.login-card .sub { color: #6b7a99; font-size: 13px; }
+ 
+/* ─── APP SHELL ──────────────────────────── */
+#appShell { display: none; min-height: 100vh; }
+ 
+/* SIDEBAR */
+.sidebar {
+  position: fixed; top: 0; left: 0; height: 100vh;
+  width: var(--sidebar-w); background: var(--sidebar-bg);
+  display: flex; flex-direction: column; z-index: 200;
+  transition: transform 0.3s;
+}
+.sidebar-brand {
+  padding: 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; gap: 10px;
+}
+.sidebar-brand-icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, #4a90d9, #1a6fc4);
+  display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.sidebar-brand-text { color: #fff; font-size: 13px; font-weight: 700; line-height: 1.3; }
+.sidebar-brand-sub { color: rgba(255,255,255,0.38); font-size: 10px; font-weight: 400; }
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 10px 0; }
+.sidebar-section-label {
+  padding: 10px 18px 4px; font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.28); text-transform: uppercase; letter-spacing: 0.1em;
+}
+.nav-link-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 18px; color: rgba(255,255,255,0.58); font-size: 13px; font-weight: 500;
+  cursor: pointer; border-left: 3px solid transparent; transition: all 0.15s;
+  text-decoration: none; position: relative;
+}
+.nav-link-item:hover { background: var(--sidebar-hover); color: #fff; }
+.nav-link-item.active { background: rgba(26,111,196,0.22); color: #fff; border-left-color: var(--brand-blue); }
+.nav-link-item .nav-icon { width: 20px; text-align: center; font-size: 15px; }
+.nav-badge { margin-left: auto; background: #e63946; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 20px; }
+.sidebar-footer {
+  padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; gap: 10px;
+}
+.sidebar-user-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, #4a90d9, #1a6fc4);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 13px; flex-shrink: 0;
+}
+.sidebar-user-name { color: #fff; font-size: 12px; font-weight: 600; }
+.sidebar-user-role { color: rgba(255,255,255,0.38); font-size: 10px; }
+ 
+/* TOPBAR */
+.topbar {
+  position: fixed; top: 0; left: var(--sidebar-w); right: 0;
+  height: var(--topbar-h); background: #fff;
+  border-bottom: 1px solid #dde5f0;
+  display: flex; align-items: center; padding: 0 24px; gap: 12px; z-index: 100;
+}
+.topbar-title { font-size: 15px; font-weight: 700; color: #0d2137; }
+.topbar-sub { font-size: 11px; color: #6b7a99; }
+ 
+/* MAIN CONTENT */
+.main-content {
+  margin-left: var(--sidebar-w);
+  padding-top: var(--topbar-h);
+  min-height: 100vh;
+}
+.content-area { padding: 22px 24px; }
+ 
+/* ─── CARDS ──────────────────────────────── */
+.card { border: 1px solid #dde5f0 !important; border-radius: 12px !important; box-shadow: var(--card-shadow) !important; }
+.card-header { background: #f8fafd !important; border-bottom: 1px solid #dde5f0 !important; }
+.card-title { font-size: 14px; font-weight: 700; color: #0d2137; margin: 0; }
+ 
+/* ─── STAT CARDS ─────────────────────────── */
+.stat-card { border-radius: 12px; padding: 18px; border: 1px solid #dde5f0; background: #fff; position: relative; overflow: hidden; }
+.stat-card::before { content: ''; position: absolute; right: -14px; top: -14px; width: 65px; height: 65px; border-radius: 50%; opacity: 0.1; }
+.stat-card.blue::before { background: var(--brand-blue); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.amber::before { background: var(--amber); }
+.stat-card.red::before { background: var(--red); }
+.stat-card.purple::before { background: var(--purple); }
+.stat-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; margin-bottom: 10px; }
+.stat-icon.blue { background: var(--brand-blue-light); color: var(--brand-blue); }
+.stat-icon.green { background: #dcfce7; color: var(--green); }
+.stat-icon.amber { background: #fef3c7; color: var(--amber); }
+.stat-icon.red { background: #fee2e2; color: var(--red); }
+.stat-icon.purple { background: #ede9fe; color: var(--purple); }
+.stat-value { font-size: 22px; font-weight: 800; color: #0d2137; line-height: 1; }
+.stat-label { font-size: 11px; color: #6b7a99; margin-top: 3px; font-weight: 600; }
+.stat-change { font-size: 11px; margin-top: 5px; }
+.stat-change.up { color: var(--green); }
+.stat-change.down { color: var(--red); }
+ 
+/* ─── TABLE ──────────────────────────────── */
+.table-custom { font-size: 13px; }
+.table-custom thead th { font-size: 11px; font-weight: 700; color: #6b7a99; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #dde5f0; padding: 10px 14px; background: #f8fafd; }
+.table-custom tbody td { padding: 10px 14px; color: #1a2740; border-bottom: 1px solid rgba(221,229,240,0.5); vertical-align: middle; }
+.table-custom tbody tr:hover td { background: rgba(232,241,251,0.45); }
+.table-custom tbody tr:last-child td { border-bottom: none; }
+ 
+/* ─── BADGES ─────────────────────────────── */
+.badge-blue { background: #dbeafe; color: #1e40af; }
+.badge-green { background: #dcfce7; color: #166534; }
+.badge-amber { background: #fef3c7; color: #92400e; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+.badge-purple { background: #ede9fe; color: #5b21b6; }
+ 
+/* ─── FORMS ──────────────────────────────── */
+.form-label { font-size: 11px; font-weight: 700; color: #6b7a99; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
+.form-control, .form-select { font-size: 13px; border: 1px solid #dde5f0; border-radius: 8px; padding: 9px 12px; color: #1a2740; }
+.form-control:focus, .form-select:focus { border-color: var(--brand-blue); box-shadow: 0 0 0 3px rgba(26,111,196,0.12); }
+ 
+/* ─── CALC BOX ───────────────────────────── */
+.calc-box { background: linear-gradient(135deg, #e8f1fb, #dbeafe); border: 1px solid #bfdbfe; border-radius: 10px; padding: 16px; }
+.calc-divider { width: 1px; background: #bfdbfe; }
+ 
+/* ─── PROFIT BANNER ──────────────────────── */
+.profit-banner { background: linear-gradient(135deg, #0d2137, #1a3d6b); border-radius: 14px; padding: 20px 24px; }
+ 
+/* ─── ACTIVITY ───────────────────────────── */
+.activity-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+ 
+/* ─── EXPENSE CATEGORIES ─────────────────── */
+.exp-cat-card { background: #fff; border: 1px solid #dde5f0; border-radius: 11px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.15s; }
+.exp-cat-card:hover { border-color: var(--brand-blue); background: var(--brand-blue-light); }
+.exp-cat-card .icon { font-size: 22px; margin-bottom: 5px; }
+.exp-cat-card .name { font-size: 11px; font-weight: 700; color: #6b7a99; }
+.exp-cat-card .amt { font-size: 14px; font-weight: 800; color: #1a2740; margin-top: 2px; }
+ 
+/* ─── SUPPLIER PROFILE ───────────────────── */
+.profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #4a90d9, #1a6fc4); display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800; color: #fff; margin: 0 auto 12px; }
+.profile-stat-box { background: var(--body-bg); border-radius: 9px; padding: 10px 8px; text-align: center; }
+.profile-stat-val { font-size: 16px; font-weight: 800; color: var(--brand-blue); }
+.profile-stat-lbl { font-size: 10px; color: #6b7a99; font-weight: 600; }
+.info-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid #eef2f7; font-size: 13px; }
+.info-lbl { color: #6b7a99; font-weight: 600; min-width: 130px; flex-shrink: 0; }
+.info-val { color: #1a2740; font-weight: 600; }
+ 
+/* ─── PROGRESS ───────────────────────────── */
+.prog-bar { height: 7px; background: #dde5f0; border-radius: 10px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 10px; }
+ 
+/* ─── SALES SECTION ──────────────────────── */
+.sales-sum-bar { background: linear-gradient(90deg, #e8f1fb, #f0f6ff); border-top: 1px solid #dde5f0; padding: 12px 16px; display: flex; gap: 16px; }
+.sales-sum-item { flex: 1; text-align: center; }
+.sales-sum-val { font-size: 16px; font-weight: 800; color: var(--brand-blue); }
+.sales-sum-lbl { font-size: 10px; color: #6b7a99; font-weight: 700; text-transform: uppercase; }
+ 
+/* ─── FILTER PILLS ───────────────────────── */
+.filter-pill { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; border: 1px solid #dde5f0; background: #fff; color: #6b7a99; transition: all 0.15s; }
+.filter-pill:hover, .filter-pill.active { background: var(--brand-blue); color: #fff; border-color: var(--brand-blue); }
+ 
+/* ─── PAGE VISIBILITY ────────────────────── */
+.page { display: none; }
+.page.active { display: block; }
+ 
+/* ─── RESPONSIVE ─────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .topbar, .main-content { left: 0; margin-left: 0; }
+}
+ 
+/* ─── MODAL TWEAKS ───────────────────────── */
+.modal-content { border-radius: 16px !important; border: none !important; box-shadow: 0 20px 60px rgba(0,0,0,0.2) !important; }
+.modal-header { border-bottom: 1px solid #eef2f7 !important; }
+.modal-footer { border-top: 1px solid #eef2f7 !important; }
+ 
+/* Chart containers */
+.chart-container { position: relative; }
+ 
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c8d5e8; border-radius: 10px; }
+ 
+.text-green { color: var(--green) !important; }
+.text-red { color: var(--red) !important; }
+.text-blue { color: var(--brand-blue) !important; }
+.fw-700 { font-weight: 700 !important; }
+.fw-800 { font-weight: 800 !important; }
+</style>
+</head>
+<body>
+ 
+<!-- ═══════════════════════════════════════════ LOGIN PAGE ═══ -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="text-center mb-4">
+      <div class="login-logo-wrap">🐄</div>
+      <h4 class="mt-2 mb-1">Milk Society MS</h4>
+      <p class="sub mb-0">Dairy Collection Management System</p>
+    </div>
+    <h5 class="fw-700 mb-1" style="color:#0d2137">Welcome Back</h5>
+    <p class="sub mb-3">Sign in to manage your dairy cooperative</p>
+    <div id="loginError" class="alert alert-danger d-none py-2 small">Invalid username or password.</div>
+    <div class="mb-3">
+      <label class="form-label">Username</label>
+      <input id="loginUser" type="text" class="form-control" placeholder="admin" value="admin">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input id="loginPass" type="password" class="form-control" placeholder="password" value="1234">
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="form-check"><input class="form-check-input" type="checkbox" checked><label class="form-check-label small">Remember me</label></div>
+      <a href="#" class="small text-primary text-decoration-none">Forgot password?</a>
+    </div>
+    <button onclick="doLogin()" class="btn btn-primary w-100 py-2 fw-700" style="border-radius:10px;background:linear-gradient(135deg,#4a90d9,#1a6fc4);border:none;font-size:14px">Sign In &rarr;</button>
+    <div class="text-center mt-3 small text-muted">Milk Society MS v2.4 &middot; Coimbatore, Tamil Nadu</div>
+  </div>
+</div>
+ 
+<!-- ═══════════════════════════════════════════ APP SHELL ═══ -->
+<div id="appShell">
+ 
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">🐄</div>
+      <div>
+        <div class="sidebar-brand-text">Milk Society MS</div>
+        <div class="sidebar-brand-sub">Dairy Management</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <div class="nav-link-item active" onclick="navigate('dashboard',this)"><span class="nav-icon"><i class="bi bi-grid-1x2-fill"></i></span>Dashboard</div>
+      <div class="nav-link-item" onclick="navigate('suppliers',this)"><span class="nav-icon"><i class="bi bi-people-fill"></i></span>Suppliers<span class="nav-badge">24</span></div>
+      <div class="nav-link-item" onclick="navigate('collection',this)"><span class="nav-icon"><i class="bi bi-droplet-fill"></i></span>Collection Entry</div>
+      <div class="sidebar-section-label">Finance</div>
+      <div class="nav-link-item" onclick="navigate('sales',this)"><span class="nav-icon"><i class="bi bi-shop"></i></span>Sales</div>
+      <div class="nav-link-item" onclick="navigate('expenses',this)"><span class="nav-icon"><i class="bi bi-wallet2"></i></span>Expenses</div>
+      <div class="nav-link-item" onclick="navigate('reports',this)"><span class="nav-icon"><i class="bi bi-bar-chart-fill"></i></span>Reports</div>
+      <div class="sidebar-section-label">System</div>
+      <div class="nav-link-item" onclick="navigate('settings',this)"><span class="nav-icon"><i class="bi bi-gear-fill"></i></span>Settings</div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user-avatar">SR</div>
+      <div>
+        <div class="sidebar-user-name">S. Rajan</div>
+        <div class="sidebar-user-role">Administrator</div>
+      </div>
+      <div class="ms-auto">
+        <button class="btn btn-sm" style="color:rgba(255,255,255,0.4);padding:4px 8px;" onclick="doLogout()"><i class="bi bi-box-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <button class="btn btn-sm d-md-none me-1" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size:18px;color:#0d2137"></i></button>
+    <div>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-sub" id="topbarSub">Monday, 04 May 2026 &middot; Coimbatore Milk Society</div>
+    </div>
+    <div class="ms-auto d-flex gap-2 align-items-center">
+      <button class="btn btn-sm" style="border:1px solid #dde5f0;border-radius:8px;padding:6px 10px;background:#fff"><i class="bi bi-bell" style="color:#6b7a99"></i></button>
+      <button class="btn btn-primary btn-sm" style="border-radius:8px;font-size:12px;font-weight:700;padding:7px 14px" data-bs-toggle="modal" data-bs-target="#addSupplierModal">+ New Entry</button>
+      <button onclick="doLogout()" class="btn btn-sm" style="border:1px solid #dde5f0;border-radius:8px;padding:6px 10px;background:#fff" title="Logout"><i class="bi bi-power" style="color:#dc2626"></i></button>
+    </div>
+  </div>
+ 
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <div class="content-area">
+ 
+      <!-- ══════════════ DASHBOARD ══════════════ -->
+      <div class="page active" id="page-dashboard">
+ 
+        <!-- KPI Row 1 -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-4 col-6">
+            <div class="stat-card blue">
+              <div class="stat-icon blue"><i class="bi bi-droplet-fill"></i></div>
+              <div class="stat-value">1,847 L</div>
+              <div class="stat-label">Total Milk Today</div>
+              <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>4.2% vs yesterday</div>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="stat-card green">
+              <div class="stat-icon green"><i class="bi bi-sunrise-fill"></i></div>
+              <div class="stat-value">964 L</div>
+              <div class="stat-label">Morning Collection</div>
+              <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>2.8% vs yesterday</div>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="stat-card amber">
+              <div class="stat-icon amber"><i class="bi bi-sunset-fill"></i></div>
+              <div class="stat-value">883 L</div>
+              <div class="stat-label">Evening Collection</div>
+              <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>5.9% vs yesterday</div>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- KPI Row 2 -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-4 col-6">
+            <div class="stat-card blue">
+              <div class="stat-icon blue"><i class="bi bi-building"></i></div>
+              <div class="stat-value">₹74,520</div>
+              <div class="stat-label">Company Sales</div>
+              <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>1,200 L @ ₹62/L</div>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="stat-card green">
+              <div class="stat-icon green"><i class="bi bi-bag-fill"></i></div>
+              <div class="stat-value">₹21,648</div>
+              <div class="stat-label">Direct Customer Sales</div>
+              <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>304 L @ ₹71.2/L</div>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="stat-card red">
+              <div class="stat-icon red"><i class="bi bi-credit-card-fill"></i></div>
+              <div class="stat-value">₹38,400</div>
+              <div class="stat-label">Total Expenses</div>
+              <div class="stat-change down"><i class="bi bi-arrow-down-short"></i>Labour + Feed costs</div>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Profit Banner -->
+        <div class="profit-banner mb-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div>
+            <div style="color:rgba(255,255,255,0.55);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Today's Net Profit</div>
+            <div style="color:#fff;font-size:30px;font-weight:800;margin-top:2px">₹57,768 <span style="font-size:14px;color:#4ade80;font-weight:600">+23.4%</span></div>
+          </div>
+          <div class="text-end">
+            <div style="color:rgba(255,255,255,0.45);font-size:12px">Total Revenue: ₹96,168</div>
+            <div style="color:rgba(255,255,255,0.45);font-size:12px">Total Expenses: ₹38,400</div>
+            <div style="color:#4ade80;font-size:12px;margin-top:3px;font-weight:600"><i class="bi bi-trophy-fill"></i> Best day this month!</div>
+          </div>
+        </div>
+ 
+        <!-- Charts Row -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-7">
+            <div class="card h-100">
+              <div class="card-header d-flex align-items-center justify-content-between py-3 px-4">
+                <div>
+                  <div class="card-title">Daily Milk Collection</div>
+                  <small class="text-muted">Last 7 days &middot; Litres</small>
+                </div>
+                <select class="form-select form-select-sm" style="width:auto">
+                  <option>This Week</option><option>Last Week</option>
+                </select>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" style="height:200px">
+                  <canvas id="collectionChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="card h-100">
+              <div class="card-header py-3 px-4">
+                <div class="card-title">Place-wise Supply Today</div>
+              </div>
+              <div class="card-body d-flex align-items-center gap-3 flex-wrap">
+                <div class="chart-container" style="width:130px;height:130px;flex-shrink:0">
+                  <canvas id="placeChart"></canvas>
+                </div>
+                <div class="flex-grow-1">
+                  <div class="d-flex align-items-center gap-2 mb-2"><div style="width:11px;height:11px;border-radius:50%;background:#1a6fc4;flex-shrink:0"></div><span class="small text-muted flex-grow-1">Sulur</span><strong class="small">428 L</strong></div>
+                  <div class="d-flex align-items-center gap-2 mb-2"><div style="width:11px;height:11px;border-radius:50%;background:#16a34a;flex-shrink:0"></div><span class="small text-muted flex-grow-1">Irugur</span><strong class="small">312 L</strong></div>
+                  <div class="d-flex align-items-center gap-2 mb-2"><div style="width:11px;height:11px;border-radius:50%;background:#d97706;flex-shrink:0"></div><span class="small text-muted flex-grow-1">Kinathukadavu</span><strong class="small">287 L</strong></div>
+                  <div class="d-flex align-items-center gap-2 mb-2"><div style="width:11px;height:11px;border-radius:50%;background:#7c3aed;flex-shrink:0"></div><span class="small text-muted flex-grow-1">Madukkarai</span><strong class="small">248 L</strong></div>
+                  <div class="d-flex align-items-center gap-2"><div style="width:11px;height:11px;border-radius:50%;background:#dc2626;flex-shrink:0"></div><span class="small text-muted flex-grow-1">Others</span><strong class="small">572 L</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- P&L + Activity -->
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header py-3 px-4"><div class="card-title">Monthly Profit / Loss</div></div>
+              <div class="card-body">
+                <div class="chart-container" style="height:180px">
+                  <canvas id="plChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header py-3 px-4"><div class="card-title">Recent Activity</div></div>
+              <div class="card-body p-3">
+                <div class="d-flex gap-3 mb-3">
+                  <div class="activity-dot" style="background:#1a6fc4;margin-top:3px"></div>
+                  <div class="flex-grow-1"><div class="small">Collection recorded — <strong>Murugan (Sulur)</strong> 42L morning</div><div class="small text-muted">8:22 AM</div></div>
+                </div>
+                <div class="d-flex gap-3 mb-3">
+                  <div class="activity-dot" style="background:#16a34a;margin-top:3px"></div>
+                  <div class="flex-grow-1"><div class="small">Sale dispatched to <strong>Aavin Dairy</strong> — 800L @ ₹62</div><div class="small text-muted">7:45 AM</div></div>
+                </div>
+                <div class="d-flex gap-3 mb-3">
+                  <div class="activity-dot" style="background:#d97706;margin-top:3px"></div>
+                  <div class="flex-grow-1"><div class="small">Expense added — <strong>Labour Salary</strong> ₹14,000</div><div class="small text-muted">7:00 AM</div></div>
+                </div>
+                <div class="d-flex gap-3 mb-3">
+                  <div class="activity-dot" style="background:#1a6fc4;margin-top:3px"></div>
+                  <div class="flex-grow-1"><div class="small">New supplier registered — <strong>Selvam, Irugur</strong></div><div class="small text-muted">Yesterday</div></div>
+                </div>
+                <div class="d-flex gap-3 mb-3">
+                  <div class="activity-dot" style="background:#16a34a;margin-top:3px"></div>
+                  <div class="flex-grow-1"><div class="small">Monthly report generated for <strong>April 2026</strong></div><div class="small text-muted">Yesterday</div></div>
+                </div>
+                <div class="d-flex gap-3">
+                  <div class="activity-dot" style="background:#dc2626;margin-top:3px"></div>
+                  <div class="flex-grow-1"><div class="small">Fat% alert — <strong>Kannan (Kinathukadavu)</strong> below 3.2%</div><div class="small text-muted">2 days ago</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END DASHBOARD -->
+ 
+      <!-- ══════════════ SUPPLIERS ══════════════ -->
+      <div class="page" id="page-suppliers">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+          <div>
+            <h5 class="fw-800 mb-0" style="color:#0d2137">Supplier Management</h5>
+            <small class="text-muted">24 active suppliers &middot; 4 villages</small>
+          </div>
+          <div class="d-flex gap-2">
+            <input class="form-control form-control-sm" placeholder="🔍 Search suppliers..." style="width:220px">
+            <button class="btn btn-primary btn-sm fw-700" style="border-radius:8px" data-bs-toggle="modal" data-bs-target="#addSupplierModal"><i class="bi bi-plus-lg"></i> Add Supplier</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-responsive">
+            <table class="table table-custom mb-0">
+              <thead>
+                <tr>
+                  <th>ID</th><th>Supplier Name</th><th>Place</th><th>Phone</th>
+                  <th>Cows</th><th>Labourers</th><th>Daily Supply</th><th>Status</th><th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="suppliersTableBody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- END SUPPLIERS -->
+ 
+      <!-- ══════════════ SUPPLIER DETAIL ══════════ -->
+      <div class="page" id="page-supplier-detail">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <button class="btn btn-sm" style="border:1px solid #dde5f0;border-radius:8px;background:#fff" onclick="navigate('suppliers', document.querySelectorAll('.nav-link-item')[1])"><i class="bi bi-arrow-left"></i> Back</button>
+          <h5 class="fw-800 mb-0" style="color:#0d2137">Supplier Profile</h5>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4 col-lg-3">
+            <div class="card text-center p-0">
+              <div class="card-body py-4">
+                <div class="profile-avatar" id="detailAvatar">MS</div>
+                <h5 class="fw-800 mb-0" id="detailName">Murugan S.</h5>
+                <div class="small text-muted mb-2" id="detailPlace"><i class="bi bi-geo-alt-fill text-primary"></i> Sulur, Coimbatore</div>
+                <span class="badge badge-green fw-700 px-3 py-1 rounded-pill">Active Supplier</span>
+                <div class="row g-2 mt-3">
+                  <div class="col-6"><div class="profile-stat-box"><div class="profile-stat-val" id="detailCows">12</div><div class="profile-stat-lbl">Cows</div></div></div>
+                  <div class="col-6"><div class="profile-stat-box"><div class="profile-stat-val" id="detailLabour">3</div><div class="profile-stat-lbl">Labourers</div></div></div>
+                  <div class="col-6"><div class="profile-stat-box"><div class="profile-stat-val" id="detailSupply">85L</div><div class="profile-stat-lbl">Avg/Day</div></div></div>
+                  <div class="col-6"><div class="profile-stat-box"><div class="profile-stat-val">3.8%</div><div class="profile-stat-lbl">Avg Fat</div></div></div>
+                </div>
+                <div class="mt-3 text-start">
+                  <div class="info-row"><span class="info-lbl">Phone</span><span class="info-val" id="detailPhone">98420 11234</span></div>
+                  <div class="info-row"><span class="info-lbl">Address</span><span class="info-val" id="detailAddr">14/B Main St, Sulur</span></div>
+                  <div class="info-row"><span class="info-lbl">Monthly Income</span><span class="info-val text-green fw-700" id="detailIncome">₹1,53,000</span></div>
+                  <div class="info-row"><span class="info-lbl">Monthly Profit</span><span class="info-val text-blue fw-700" id="detailProfit">₹48,200</span></div>
+                  <div class="info-row" style="border-bottom:none"><span class="info-lbl">Member Since</span><span class="info-val" id="detailSince">Jan 2019</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8 col-lg-9">
+            <div class="card mb-3">
+              <div class="card-header py-3 px-4"><div class="card-title">Milk Collection — Last 7 Days</div></div>
+              <div class="card-body">
+                <div class="chart-container" style="height:160px"><canvas id="supplierHistChart"></canvas></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header py-3 px-4"><div class="card-title">Collection History</div></div>
+              <div class="table-responsive">
+                <table class="table table-custom mb-0">
+                  <thead><tr><th>Date</th><th>Morning (L)</th><th>Evening (L)</th><th>Total (L)</th><th>Fat %</th><th>Rate/L</th><th>Income</th></tr></thead>
+                  <tbody>
+                    <tr><td>04 May 2026</td><td>42</td><td>43</td><td><strong>85</strong></td><td>3.9%</td><td>₹58</td><td class="text-green fw-700">₹4,930</td></tr>
+                    <tr><td>03 May 2026</td><td>41</td><td>44</td><td><strong>85</strong></td><td>3.8%</td><td>₹57</td><td class="text-green fw-700">₹4,845</td></tr>
+                    <tr><td>02 May 2026</td><td>43</td><td>42</td><td><strong>85</strong></td><td>3.7%</td><td>₹56</td><td class="text-green fw-700">₹4,760</td></tr>
+                    <tr><td>01 May 2026</td><td>40</td><td>43</td><td><strong>83</strong></td><td>3.9%</td><td>₹58</td><td class="text-green fw-700">₹4,814</td></tr>
+                    <tr><td>30 Apr 2026</td><td>44</td><td>41</td><td><strong>85</strong></td><td>3.8%</td><td>₹57</td><td class="text-green fw-700">₹4,845</td></tr>
+                    <tr><td>29 Apr 2026</td><td>42</td><td>44</td><td><strong>86</strong></td><td>4.0%</td><td>₹59</td><td class="text-green fw-700">₹5,074</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END SUPPLIER DETAIL -->
+ 
+      <!-- ══════════════ COLLECTION ENTRY ══════════ -->
+      <div class="page" id="page-collection">
+        <h5 class="fw-800 mb-3" style="color:#0d2137">Milk Collection Entry</h5>
+        <div class="row g-3 align-items-start">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header py-3 px-4"><div class="card-title">New Collection Entry</div></div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label class="form-label">Select Supplier</label>
+                  <select class="form-select" id="collSupplier" onchange="calcCollection()">
+                    <option value="">-- Select Supplier --</option>
+                    <option>MS001 — Murugan S. (Sulur)</option>
+                    <option>MS002 — Kannan R. (Kinathukadavu)</option>
+                    <option>MS003 — Selvam K. (Irugur)</option>
+                    <option>MS004 — Annamalai P. (Madukkarai)</option>
+                    <option>MS005 — Vijayalakshmi M. (Sulur)</option>
+                    <option>MS007 — Parvathi N. (Kinathukadavu)</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Collection Date</label>
+                  <input type="date" class="form-control" id="collDate" value="2026-05-04">
+                </div>
+                <div class="row g-3 mb-3">
+                  <div class="col-6">
+                    <label class="form-label">Morning Quantity (L)</label>
+                    <input type="number" class="form-control" id="collMorning" placeholder="0.0" min="0" step="0.1" oninput="calcCollection()">
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Evening Quantity (L)</label>
+                    <input type="number" class="form-control" id="collEvening" placeholder="0.0" min="0" step="0.1" oninput="calcCollection()">
+                  </div>
+                </div>
+                <div class="row g-3 mb-3">
+                  <div class="col-6">
+                    <label class="form-label">Fat %</label>
+                    <input type="number" class="form-control" id="collFat" placeholder="3.5" min="0" max="10" step="0.1" oninput="calcCollection()">
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Rate per Litre (₹)</label>
+                    <input type="number" class="form-control" id="collRate" placeholder="57.00" min="0" step="0.5" oninput="calcCollection()">
+                  </div>
+                </div>
+                <div class="calc-box mb-3">
+                  <div style="font-size:11px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Live Calculation</div>
+                  <div class="d-flex gap-3 align-items-center">
+                    <div>
+                      <div style="font-size:11px;color:#1e40af">Total Quantity</div>
+                      <div style="font-size:20px;font-weight:800;color:#1a6fc4" id="displayQty">0.0 L</div>
+                    </div>
+                    <div class="calc-divider" style="height:40px"></div>
+                    <div>
+                      <div style="font-size:11px;color:#1e40af">Fat Adjusted Rate</div>
+                      <div style="font-size:20px;font-weight:800;color:#1a6fc4" id="displayRate">₹ 0.00/L</div>
+                    </div>
+                    <div class="calc-divider" style="height:40px"></div>
+                    <div>
+                      <div style="font-size:11px;color:#1e40af">Total Amount</div>
+                      <div style="font-size:20px;font-weight:800;color:#1a6fc4" id="displayAmt">₹ 0.00</div>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-primary w-100 fw-700" style="border-radius:9px;padding:11px;font-size:14px" onclick="submitCollection()">
+                  <i class="bi bi-check-circle-fill me-2"></i>Submit Collection Entry
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header py-3 px-4 d-flex align-items-center justify-content-between">
+                <div class="card-title">Today's Entries</div>
+                <span class="badge badge-blue fw-700 px-3 py-1 rounded-pill">4 entries</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-custom mb-0">
+                  <thead><tr><th>Supplier</th><th>AM (L)</th><th>PM (L)</th><th>Total</th><th>Amount</th></tr></thead>
+                  <tbody id="todayEntriesBody">
+                    <tr><td>Murugan S.</td><td>42</td><td>43</td><td><strong>85</strong></td><td class="text-green fw-700">₹4,930</td></tr>
+                    <tr><td>Selvam K.</td><td>56</td><td>56</td><td><strong>112</strong></td><td class="text-green fw-700">₹6,496</td></tr>
+                    <tr><td>Parvathi N.</td><td>32</td><td>31</td><td><strong>63</strong></td><td class="text-green fw-700">₹3,654</td></tr>
+                    <tr><td>Annamalai P.</td><td>20</td><td>20</td><td><strong>40</strong></td><td class="text-green fw-700">₹2,320</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header py-3 px-4"><div class="card-title">Today's Collection Summary</div></div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1"><span class="small text-muted fw-600">Morning Total</span><strong class="small">964 L</strong></div>
+                  <div class="prog-bar"><div class="prog-fill" style="width:62%;background:#1a6fc4"></div></div>
+                </div>
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1"><span class="small text-muted fw-600">Evening Total</span><strong class="small">883 L</strong></div>
+                  <div class="prog-bar"><div class="prog-fill" style="width:57%;background:#d97706"></div></div>
+                </div>
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1"><span class="small text-muted fw-600">Suppliers Covered</span><strong class="small">18 / 24</strong></div>
+                  <div class="prog-bar"><div class="prog-fill" style="width:75%;background:#16a34a"></div></div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center pt-2" style="border-top:1px solid #eef2f7">
+                  <span class="fw-700">Grand Total</span>
+                  <span class="fw-800 text-blue" style="font-size:16px">1,847 L</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-1">
+                  <span class="small text-muted">Payable to suppliers</span>
+                  <span class="fw-700 text-green">₹1,07,126</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END COLLECTION -->
+ 
+      <!-- ══════════════ SALES ══════════════ -->
+      <div class="page" id="page-sales">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+          <h5 class="fw-800 mb-0" style="color:#0d2137">Sales Management</h5>
+          <button class="btn btn-primary btn-sm fw-700" style="border-radius:8px" data-bs-toggle="modal" data-bs-target="#addSaleModal"><i class="bi bi-plus-lg"></i> Record Sale</button>
+        </div>
+        <!-- Summary Cards -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-4 col-6">
+            <div class="stat-card blue">
+              <div class="stat-icon blue"><i class="bi bi-building"></i></div>
+              <div class="stat-value">₹74,520</div>
+              <div class="stat-label">Company Sales Revenue</div>
+              <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>1,200 L dispatched</div>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="stat-card green">
+              <div class="stat-icon green"><i class="bi bi-bag-fill"></i></div>
+              <div class="stat-value">₹21,648</div>
+              <div class="stat-label">Direct Customer Revenue</div>
+              <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>304 L sold directly</div>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="stat-card purple">
+              <div class="stat-icon purple"><i class="bi bi-cash-stack"></i></div>
+              <div class="stat-value">₹96,168</div>
+              <div class="stat-label">Total Sales Today</div>
+              <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>All channels combined</div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3">
+          <!-- Company Sales -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header py-3 px-4 d-flex align-items-center justify-content-between">
+                <div class="card-title"><i class="bi bi-building me-2 text-primary"></i>Company Sales</div>
+                <span class="badge badge-blue fw-700 px-3 py-1 rounded-pill">Today</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-custom mb-0">
+                  <thead><tr><th>Company</th><th>Qty (L)</th><th>Rate/L</th><th>Total</th></tr></thead>
+                  <tbody>
+                    <tr><td><strong>Aavin Dairy Co.</strong></td><td>800</td><td>₹62</td><td class="text-green fw-700">₹49,600</td></tr>
+                    <tr><td><strong>Heritage Foods</strong></td><td>400</td><td>₹62</td><td class="text-green fw-700">₹24,800</td></tr>
+                    <tr class="table-light"><td colspan="3" class="fw-700 text-end">Total</td><td class="text-green fw-800">₹74,400</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="sales-sum-bar">
+                <div class="sales-sum-item"><div class="sales-sum-val">1,200 L</div><div class="sales-sum-lbl">Qty Sold</div></div>
+                <div class="sales-sum-item"><div class="sales-sum-val">₹62.0</div><div class="sales-sum-lbl">Avg Rate</div></div>
+                <div class="sales-sum-item"><div class="sales-sum-val">₹74,400</div><div class="sales-sum-lbl">Revenue</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Direct Sales -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header py-3 px-4 d-flex align-items-center justify-content-between">
+                <div class="card-title"><i class="bi bi-bag-fill me-2 text-success"></i>Direct Customer Sales</div>
+                <span class="badge badge-green fw-700 px-3 py-1 rounded-pill">Today</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-custom mb-0">
+                  <thead><tr><th>Customer</th><th>Qty (L)</th><th>Price/L</th><th>Total</th></tr></thead>
+                  <tbody>
+                    <tr><td><strong>Riya Tea Stall</strong></td><td>80</td><td>₹72</td><td class="text-green fw-700">₹5,760</td></tr>
+                    <tr><td><strong>Murugan Bakery</strong></td><td>120</td><td>₹70</td><td class="text-green fw-700">₹8,400</td></tr>
+                    <tr><td><strong>Local Households</strong></td><td>104</td><td>₹71</td><td class="text-green fw-700">₹7,384</td></tr>
+                    <tr class="table-light"><td colspan="3" class="fw-700 text-end">Total</td><td class="text-green fw-800">₹21,544</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="sales-sum-bar">
+                <div class="sales-sum-item"><div class="sales-sum-val">304 L</div><div class="sales-sum-lbl">Qty Sold</div></div>
+                <div class="sales-sum-item"><div class="sales-sum-val">₹70.9</div><div class="sales-sum-lbl">Avg Rate</div></div>
+                <div class="sales-sum-item"><div class="sales-sum-val">₹21,544</div><div class="sales-sum-lbl">Revenue</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END SALES -->
+ 
+      <!-- ══════════════ EXPENSES ══════════════ -->
+      <div class="page" id="page-expenses">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+          <h5 class="fw-800 mb-0" style="color:#0d2137">Expense Management</h5>
+          <button class="btn btn-primary btn-sm fw-700" style="border-radius:8px" data-bs-toggle="modal" data-bs-target="#addExpenseModal"><i class="bi bi-plus-lg"></i> Add Expense</button>
+        </div>
+        <!-- Category tiles -->
+        <div class="row g-2 mb-3">
+          <div class="col-6 col-md-3"><div class="exp-cat-card"><div class="icon">👷</div><div class="name">Labour Salary</div><div class="amt">₹14,000</div></div></div>
+          <div class="col-6 col-md-3"><div class="exp-cat-card"><div class="icon">⚡</div><div class="name">Electricity</div><div class="amt">₹3,200</div></div></div>
+          <div class="col-6 col-md-3"><div class="exp-cat-card"><div class="icon">🚛</div><div class="name">Transport</div><div class="amt">₹7,500</div></div></div>
+          <div class="col-6 col-md-3"><div class="exp-cat-card"><div class="icon">🔧</div><div class="name">Maintenance</div><div class="amt">₹2,100</div></div></div>
+          <div class="col-6 col-md-3"><div class="exp-cat-card"><div class="icon">💊</div><div class="name">Medicine</div><div class="amt">₹1,800</div></div></div>
+          <div class="col-6 col-md-3"><div class="exp-cat-card"><div class="icon">🌾</div><div class="name">Feed Cost</div><div class="amt">₹8,200</div></div></div>
+          <div class="col-6 col-md-3"><div class="exp-cat-card"><div class="icon">📋</div><div class="name">Miscellaneous</div><div class="amt">₹1,600</div></div></div>
+          <div class="col-6 col-md-3"><div class="exp-cat-card" style="border:2px dashed #1a6fc4;background:#e8f1fb" data-bs-toggle="modal" data-bs-target="#addExpenseModal"><div class="icon">➕</div><div class="name" style="color:#1a6fc4">Add New</div><div class="amt" style="color:#1a6fc4">Category</div></div></div>
+        </div>
+        <!-- Expense table -->
+        <div class="card">
+          <div class="card-header py-3 px-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div class="card-title">Expense Records — May 2026</div>
+            <div class="d-flex gap-2">
+              <select class="form-select form-select-sm" style="width:auto">
+                <option>All Categories</option><option>Labour</option><option>Transport</option><option>Feed</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-custom mb-0">
+              <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Paid By</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>04 May</td><td><span class="badge badge-blue fw-700">Labour</span></td><td>Monthly salary — 4 workers</td><td class="text-red fw-700">₹14,000</td><td>Cash</td><td><span class="badge badge-green fw-700 rounded-pill px-3">Paid</span></td><td><button class="btn btn-sm" style="border:1px solid #dde5f0;font-size:11px;border-radius:6px"><i class="bi bi-pencil"></i></button></td></tr>
+                <tr><td>04 May</td><td><span class="badge badge-amber fw-700">Transport</span></td><td>Milk van fuel — Route A & B</td><td class="text-red fw-700">₹2,800</td><td>Bank</td><td><span class="badge badge-green fw-700 rounded-pill px-3">Paid</span></td><td><button class="btn btn-sm" style="border:1px solid #dde5f0;font-size:11px;border-radius:6px"><i class="bi bi-pencil"></i></button></td></tr>
+                <tr><td>03 May</td><td><span class="badge badge-green fw-700">Feed</span></td><td>Cattle feed 200kg — Sriram Agri</td><td class="text-red fw-700">₹8,200</td><td>Cash</td><td><span class="badge badge-green fw-700 rounded-pill px-3">Paid</span></td><td><button class="btn btn-sm" style="border:1px solid #dde5f0;font-size:11px;border-radius:6px"><i class="bi bi-pencil"></i></button></td></tr>
+                <tr><td>03 May</td><td><span class="badge badge-blue fw-700">Electric</span></td><td>Chilling unit power bill</td><td class="text-red fw-700">₹3,200</td><td>Bank</td><td><span class="badge badge-amber fw-700 rounded-pill px-3">Pending</span></td><td><button class="btn btn-sm" style="border:1px solid #dde5f0;font-size:11px;border-radius:6px"><i class="bi bi-pencil"></i></button></td></tr>
+                <tr><td>02 May</td><td><span class="badge badge-purple fw-700">Medicine</span></td><td>Vet visit + vaccines (3 cows)</td><td class="text-red fw-700">₹1,800</td><td>Cash</td><td><span class="badge badge-green fw-700 rounded-pill px-3">Paid</span></td><td><button class="btn btn-sm" style="border:1px solid #dde5f0;font-size:11px;border-radius:6px"><i class="bi bi-pencil"></i></button></td></tr>
+                <tr><td>01 May</td><td><span class="badge badge-amber fw-700">Transport</span></td><td>Vehicle servicing & maintenance</td><td class="text-red fw-700">₹4,700</td><td>Bank</td><td><span class="badge badge-green fw-700 rounded-pill px-3">Paid</span></td><td><button class="btn btn-sm" style="border:1px solid #dde5f0;font-size:11px;border-radius:6px"><i class="bi bi-pencil"></i></button></td></tr>
+                <tr><td>30 Apr</td><td><span class="badge badge-blue fw-700">Misc</span></td><td>Office stationery & printing</td><td class="text-red fw-700">₹1,600</td><td>Cash</td><td><span class="badge badge-green fw-700 rounded-pill px-3">Paid</span></td><td><button class="btn btn-sm" style="border:1px solid #dde5f0;font-size:11px;border-radius:6px"><i class="bi bi-pencil"></i></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex justify-content-between align-items-center px-4 py-3" style="background:#f8fafd;border-top:1px solid #dde5f0">
+            <span class="small text-muted">7 records shown</span>
+            <div class="d-flex gap-4">
+              <span class="small text-muted">Paid: <strong class="text-green">₹34,300</strong></span>
+              <span class="small text-muted">Pending: <strong class="text-amber" style="color:#d97706">₹3,200</strong></span>
+              <span class="fw-800 text-red" style="font-size:14px">Total: ₹37,500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END EXPENSES -->
+ 
+      <!-- ══════════════ REPORTS ══════════════ -->
+      <div class="page" id="page-reports">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+          <h5 class="fw-800 mb-0" style="color:#0d2137">Reports &amp; Analytics</h5>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm fw-700" style="border:1px solid #dde5f0;border-radius:8px;background:#fff;font-size:12px"><i class="bi bi-file-pdf-fill text-danger me-1"></i>Export PDF</button>
+            <button class="btn btn-success btn-sm fw-700" style="border-radius:8px;font-size:12px"><i class="bi bi-file-earmark-excel-fill me-1"></i>Export Excel</button>
+          </div>
+        </div>
+        <!-- Filters -->
+        <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+          <span class="small fw-700 text-muted">Period:</span>
+          <button class="filter-pill active" onclick="setFilter(this)">Daily</button>
+          <button class="filter-pill" onclick="setFilter(this)">Weekly</button>
+          <button class="filter-pill" onclick="setFilter(this)">Monthly</button>
+          <button class="filter-pill" onclick="setFilter(this)">Custom</button>
+          <input type="date" class="form-control form-control-sm" style="width:150px" value="2026-05-04">
+        </div>
+        <!-- KPIs -->
+        <div class="row g-3 mb-3">
+          <div class="col-6 col-md-3"><div class="stat-card blue"><div class="stat-icon blue"><i class="bi bi-droplet-fill"></i></div><div class="stat-value">1,847 L</div><div class="stat-label">Milk Collected</div></div></div>
+          <div class="col-6 col-md-3"><div class="stat-card green"><div class="stat-icon green"><i class="bi bi-cash-stack"></i></div><div class="stat-value">₹96,168</div><div class="stat-label">Total Sales</div></div></div>
+          <div class="col-6 col-md-3"><div class="stat-card red"><div class="stat-icon red"><i class="bi bi-credit-card-fill"></i></div><div class="stat-value">₹38,400</div><div class="stat-label">Total Expenses</div></div></div>
+          <div class="col-6 col-md-3"><div class="stat-card purple"><div class="stat-icon purple"><i class="bi bi-graph-up-arrow"></i></div><div class="stat-value">₹57,768</div><div class="stat-label">Net Profit</div></div></div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-7">
+            <div class="card">
+              <div class="card-header py-3 px-4"><div class="card-title">Revenue vs Expenses (Last 6 Months)</div></div>
+              <div class="card-body">
+                <div class="chart-container" style="height:220px"><canvas id="reportChart"></canvas></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="card h-100">
+              <div class="card-header py-3 px-4"><div class="card-title">Supplier-wise Collection</div></div>
+              <div class="table-responsive">
+                <table class="table table-custom mb-0">
+                  <thead><tr><th>Supplier</th><th>Qty (L)</th><th>Amount</th><th>Share</th></tr></thead>
+                  <tbody>
+                    <tr><td><strong>Selvam K.</strong></td><td>112</td><td>₹6,496</td><td><div class="prog-bar" style="width:80px;display:inline-block"><div class="prog-fill" style="width:61%;background:#1a6fc4"></div></div></td></tr>
+                    <tr><td><strong>Murugan S.</strong></td><td>85</td><td>₹4,930</td><td><div class="prog-bar" style="width:80px;display:inline-block"><div class="prog-fill" style="width:46%;background:#16a34a"></div></div></td></tr>
+                    <tr><td><strong>Parvathi N.</strong></td><td>63</td><td>₹3,654</td><td><div class="prog-bar" style="width:80px;display:inline-block"><div class="prog-fill" style="width:34%;background:#d97706"></div></div></td></tr>
+                    <tr><td><strong>Kannan R.</strong></td><td>56</td><td>₹3,248</td><td><div class="prog-bar" style="width:80px;display:inline-block"><div class="prog-fill" style="width:30%;background:#7c3aed"></div></div></td></tr>
+                    <tr><td><strong>Annamalai P.</strong></td><td>40</td><td>₹2,320</td><td><div class="prog-bar" style="width:80px;display:inline-block"><div class="prog-fill" style="width:22%;background:#dc2626"></div></div></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END REPORTS -->
+ 
+      <!-- ══════════════ SETTINGS ══════════════ -->
+      <div class="page" id="page-settings">
+        <h5 class="fw-800 mb-3" style="color:#0d2137">System Settings</h5>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header py-3 px-4"><div class="card-title"><i class="bi bi-building me-2 text-primary"></i>Society Information</div></div>
+              <div class="card-body">
+                <div class="mb-3"><label class="form-label">Society Name</label><input class="form-control" value="Coimbatore Milk Society"></div>
+                <div class="mb-3"><label class="form-label">Registration Number</label><input class="form-control" value="TN/CMS/2010/0247"></div>
+                <div class="mb-3"><label class="form-label">Location / Address</label><input class="form-control" value="Sulur, Coimbatore – 641 401"></div>
+                <div class="mb-3"><label class="form-label">Contact Phone</label><input class="form-control" value="0422-254 0100"></div>
+                <div class="row g-3 mb-3">
+                  <div class="col-6"><label class="form-label">Default Rate/L (₹)</label><input class="form-control" type="number" value="57"></div>
+                  <div class="col-6"><label class="form-label">Minimum Fat %</label><input class="form-control" type="number" value="3.2" step="0.1"></div>
+                </div>
+                <button class="btn btn-primary fw-700" style="border-radius:8px"><i class="bi bi-check-lg me-2"></i>Save Changes</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header py-3 px-4"><div class="card-title"><i class="bi bi-currency-rupee me-2 text-primary"></i>Rate Configuration</div></div>
+              <div class="card-body">
+                <div class="mb-3"><label class="form-label">Company Sale Rate (₹/L)</label><input class="form-control" type="number" value="62"></div>
+                <div class="mb-3"><label class="form-label">Direct Customer Rate (₹/L)</label><input class="form-control" type="number" value="72"></div>
+                <div class="mb-3"><label class="form-label">Fat Bonus Rate (₹ per 0.1%)</label><input class="form-control" type="number" value="1.50" step="0.10"></div>
+                <div class="mb-3"><label class="form-label">Deduction for Low Fat (₹)</label><input class="form-control" type="number" value="2.00" step="0.10"></div>
+                <button class="btn btn-primary fw-700" style="border-radius:8px"><i class="bi bi-arrow-repeat me-2"></i>Update Rates</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header py-3 px-4"><div class="card-title"><i class="bi bi-person-gear me-2 text-primary"></i>Admin Account</div></div>
+              <div class="card-body">
+                <div class="mb-3"><label class="form-label">Admin Name</label><input class="form-control" value="S. Rajan"></div>
+                <div class="mb-3"><label class="form-label">Email Address</label><input class="form-control" type="email" value="srajan@milksociety.in"></div>
+                <div class="mb-3"><label class="form-label">New Password</label><input class="form-control" type="password" placeholder="Enter new password"></div>
+                <button class="btn btn-outline-primary fw-700" style="border-radius:8px">Update Account</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END SETTINGS -->
+ 
+    </div>
+  </div>
+</div>
+<!-- END APP SHELL -->
+ 
+<!-- ═══════════════ MODALS ════════════════════ -->
+ 
+<!-- Add Supplier Modal -->
+<div class="modal fade" id="addSupplierModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-800" style="color:#0d2137">Add New Supplier</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-6"><label class="form-label">Full Name *</label><input class="form-control" placeholder="Supplier full name"></div>
+          <div class="col-6"><label class="form-label">Phone *</label><input class="form-control" placeholder="Mobile number"></div>
+          <div class="col-12"><label class="form-label">Address</label><input class="form-control" placeholder="Full address"></div>
+          <div class="col-6"><label class="form-label">Village / Place *</label><input class="form-control" placeholder="Village name"></div>
+          <div class="col-6"><label class="form-label">Bank Account</label><input class="form-control" placeholder="Account number"></div>
+          <div class="col-4"><label class="form-label">No. of Cows</label><input class="form-control" type="number" placeholder="0"></div>
+          <div class="col-4"><label class="form-label">Labourers</label><input class="form-control" type="number" placeholder="0"></div>
+          <div class="col-4"><label class="form-label">Avg Daily (L)</label><input class="form-control" type="number" placeholder="0.0"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary fw-700" style="border-radius:8px" onclick="addSupplierFromModal()"><i class="bi bi-person-plus-fill me-2"></i>Add Supplier</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- Add Expense Modal -->
+<div class="modal fade" id="addExpenseModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-800" style="color:#0d2137">Add Expense</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Category</label>
+          <select class="form-select"><option>Labour Salary</option><option>Electricity Bill</option><option>Transport</option><option>Maintenance</option><option>Medicine</option><option>Feed Cost</option><option>Miscellaneous</option></select>
+        </div>
+        <div class="mb-3"><label class="form-label">Description</label><input class="form-control" placeholder="Brief description of expense"></div>
+        <div class="row g-3 mb-3">
+          <div class="col-6"><label class="form-label">Amount (₹)</label><input class="form-control" type="number" placeholder="0.00" step="0.01"></div>
+          <div class="col-6"><label class="form-label">Date</label><input class="form-control" type="date" value="2026-05-04"></div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Payment Mode</label>
+          <select class="form-select"><option>Cash</option><option>Bank Transfer</option><option>UPI</option><option>Cheque</option></select>
+        </div>
+        <div class="mb-3"><label class="form-label">Receipt / Notes</label><textarea class="form-control" rows="2" placeholder="Optional notes or receipt number"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger fw-700" style="border-radius:8px" data-bs-dismiss="modal"><i class="bi bi-plus-circle-fill me-2"></i>Add Expense</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- Add Sale Modal -->
+<div class="modal fade" id="addSaleModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-800" style="color:#0d2137">Record Sale</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Sale Type</label>
+          <select class="form-select"><option>Company Sale</option><option>Direct Customer Sale</option></select>
+        </div>
+        <div class="mb-3"><label class="form-label">Customer / Company Name</label><input class="form-control" placeholder="Enter name"></div>
+        <div class="row g-3 mb-3">
+          <div class="col-6"><label class="form-label">Quantity (L)</label><input class="form-control" type="number" placeholder="0.0" step="0.1"></div>
+          <div class="col-6"><label class="form-label">Rate per Litre (₹)</label><input class="form-control" type="number" placeholder="62.00" step="0.5"></div>
+        </div>
+        <div class="mb-3"><label class="form-label">Date</label><input class="form-control" type="date" value="2026-05-04"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success fw-700" style="border-radius:8px" data-bs-dismiss="modal"><i class="bi bi-check-circle-fill me-2"></i>Record Sale</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- Success Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+  <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive">
+    <div class="d-flex">
+      <div class="toast-body fw-600" id="toastMsg">Entry saved successfully!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+ 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ─── SAMPLE DATA ────────────────────────────────────────────────────────────────
+const suppliers = [
+  { id:'MS001', name:'Murugan S.', place:'Sulur', phone:'98420 11234', cows:12, labour:3, supply:'85 L/day', status:'Active', addr:'14/B Main St, Sulur', income:'₹1,53,000', profit:'₹48,200', since:'Jan 2019' },
+  { id:'MS002', name:'Kannan R.', place:'Kinathukadavu', phone:'90421 55678', cows:8, labour:2, supply:'56 L/day', status:'Review', addr:'7 Gandhi Nagar, Kinathukadavu', income:'₹1,00,800', profit:'₹28,400', since:'Mar 2020' },
+  { id:'MS003', name:'Selvam K.', place:'Irugur', phone:'97881 23456', cows:15, labour:4, supply:'112 L/day', status:'Active', addr:'23 West Street, Irugur', income:'₹2,01,600', profit:'₹62,100', since:'Jun 2018' },
+  { id:'MS004', name:'Annamalai P.', place:'Madukkarai', phone:'94420 78901', cows:6, labour:2, supply:'40 L/day', status:'Active', addr:'9 Temple Road, Madukkarai', income:'₹72,000', profit:'₹20,500', since:'Sep 2021' },
+  { id:'MS005', name:'Vijayalakshmi M.', place:'Sulur', phone:'96290 34567', cows:10, labour:3, supply:'72 L/day', status:'Active', addr:'31 Lotus Colony, Sulur', income:'₹1,29,600', profit:'₹38,200', since:'Feb 2020' },
+  { id:'MS006', name:'Raju T.', place:'Irugur', phone:'88261 90123', cows:4, labour:1, supply:'28 L/day', status:'Inactive', addr:'5 Cross Lane, Irugur', income:'₹50,400', profit:'₹12,100', since:'Nov 2019' },
+  { id:'MS007', name:'Parvathi N.', place:'Kinathukadavu', phone:'93424 56789', cows:9, labour:2, supply:'63 L/day', status:'Active', addr:'18 Mill Road, Kinathukadavu', income:'₹1,13,400', profit:'₹33,600', since:'Jul 2022' },
+  { id:'MS008', name:'Duraisamy G.', place:'Sulur', phone:'99421 11122', cows:11, labour:3, supply:'78 L/day', status:'Active', addr:'4 Anna Nagar, Sulur', income:'₹1,40,400', profit:'₹42,000', since:'Apr 2019' },
+  { id:'MS009', name:'Meenakshi R.', place:'Madukkarai', phone:'95621 33445', cows:7, labour:2, supply:'49 L/day', status:'Active', addr:'12 Velankanni St, Madukkarai', income:'₹88,200', profit:'₹24,300', since:'Jan 2023' },
+];
+ 
+// ─── CHARTS ──────────────────────────────────────────────────────────────────────
+let chartsReady = false;
+const chartInstances = {};
+ 
+function initCharts() {
+  if (chartsReady) return;
+  chartsReady = true;
+  const gridColor = 'rgba(0,0,0,0.05)';
+  const tickColor = '#9ba8c0';
+ 
+  // Collection Chart
+  chartInstances.collection = new Chart(document.getElementById('collectionChart'), {
+    type: 'bar',
+    data: {
+      labels: ['29 Apr','30 Apr','1 May','2 May','3 May','4 May','Today'],
+      datasets: [
+        { label: 'Morning', data: [910,935,948,962,955,964,940], backgroundColor: 'rgba(26,111,196,0.75)', borderRadius: 5, borderSkipped: false },
+        { label: 'Evening', data: [830,862,845,870,875,883,860], backgroundColor: 'rgba(217,119,6,0.75)', borderRadius: 5, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { color: tickColor, font: { size: 11 }, boxWidth: 12 } } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 } } },
+        y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 }, callback: v => v + 'L' } }
+      }
+    }
+  });
+ 
+  // Place chart (donut)
+  chartInstances.place = new Chart(document.getElementById('placeChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Sulur','Irugur','Kinathukadavu','Madukkarai','Others'],
+      datasets: [{ data: [428,312,287,248,572], backgroundColor: ['#1a6fc4','#16a34a','#d97706','#7c3aed','#dc2626'], borderWidth: 3, borderColor: '#fff', hoverOffset: 4 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '68%',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.raw + ' L' } } }
+    }
+  });
+ 
+  // P&L line chart
+  chartInstances.pl = new Chart(document.getElementById('plChart'), {
+    type: 'line',
+    data: {
+      labels: ['Dec','Jan','Feb','Mar','Apr','May'],
+      datasets: [
+        { label: 'Revenue', data: [82000,88000,79000,95000,91000,96168], borderColor: '#1a6fc4', backgroundColor: 'rgba(26,111,196,0.08)', fill: true, tension: 0.4, borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: '#1a6fc4' },
+        { label: 'Expenses', data: [35000,38000,34000,42000,39000,38400], borderColor: '#dc2626', backgroundColor: 'rgba(220,38,38,0.05)', fill: true, tension: 0.4, borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: '#dc2626' },
+        { label: 'Profit', data: [47000,50000,45000,53000,52000,57768], borderColor: '#16a34a', tension: 0.4, borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: '#16a34a' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { color: tickColor, font: { size: 11 }, boxWidth: 12 } } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 } } },
+        y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 }, callback: v => '₹' + Math.round(v/1000) + 'k' } }
+      }
+    }
+  });
+}
+ 
+function initSupplierChart() {
+  if (chartInstances.supplierHist) { chartInstances.supplierHist.destroy(); }
+  chartInstances.supplierHist = new Chart(document.getElementById('supplierHistChart'), {
+    type: 'bar',
+    data: {
+      labels: ['29 Apr','30 Apr','1 May','2 May','3 May','4 May'],
+      datasets: [
+        { label: 'Morning', data: [41,44,40,43,41,42], backgroundColor: 'rgba(26,111,196,0.75)', borderRadius: 4 },
+        { label: 'Evening', data: [42,41,43,42,44,43], backgroundColor: 'rgba(217,119,6,0.75)', borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { color: '#9ba8c0', font: { size: 11 }, boxWidth: 12 } } },
+      scales: {
+        x: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#9ba8c0', font: { size: 10 } } },
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#9ba8c0', font: { size: 10 }, callback: v => v + 'L' } }
+      }
+    }
+  });
+}
+ 
+function initReportChart() {
+  if (chartInstances.report) { chartInstances.report.destroy(); }
+  chartInstances.report = new Chart(document.getElementById('reportChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Dec','Jan','Feb','Mar','Apr','May'],
+      datasets: [
+        { label: 'Revenue', data: [82000,88000,79000,95000,91000,96168], backgroundColor: 'rgba(26,111,196,0.75)', borderRadius: 5 },
+        { label: 'Expenses', data: [35000,38000,34000,42000,39000,38400], backgroundColor: 'rgba(220,38,38,0.7)', borderRadius: 5 },
+        { label: 'Profit', data: [47000,50000,45000,53000,52000,57768], backgroundColor: 'rgba(22,163,74,0.75)', borderRadius: 5 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { color: '#9ba8c0', font: { size: 11 }, boxWidth: 12 } } },
+      scales: {
+        x: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#9ba8c0', font: { size: 10 } } },
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#9ba8c0', font: { size: 10 }, callback: v => '₹' + Math.round(v/1000) + 'k' } }
+      }
+    }
+  });
+}
+ 
+// ─── NAVIGATION ───────────────────────────────────────────────────────────────
+const pageTitles = {
+  dashboard: ['Dashboard', 'Monday, 04 May 2026 · Coimbatore Milk Society'],
+  suppliers: ['Supplier Management', '24 active suppliers · 4 villages'],
+  'supplier-detail': ['Supplier Profile', 'Detailed view & collection history'],
+  collection: ['Collection Entry', 'Record morning & evening milk collection'],
+  sales: ['Sales Management', 'Company & direct customer sales'],
+  expenses: ['Expense Management', 'Track and manage all expenses'],
+  reports: ['Reports & Analytics', 'Performance insights & export'],
+  settings: ['System Settings', 'Configure rates and system preferences']
+};
+ 
+function navigate(page, navEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+ 
+  document.querySelectorAll('.nav-link-item').forEach(n => n.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+ 
+  const info = pageTitles[page] || [page, ''];
+  document.getElementById('topbarTitle').textContent = info[0];
+  document.getElementById('topbarSub').textContent = info[1];
+ 
+  if (page === 'supplier-detail') setTimeout(initSupplierChart, 80);
+  if (page === 'reports') setTimeout(initReportChart, 80);
+ 
+  // Close sidebar on mobile
+  document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo(0, 0);
+}
+ 
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+ 
+// ─── LOGIN ────────────────────────────────────────────────────────────────────
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  if ((u === 'admin' && p === '1234') || (u === 'admin@milksociety.in' && p === 'password') || (u !== '' && p !== '')) {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('appShell').style.display = 'block';
+    renderSuppliersTable();
+    setTimeout(initCharts, 150);
+  } else {
+    document.getElementById('loginError').classList.remove('d-none');
+  }
+}
+ 
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('loginPage').style.display !== 'none') doLogin();
+});
+ 
+function doLogout() {
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'flex';
+}
+ 
+// ─── SUPPLIERS TABLE ─────────────────────────────────────────────────────────
+function renderSuppliersTable() {
+  const tbody = document.getElementById('suppliersTableBody');
+  tbody.innerHTML = '';
+  suppliers.forEach((s, i) => {
+    const statusBadge = {
+      'Active': '<span class="badge badge-green fw-700 rounded-pill px-3">Active</span>',
+      'Review': '<span class="badge badge-amber fw-700 rounded-pill px-3">Review</span>',
+      'Inactive': '<span class="badge badge-red fw-700 rounded-pill px-3">Inactive</span>'
+    }[s.status] || '';
+    const row = document.createElement('tr');
+    row.style.cursor = 'pointer';
+    row.innerHTML = `
+      <td><span class="badge badge-blue fw-700">${s.id}</span></td>
+      <td><strong>${s.name}</strong></td>
+      <td>${s.place}</td>
+      <td>${s.phone}</td>
+      <td>${s.cows}</td>
+      <td>${s.labour}</td>
+      <td>${s.supply}</td>
+      <td>${statusBadge}</td>
+      <td>
+        <button class="btn btn-sm fw-700" style="border:1px solid #dde5f0;border-radius:7px;font-size:11px;background:#fff">
+          View <i class="bi bi-arrow-right-short"></i>
+        </button>
+      </td>
+    `;
+    row.addEventListener('click', () => openSupplierDetail(i));
+    tbody.appendChild(row);
+  });
+}
+ 
+function openSupplierDetail(idx) {
+  const s = suppliers[idx];
+  const navEl = document.querySelectorAll('.nav-link-item')[1];
+  document.getElementById('detailAvatar').textContent = s.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('detailName').textContent = s.name;
+  document.getElementById('detailPlace').innerHTML = `<i class="bi bi-geo-alt-fill text-primary"></i> ${s.place}, Coimbatore`;
+  document.getElementById('detailCows').textContent = s.cows;
+  document.getElementById('detailLabour').textContent = s.labour;
+  document.getElementById('detailSupply').textContent = s.supply.replace(' L/day','L');
+  document.getElementById('detailPhone').textContent = s.phone;
+  document.getElementById('detailAddr').textContent = s.addr;
+  document.getElementById('detailIncome').textContent = s.income;
+  document.getElementById('detailProfit').textContent = s.profit;
+  document.getElementById('detailSince').textContent = s.since;
+  navigate('supplier-detail', null);
+  document.querySelectorAll('.nav-link-item').forEach(n => n.classList.remove('active'));
+  navEl.classList.add('active');
+}
+ 
+function addSupplierFromModal() {
+  const modal = bootstrap.Modal.getInstance(document.getElementById('addSupplierModal'));
+  if (modal) modal.hide();
+  showToast('New supplier added successfully!');
+}
+ 
+// ─── COLLECTION CALCULATION ───────────────────────────────────────────────────
+function calcCollection() {
+  const m = parseFloat(document.getElementById('collMorning').value) || 0;
+  const e = parseFloat(document.getElementById('collEvening').value) || 0;
+  const fat = parseFloat(document.getElementById('collFat').value) || 0;
+  const rate = parseFloat(document.getElementById('collRate').value) || 0;
+  const total = m + e;
+  // Fat adjustment: base fat 3.5%, ±₹1.5 per 0.1%
+  const fatAdj = rate + (fat - 3.5) * 15;
+  const adjRate = Math.max(0, fatAdj);
+  const amount = total * adjRate;
+  document.getElementById('displayQty').textContent = total.toFixed(1) + ' L';
+  document.getElementById('displayRate').textContent = '₹ ' + adjRate.toFixed(2) + '/L';
+  document.getElementById('displayAmt').textContent = '₹ ' + amount.toFixed(2);
+}
+ 
+function submitCollection() {
+  const supplier = document.getElementById('collSupplier').value;
+  const morning = document.getElementById('collMorning').value;
+  const evening = document.getElementById('collEvening').value;
+  if (!supplier || !morning || !evening) {
+    alert('Please fill in Supplier, Morning and Evening quantities.');
+    return;
+  }
+  // Add to today's entries table
+  const tbody = document.getElementById('todayEntriesBody');
+  const total = (parseFloat(morning)||0) + (parseFloat(evening)||0);
+  const rate = parseFloat(document.getElementById('collRate').value) || 57;
+  const fat = parseFloat(document.getElementById('collFat').value) || 3.5;
+  const adjRate = rate + (fat - 3.5) * 15;
+  const amount = (total * Math.max(0, adjRate)).toFixed(0);
+  const name = supplier.split('—')[1]?.split('(')[0]?.trim() || supplier;
+  const row = document.createElement('tr');
+  row.innerHTML = `<td>${name}</td><td>${morning}</td><td>${evening}</td><td><strong>${total.toFixed(1)}</strong></td><td class="text-green fw-700">₹${Number(amount).toLocaleString('en-IN')}</td>`;
+  tbody.appendChild(row);
+  // Reset form
+  document.getElementById('collSupplier').value = '';
+  document.getElementById('collMorning').value = '';
+  document.getElementById('collEvening').value = '';
+  document.getElementById('collFat').value = '';
+  document.getElementById('collRate').value = '';
+  calcCollection();
+  showToast('Collection entry saved successfully!');
+}
+ 
+// ─── FILTER PILLS ─────────────────────────────────────────────────────────────
+function setFilter(el) {
+  el.closest('.d-flex').querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+ 
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent = msg || 'Done!';
+  const toast = new bootstrap.Toast(document.getElementById('successToast'), { delay: 3000 });
+  toast.show();
+}
+ 
+// ─── RESPONSIVE: close sidebar on outside click ───────────────────────────────
+document.addEventListener('click', e => {
+  const sidebar = document.getElementById('sidebar');
+  if (window.innerWidth <= 768 && sidebar.classList.contains('open') && !sidebar.contains(e.target)) {
+    sidebar.classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>

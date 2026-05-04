@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<!-- 
+localStorage 
+
+setItem()
+getItem()
+removeItem()
+clear()
+
+JSON => javascript object notation
+
+JSON.stringify()  array to string
+
+JSON.parse() 
+
+-->
+
+    <script>
+
+        let name = "siva"
+        localStorage.setItem("studentName",name)
+
+        localStorage.setItem("phone",894654646)
+        let m = [50,80,90,880]
+
+        localStorage.setItem("marks",JSON.stringify(m))
+
+        let n = {name:'raja'}
+        localStorage.setItem("studetnObj",JSON.stringify(n))
+
+        let j =[
+            {name:'raja'},{name:'raja'},{name:'raja'}
+        ] 
+        localStorage.setItem("phonebook",JSON.stringify(j))
+
+        let jj = localStorage.getItem("phonebook")
+
+        console.log(jj, typeof jj);
+
+        console.log(JSON.parse(jj));
+        
+        
+
+
+       let sname =  localStorage.getItem("studentName")
+
+       console.log(sname);
+
+       localStorage.removeItem("studentName")
+
+    //    localStorage.clear()
+       
+
+    </script>
+</body>
+</html>

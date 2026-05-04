@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 100vh;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        td {
+            color: teal;
+        }
+
+        th {
+            background-color: orange;
+        }
+
+        button {
+            padding: 9px;
+            border-radius: 10px;
+            width: 20vh;
+            cursor: pointer;
+        }
+
+        .box {
+            border: 1px dotted;
+            height: 30vh;
+            width: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(33, 105, 168, 0.384);
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            width: 30vh;
+            border: none;
+            border-bottom: 1px solid gray;
+        }
+
+        .out-bx {
+            /* border: 1px solid; */
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="out-bx">
+        <div class="box">
+            <form action="" onsubmit="phone(event)" id="reset">
+                <input type="text" placeholder="Enter Name" required> <br>
+                <input type="number" placeholder="Enter ph number" id="number" required><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="table-box">
+            <table>
+                <thead id="head">
+                    <!-- <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr> -->
+                </thead>
+                <tbody id="phonebookrows">
+                    <!-- <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        let ph = []
+        let phone = (event) => {
+            event.preventDefault()
+            let name = event.target[0].value
+            let phonenum = event.target[1].value
+            let detail = {
+                uname: name,
+                unum: phonenum
+            }
+            ph.push(detail)
+            console.log(ph);
+
+            let table = ``;
+            let idx = 1
+            for (const element of ph) {
+                table += `
+                  <tr>
+                    <td>${idx++}</td>
+                    <td>${element.uname}</td>
+                    <td>${element.unum}</td>
+                  </tr>`   
+            }
+            
+            document.getElementById("phonebookrows").innerHTML = table
+            let head = document.getElementById("head")
+            head.innerHTML = `
+              <tr>
+                    <th>s.no</th>
+                    <th>name</th>
+                    <th>numper</th>
+                </tr>`
+
+            document.getElementById("reset").reset()
+        }
+    </script>
+
+
+</body>
+
+</html>
