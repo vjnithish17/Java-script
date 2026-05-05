@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Dairy Farm Management System</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --primary: #16a34a;
+  --primary-light: #22c55e;
+  --primary-dark: #15803d;
+  --primary-glow: rgba(34,197,94,0.18);
+  --accent: #0ea5e9;
+  --accent-dark: #0284c7;
+  --accent-glow: rgba(14,165,233,0.15);
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --success: #10b981;
+  --bg: #f0fdf4;
+  --bg2: #ffffff;
+  --bg3: #f8fafc;
+  --sidebar-bg: linear-gradient(160deg,#0d2818 0%,#143524 40%,#0f2d1e 100%);
+  --card-bg: rgba(255,255,255,0.82);
+  --card-border: rgba(34,197,94,0.13);
+  --glass: rgba(255,255,255,0.7);
+  --text: #0f1f14;
+  --text2: #4b7a5a;
+  --text3: #7aaa8a;
+  --border: rgba(34,197,94,0.15);
+  --shadow: 0 8px 32px rgba(16,100,40,0.10);
+  --shadow-lg: 0 20px 60px rgba(16,100,40,0.16);
+  --sidebar-w: 268px;
+  --topbar-h: 68px;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --transition: 0.28s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"] {
+  --bg: #0a1a0f;
+  --bg2: #111f17;
+  --bg3: #0d1810;
+  --card-bg: rgba(17,31,23,0.85);
+  --card-border: rgba(34,197,94,0.12);
+  --glass: rgba(17,31,23,0.7);
+  --text: #e8f5ec;
+  --text2: #7ab98a;
+  --text3: #4a8060;
+  --border: rgba(34,197,94,0.12);
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--transition),color var(--transition);}
+/* ─── SIDEBAR ─── */
+.sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;background:var(--sidebar-bg);z-index:1000;display:flex;flex-direction:column;overflow:hidden;transition:transform var(--transition);}
+.sidebar::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+.sidebar-logo{padding:28px 24px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--primary-light),var(--primary));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px var(--primary-glow);flex-shrink:0;}
+.logo-text{font-family:'Syne',sans-serif;color:#fff;font-weight:800;font-size:13.5px;line-height:1.3;letter-spacing:-.01em;}
+.logo-text span{color:var(--primary-light);display:block;font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;opacity:.85;}
+.sidebar-nav{flex:1;overflow-y:auto;padding:18px 14px;scrollbar-width:none;}
+.sidebar-nav::-webkit-scrollbar{display:none;}
+.nav-section-label{font-size:10px;font-weight:700;color:rgba(255,255,255,0.28);letter-spacing:.14em;text-transform:uppercase;padding:8px 10px 6px;margin-top:8px;}
+.nav-item{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:12px;color:rgba(255,255,255,0.58);font-size:13.5px;font-weight:500;cursor:pointer;transition:all var(--transition);margin-bottom:3px;position:relative;text-decoration:none;}
+.nav-item:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.07);}
+.nav-item.active{color:#fff;background:linear-gradient(135deg,rgba(34,197,94,0.22),rgba(34,197,94,0.08));box-shadow:inset 0 0 0 1px rgba(34,197,94,0.22);}
+.nav-item.active::before{content:'';position:absolute;left:0;top:20%;height:60%;width:3px;background:var(--primary-light);border-radius:0 3px 3px 0;}
+.nav-item i{width:20px;text-align:center;font-size:15px;}
+.sidebar-footer{padding:18px 20px;border-top:1px solid rgba(255,255,255,0.06);}
+.farm-status{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;}
+.status-dot{width:8px;height:8px;background:var(--primary-light);border-radius:50%;box-shadow:0 0 0 3px rgba(34,197,94,0.2);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,0.2);}50%{box-shadow:0 0 0 6px rgba(34,197,94,0.08);}}
+.status-text{color:rgba(255,255,255,0.7);font-size:12px;line-height:1.4;}
+.status-text strong{color:#fff;display:block;font-size:12.5px;}
+/* ─── TOPBAR ─── */
+.topbar{position:fixed;top:0;left:var(--sidebar-w);right:0;height:var(--topbar-h);background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:999;display:flex;align-items:center;padding:0 28px;gap:18px;transition:left var(--transition),background var(--transition);}
+.topbar-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--text);flex:1;}
+.topbar-title span{color:var(--primary);font-size:13px;font-weight:500;display:block;}
+.search-box{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:50px;padding:9px 16px;width:240px;transition:all var(--transition);}
+.search-box:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow);}
+.search-box input{border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--text);outline:none;width:100%;}
+.search-box i{color:var(--text3);font-size:13px;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.icon-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--bg2);border:1px solid var(--border);cursor:pointer;transition:all var(--transition);color:var(--text2);font-size:15px;position:relative;}
+.icon-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+.badge-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:2px solid var(--bg2);}
+.avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 12px var(--primary-glow);}
+.hamburger{display:none;align-items:center;justify-content:center;width:40px;height:40px;cursor:pointer;color:var(--text2);font-size:18px;}
+/* ─── MAIN CONTENT ─── */
+.main{margin-left:var(--sidebar-w);margin-top:var(--topbar-h);padding:28px;min-height:calc(100vh - var(--topbar-h));transition:margin var(--transition);}
+.section{display:none;}
+.section.active{display:block;}
+/* ─── CARDS ─── */
+.page-header{margin-bottom:24px;}
+.page-header h2{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--text);margin-bottom:4px;}
+.page-header p{color:var(--text2);font-size:14px;}
+.stat-card{background:var(--card-bg);backdrop-filter:blur(16px);border:1px solid var(--card-border);border-radius:var(--radius);padding:22px;transition:all var(--transition);position:relative;overflow:hidden;cursor:default;}
+.stat-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;opacity:.07;transition:all var(--transition);}
+.stat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.stat-card:hover::before{opacity:.13;width:140px;height:140px;}
+.stat-card.green::before{background:var(--primary);}
+.stat-card.blue::before{background:var(--accent);}
+.stat-card.orange::before{background:var(--warning);}
+.stat-card.red::before{background:var(--danger);}
+.stat-card.teal::before{background:var(--success);}
+.stat-card.purple::before{background:#8b5cf6;}
+.card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px;}
+.ci-green{background:var(--primary-glow);color:var(--primary);}
+.ci-blue{background:var(--accent-glow);color:var(--accent);}
+.ci-orange{background:rgba(245,158,11,.12);color:var(--warning);}
+.ci-red{background:rgba(239,68,68,.1);color:var(--danger);}
+.ci-teal{background:rgba(16,185,129,.1);color:var(--success);}
+.ci-purple{background:rgba(139,92,246,.1);color:#8b5cf6;}
+.card-label{font-size:12.5px;font-weight:600;color:var(--text2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px;}
+.card-value{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:var(--text);line-height:1;margin-bottom:8px;}
+.card-trend{font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;}
+.trend-up{color:var(--primary);}
+.trend-down{color:var(--danger);}
+/* ─── CHART CARDS ─── */
+.chart-card{background:var(--card-bg);backdrop-filter:blur(16px);border:1px solid var(--card-border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+.chart-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--text);}
+.chart-subtitle{font-size:12px;color:var(--text3);margin-top:2px;}
+.chart-badge{font-size:11.5px;font-weight:600;padding:5px 12px;border-radius:50px;}
+.badge-green{background:var(--primary-glow);color:var(--primary);}
+.badge-blue{background:var(--accent-glow);color:var(--accent);}
+/* ─── TABLES ─── */
+.data-table{width:100%;border-collapse:separate;border-spacing:0;}
+.data-table thead th{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text2);padding:14px 16px;background:var(--bg3);border-bottom:1px solid var(--border);}
+.data-table thead th:first-child{border-radius:10px 0 0 0;}
+.data-table thead th:last-child{border-radius:0 10px 0 0;}
+.data-table tbody tr{transition:background var(--transition);}
+.data-table tbody tr:hover td{background:var(--primary-glow);}
+.data-table tbody td{padding:13px 16px;font-size:13.5px;color:var(--text);border-bottom:1px solid var(--border);background:var(--card-bg);}
+.cow-badge{display:inline-flex;align-items:center;gap:8px;}
+.cow-avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;}
+.perf-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:50px;font-size:12px;font-weight:600;}
+.perf-excellent{background:rgba(34,197,94,.1);color:var(--primary);}
+.perf-good{background:rgba(14,165,233,.1);color:var(--accent);}
+.perf-average{background:rgba(245,158,11,.1);color:var(--warning);}
+.perf-poor{background:rgba(239,68,68,.1);color:var(--danger);}
+/* ─── FORMS ─── */
+.form-card{background:var(--card-bg);backdrop-filter:blur(16px);border:1px solid var(--card-border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);}
+.form-label{font-size:12.5px;font-weight:600;color:var(--text2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px;}
+.form-control,.form-select{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:11px 15px;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);transition:all var(--transition);}
+.form-control:focus,.form-select:focus{background:var(--bg2);border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow);color:var(--text);outline:none;}
+.form-select option{background:var(--bg2);color:var(--text);}
+.btn-primary-custom{background:linear-gradient(135deg,var(--primary),var(--primary-dark));border:none;color:#fff;padding:12px 28px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all var(--transition);display:inline-flex;align-items:center;gap:9px;}
+.btn-primary-custom:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--primary-glow);}
+.btn-secondary-custom{background:transparent;border:1.5px solid var(--border);color:var(--text2);padding:11px 22px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all var(--transition);}
+.btn-secondary-custom:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-glow);}
+.btn-danger-custom{background:linear-gradient(135deg,#ef4444,#dc2626);border:none;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all var(--transition);}
+.btn-danger-custom:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(239,68,68,.3);}
+.btn-edit-custom{background:var(--accent-glow);border:none;color:var(--accent);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all var(--transition);}
+.btn-edit-custom:hover{background:var(--accent);color:#fff;}
+/* ─── PROGRESS ─── */
+.progress-bar-custom{height:6px;background:var(--border);border-radius:50px;overflow:hidden;margin-top:6px;}
+.progress-fill{height:100%;border-radius:50px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+/* ─── REPORT CARDS ─── */
+.report-btn{background:var(--card-bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px;cursor:pointer;transition:all var(--transition);text-align:left;width:100%;}
+.report-btn:hover{border-color:var(--primary);box-shadow:0 8px 28px var(--primary-glow);transform:translateY(-3px);}
+.report-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;}
+.report-btn h6{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--text);margin-bottom:4px;}
+.report-btn p{font-size:12.5px;color:var(--text2);}
+/* ─── CONCLUSION CARDS ─── */
+.conclusion-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:22px;display:flex;align-items:center;gap:16px;}
+.concl-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.concl-label{font-size:11.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+.concl-value{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--text);margin-bottom:2px;}
+.concl-sub{font-size:12px;color:var(--text2);}
+/* ─── EXPENSE BREAKDOWN ─── */
+.expense-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);}
+.expense-row:last-child{border-bottom:none;}
+.expense-label{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;color:var(--text);}
+.expense-dot{width:10px;height:10px;border-radius:50%;}
+.expense-amount{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--text);}
+/* ─── DARK MODE TOGGLE ─── */
+.dark-toggle{position:relative;width:46px;height:26px;}
+.dark-toggle input{display:none;}
+.dark-toggle label{display:block;width:100%;height:100%;background:var(--border);border-radius:50px;cursor:pointer;transition:background var(--transition);position:relative;}
+.dark-toggle label::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform var(--transition);box-shadow:0 2px 6px rgba(0,0,0,.2);}
+.dark-toggle input:checked+label{background:var(--primary);}
+.dark-toggle input:checked+label::after{transform:translateX(20px);}
+/* ─── TOAST ─── */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;}
+.toast-msg{background:var(--text);color:var(--bg);padding:14px 20px;border-radius:12px;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-lg);animation:slideInRight .4s cubic-bezier(.4,0,.2,1) forwards;max-width:320px;}
+.toast-msg.removing{animation:slideOutRight .3s ease forwards;}
+@keyframes slideInRight{from{transform:translateX(120%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+@keyframes slideOutRight{from{transform:translateX(0);opacity:1;}to{transform:translateX(120%);opacity:0;}}
+/* ─── OVERLAY ─── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;backdrop-filter:blur(2px);}
+/* ─── ANIMATED COUNTER ─── */
+.counter{display:inline-block;}
+/* ─── ANIMATIONS ─── */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.animate-in{animation:fadeInUp .5s cubic-bezier(.4,0,.2,1) both;}
+.delay-1{animation-delay:.08s;}
+.delay-2{animation-delay:.16s;}
+.delay-3{animation-delay:.24s;}
+.delay-4{animation-delay:.32s;}
+.delay-5{animation-delay:.40s;}
+.delay-6{animation-delay:.48s;}
+/* ─── FOOTER ─── */
+.footer{margin-top:32px;padding:20px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.footer p{font-size:12.5px;color:var(--text3);}
+.footer-brand{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--primary);}
+/* ─── RESPONSIVE ─── */
+@media(max-width:991px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  .topbar{left:0;}
+  .main{margin-left:0;}
+  .hamburger{display:flex;}
+  .search-box{width:180px;}
+}
+@media(max-width:767px){
+  .main{padding:16px;}
+  .search-box{display:none;}
+  .card-value{font-size:24px;}
+  .topbar{padding:0 16px;}
+}
+/* ─── MISC ─── */
+.divider{height:1px;background:var(--border);margin:24px 0;}
+.tag{display:inline-block;padding:3px 10px;border-radius:50px;font-size:11.5px;font-weight:600;}
+.tag-green{background:var(--primary-glow);color:var(--primary);}
+.tag-blue{background:var(--accent-glow);color:var(--accent);}
+.milk-input{width:90px;background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13.5px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);text-align:center;transition:border var(--transition);}
+.milk-input:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 3px var(--primary-glow);}
+.table-wrapper{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--border);}
+.settings-row:last-child{border-bottom:none;}
+.settings-label{font-size:14.5px;font-weight:600;color:var(--text);}
+.settings-desc{font-size:12.5px;color:var(--text2);margin-top:2px;}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🐄</div>
+    <div class="logo-text">Smart Dairy Farm<span>Management System</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a class="nav-item active" onclick="showSection('dashboard',this)"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+    <a class="nav-item" onclick="showSection('addCow',this)"><i class="fa-solid fa-plus-circle"></i> Add New Cow</a>
+    <a class="nav-item" onclick="showSection('milkEntry',this)"><i class="fa-solid fa-droplet"></i> Daily Milk Entry</a>
+    <a class="nav-item" onclick="showSection('expense',this)"><i class="fa-solid fa-receipt"></i> Expense Entry</a>
+    <div class="nav-section-label">Analytics</div>
+    <a class="nav-item" onclick="showSection('performance',this)"><i class="fa-solid fa-chart-line"></i> Cow Performance</a>
+    <a class="nav-item" onclick="showSection('reports',this)"><i class="fa-solid fa-file-chart-column"></i> Reports</a>
+    <div class="nav-section-label">System</div>
+    <a class="nav-item" onclick="showSection('settings',this)"><i class="fa-solid fa-gear"></i> Settings</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="farm-status">
+      <div class="status-dot"></div>
+      <div class="status-text"><strong>Farm Online</strong>All 8 cows active today</div>
+    </div>
+  </div>
+</aside>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+  <div class="topbar-title">
+    <span id="topbarSub">Overview · Today's Summary</span>
+    <span id="topbarMain">Dashboard</span>
+  </div>
+  <div class="search-box">
+    <i class="fa-solid fa-search"></i>
+    <input type="text" placeholder="Search cows, reports..." id="globalSearch">
+  </div>
+  <div class="topbar-actions">
+    <div class="icon-btn" title="Export"><i class="fa-solid fa-download"></i></div>
+    <div class="icon-btn" title="Notifications"><i class="fa-solid fa-bell"></i><div class="badge-dot"></div></div>
+    <div class="dark-toggle">
+      <input type="checkbox" id="darkToggle">
+      <label for="darkToggle" title="Dark Mode"></label>
+    </div>
+    <div class="avatar" title="Farm Admin">FA</div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ════════════════════ DASHBOARD ════════════════════ -->
+<section class="section active" id="dashboard">
+  <div class="page-header animate-in">
+    <h2>🌅 Good Morning, Farm Admin!</h2>
+    <p id="dashDate">Loading date...</p>
+  </div>
+  <!-- STAT CARDS -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-lg-4 col-xl-2 animate-in delay-1">
+      <div class="stat-card green">
+        <div class="card-icon ci-green"><i class="fa-solid fa-sun"></i></div>
+        <div class="card-label">Morning Milk</div>
+        <div class="card-value"><span class="counter" data-target="87.4">0</span>L</div>
+        <div class="card-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i>+4.2% vs yesterday</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-4 col-xl-2 animate-in delay-2">
+      <div class="stat-card blue">
+        <div class="card-icon ci-blue"><i class="fa-solid fa-moon"></i></div>
+        <div class="card-label">Evening Milk</div>
+        <div class="card-value"><span class="counter" data-target="74.8">0</span>L</div>
+        <div class="card-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i>+2.1% vs yesterday</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-4 col-xl-2 animate-in delay-3">
+      <div class="stat-card teal">
+        <div class="card-icon ci-teal"><i class="fa-solid fa-droplet"></i></div>
+        <div class="card-label">Daily Total</div>
+        <div class="card-value"><span class="counter" data-target="162.2">0</span>L</div>
+        <div class="card-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i>+3.4% vs yesterday</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-4 col-xl-2 animate-in delay-4">
+      <div class="stat-card green">
+        <div class="card-icon ci-green"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+        <div class="card-label">Daily Income</div>
+        <div class="card-value">₹<span class="counter" data-target="8110">0</span></div>
+        <div class="card-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i>+3.4% today</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-4 col-xl-2 animate-in delay-5">
+      <div class="stat-card red">
+        <div class="card-icon ci-red"><i class="fa-solid fa-money-bill-wave"></i></div>
+        <div class="card-label">Daily Expense</div>
+        <div class="card-value">₹<span class="counter" data-target="3450">0</span></div>
+        <div class="card-trend trend-down"><i class="fa-solid fa-arrow-trend-down"></i>-1.2% today</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-4 col-xl-2 animate-in delay-6">
+      <div class="stat-card purple">
+        <div class="card-icon ci-purple"><i class="fa-solid fa-coins"></i></div>
+        <div class="card-label">Net Profit</div>
+        <div class="card-value">₹<span class="counter" data-target="4660">0</span></div>
+        <div class="card-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i>+7.8% today</div>
+      </div>
+    </div>
+  </div>
+  <!-- CHARTS ROW -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-lg-7 animate-in delay-2">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Weekly Milk Production</div>
+            <div class="chart-subtitle">Morning vs Evening — Last 7 Days</div>
+          </div>
+          <span class="chart-badge badge-green"><i class="fa-solid fa-droplet me-1"></i>Litres</span>
+        </div>
+        <canvas id="milkChart" height="120"></canvas>
+      </div>
+    </div>
+    <div class="col-12 col-lg-5 animate-in delay-3">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Monthly Income</div>
+            <div class="chart-subtitle">Revenue Trend — May 2025</div>
+          </div>
+          <span class="chart-badge badge-blue"><i class="fa-solid fa-rupee-sign me-1"></i>₹</span>
+        </div>
+        <canvas id="incomeChart" height="120"></canvas>
+      </div>
+    </div>
+  </div>
+  <!-- PROFIT TREND + COW SUMMARY -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-lg-8 animate-in delay-2">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Profit / Loss Trend</div>
+            <div class="chart-subtitle">Monthly Overview — 2025</div>
+          </div>
+          <span class="chart-badge badge-green">2025</span>
+        </div>
+        <canvas id="profitChart" height="100"></canvas>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4 animate-in delay-3">
+      <div class="chart-card h-100 d-flex flex-column">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Milk Distribution</div>
+            <div class="chart-subtitle">By Cow — Today</div>
+          </div>
+        </div>
+        <canvas id="cowPieChart" style="max-height:220px;margin:auto;"></canvas>
+      </div>
+    </div>
+  </div>
+  <!-- QUICK TOP COWS TABLE -->
+  <div class="chart-card animate-in delay-2">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Top Performing Cows Today</div>
+        <div class="chart-subtitle">Sorted by milk production</div>
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table class="data-table w-100">
+        <thead><tr><th>Cow</th><th>Breed</th><th>Morning</th><th>Evening</th><th>Total</th><th>Income</th><th>Status</th></tr></thead>
+        <tbody id="topCowsTable"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="footer">
+    <p>© 2025 <span class="footer-brand">Smart Dairy Farm MS</span> — All data stored locally</p>
+    <p>Version 2.0.1 · Built with ❤️ for dairy farmers</p>
+  </div>
+</section>
+
+<!-- ════════════════════ ADD NEW COW ════════════════════ -->
+<section class="section" id="addCow">
+  <div class="page-header animate-in">
+    <h2>🐄 Add New Cow</h2>
+    <p>Register a new cow to the farm management system</p>
+  </div>
+  <div class="row g-4">
+    <div class="col-12 col-lg-7 animate-in delay-1">
+      <div class="form-card">
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label">Cow ID</label>
+            <input class="form-control" id="cowId" placeholder="e.g. COW-009" type="text">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Cow Name</label>
+            <input class="form-control" id="cowName" placeholder="e.g. Lakshmi" type="text">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Breed</label>
+            <select class="form-select" id="cowBreed">
+              <option value="">Select Breed</option>
+              <option>Holstein Friesian</option>
+              <option>Jersey</option>
+              <option>Gir</option>
+              <option>Sahiwal</option>
+              <option>Murrah Buffalo</option>
+              <option>Red Sindhi</option>
+              <option>Tharparkar</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="form-label">Age (Years)</label>
+            <input class="form-control" id="cowAge" placeholder="e.g. 4" type="number" min="1">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Purchase Price (₹)</label>
+            <input class="form-control" id="cowPrice" placeholder="e.g. 55000" type="number">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Daily Food Cost (₹)</label>
+            <input class="form-control" id="cowFoodCost" placeholder="e.g. 250" type="number">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Expected Milk Capacity (L/day)</label>
+            <input class="form-control" id="cowMilkCap" placeholder="e.g. 22" type="number">
+          </div>
+          <div class="col-12 d-flex gap-3 mt-2">
+            <button class="btn-primary-custom" onclick="addCow()"><i class="fa-solid fa-plus"></i> Register Cow</button>
+            <button class="btn-secondary-custom" onclick="clearCowForm()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-5 animate-in delay-2">
+      <div class="form-card h-100">
+        <div class="chart-title mb-1">🐄 Registered Cows</div>
+        <div class="chart-subtitle mb-3">All cows in the system</div>
+        <div id="cowList" style="max-height:420px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ MILK ENTRY ════════════════════ -->
+<section class="section" id="milkEntry">
+  <div class="page-header animate-in">
+    <h2>🥛 Daily Milk Entry</h2>
+    <p>Record morning and evening milk for all cows</p>
+  </div>
+  <div class="chart-card animate-in delay-1">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Milk Entry Sheet</div>
+        <div class="chart-subtitle" id="milkDate">Today</div>
+      </div>
+      <button class="btn-primary-custom" onclick="saveMilkEntry()"><i class="fa-solid fa-save"></i> Save Entry</button>
+    </div>
+    <div class="table-wrapper">
+      <table class="data-table w-100">
+        <thead><tr><th>#</th><th>Cow Name</th><th>Breed</th><th>Morning (L)</th><th>Evening (L)</th><th>Total (L)</th><th>Income (₹)</th></tr></thead>
+        <tbody id="milkEntryTable"></tbody>
+        <tfoot>
+          <tr style="background:var(--primary-glow);">
+            <td colspan="3" style="font-weight:700;font-size:14px;padding:14px 16px;background:var(--primary-glow);border-top:2px solid var(--primary);">📊 Daily Totals</td>
+            <td id="totalMorning" style="font-weight:700;color:var(--primary);font-size:15px;padding:14px 16px;background:var(--primary-glow);border-top:2px solid var(--primary);">0 L</td>
+            <td id="totalEvening" style="font-weight:700;color:var(--accent);font-size:15px;padding:14px 16px;background:var(--primary-glow);border-top:2px solid var(--primary);">0 L</td>
+            <td id="totalMilk" style="font-weight:800;color:var(--primary);font-size:16px;padding:14px 16px;background:var(--primary-glow);border-top:2px solid var(--primary);">0 L</td>
+            <td id="totalIncome" style="font-weight:800;color:var(--primary);font-size:16px;padding:14px 16px;background:var(--primary-glow);border-top:2px solid var(--primary);">₹0</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ EXPENSE ENTRY ════════════════════ -->
+<section class="section" id="expense">
+  <div class="page-header animate-in">
+    <h2>💸 Expense Entry</h2>
+    <p>Track daily farm operational expenses</p>
+  </div>
+  <div class="row g-4">
+    <div class="col-12 col-lg-6 animate-in delay-1">
+      <div class="form-card">
+        <div class="chart-title mb-1">Enter Today's Expenses</div>
+        <div class="chart-subtitle mb-4">All amounts in Indian Rupees (₹)</div>
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label"><i class="fa-solid fa-seedling me-1" style="color:var(--primary)"></i> Food Cost</label>
+            <input class="form-control" id="expFood" placeholder="₹0" type="number" oninput="calcExpenses()">
+          </div>
+          <div class="col-6">
+            <label class="form-label"><i class="fa-solid fa-bowl-food me-1" style="color:var(--warning)"></i> Theevanam Cost</label>
+            <input class="form-control" id="expTheevanam" placeholder="₹0" type="number" oninput="calcExpenses()">
+          </div>
+          <div class="col-6">
+            <label class="form-label"><i class="fa-solid fa-person-digging me-1" style="color:var(--accent)"></i> Labour Charge</label>
+            <input class="form-control" id="expLabour" placeholder="₹0" type="number" oninput="calcExpenses()">
+          </div>
+          <div class="col-6">
+            <label class="form-label"><i class="fa-solid fa-syringe me-1" style="color:var(--danger)"></i> Medicine</label>
+            <input class="form-control" id="expMedicine" placeholder="₹0" type="number" oninput="calcExpenses()">
+          </div>
+          <div class="col-6">
+            <label class="form-label"><i class="fa-solid fa-bolt me-1" style="color:var(--warning)"></i> Electricity</label>
+            <input class="form-control" id="expElectricity" placeholder="₹0" type="number" oninput="calcExpenses()">
+          </div>
+          <div class="col-6">
+            <label class="form-label"><i class="fa-solid fa-ellipsis me-1" style="color:var(--text2)"></i> Other Expenses</label>
+            <input class="form-control" id="expOther" placeholder="₹0" type="number" oninput="calcExpenses()">
+          </div>
+          <div class="col-12">
+            <div style="background:var(--primary-glow);border:1.5px solid var(--primary);border-radius:12px;padding:18px;display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+              <div><div style="font-size:12px;font-weight:700;color:var(--primary);letter-spacing:.06em;text-transform:uppercase;">Total Expenses</div></div>
+              <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--primary);">₹<span id="expTotal">0</span></div>
+            </div>
+          </div>
+          <div class="col-12 d-flex gap-3 mt-2">
+            <button class="btn-primary-custom" onclick="saveExpenses()"><i class="fa-solid fa-save"></i> Save Expenses</button>
+            <button class="btn-secondary-custom" onclick="clearExpenses()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 animate-in delay-2">
+      <div class="chart-card">
+        <div class="chart-title mb-1">Expense Breakdown</div>
+        <div class="chart-subtitle mb-4">Visual distribution</div>
+        <canvas id="expenseDonut" style="max-height:200px;"></canvas>
+        <div id="expenseBreakdown" class="mt-3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ COW PERFORMANCE ════════════════════ -->
+<section class="section" id="performance">
+  <div class="page-header animate-in">
+    <h2>📊 Cow Performance</h2>
+    <p>Individual productivity analysis and profitability metrics</p>
+  </div>
+  <div class="chart-card animate-in delay-1">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Performance Dashboard</div>
+        <div class="chart-subtitle">All registered cows · Current month</div>
+      </div>
+      <span class="chart-badge badge-green"><i class="fa-solid fa-star me-1"></i>Live Data</span>
+    </div>
+    <div class="table-wrapper">
+      <table class="data-table w-100">
+        <thead><tr><th>Cow</th><th>Breed</th><th>Total Milk</th><th>Income (₹)</th><th>Expense (₹)</th><th>Profit (₹)</th><th>Efficiency</th><th>Status</th></tr></thead>
+        <tbody id="performanceTable"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ REPORTS ════════════════════ -->
+<section class="section" id="reports">
+  <div class="page-header animate-in">
+    <h2>📋 Reports</h2>
+    <p>Generate and export comprehensive farm reports</p>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3 animate-in delay-1">
+      <button class="report-btn" onclick="genReport('daily')">
+        <div class="report-icon" style="background:var(--primary-glow);color:var(--primary);"><i class="fa-solid fa-calendar-day"></i></div>
+        <h6>Daily Report</h6>
+        <p>Today's complete summary</p>
+      </button>
+    </div>
+    <div class="col-6 col-md-3 animate-in delay-2">
+      <button class="report-btn" onclick="genReport('weekly')">
+        <div class="report-icon" style="background:var(--accent-glow);color:var(--accent);"><i class="fa-solid fa-calendar-week"></i></div>
+        <h6>Weekly Report</h6>
+        <p>Last 7 days analysis</p>
+      </button>
+    </div>
+    <div class="col-6 col-md-3 animate-in delay-3">
+      <button class="report-btn" onclick="genReport('monthly')">
+        <div class="report-icon" style="background:rgba(245,158,11,.1);color:var(--warning);"><i class="fa-solid fa-calendar-alt"></i></div>
+        <h6>Monthly Report</h6>
+        <p>Full month breakdown</p>
+      </button>
+    </div>
+    <div class="col-6 col-md-3 animate-in delay-4">
+      <button class="report-btn" onclick="genReport('yearly')">
+        <div class="report-icon" style="background:rgba(139,92,246,.1);color:#8b5cf6;"><i class="fa-solid fa-calendar"></i></div>
+        <h6>Yearly Report</h6>
+        <p>Annual performance data</p>
+      </button>
+    </div>
+  </div>
+  <!-- Conclusions -->
+  <div class="row g-3 mb-4" id="reportOutput" style="display:none!important;">
+    <div class="col-12 animate-in">
+      <div class="chart-card">
+        <div class="chart-title mb-4" id="reportTitle">Report Summary</div>
+        <div class="row g-3" id="conclusionCards"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Stat summary always visible -->
+  <div class="row g-3">
+    <div class="col-12 col-md-6 col-xl-3 animate-in delay-1">
+      <div class="conclusion-card">
+        <div class="concl-icon" style="background:var(--primary-glow);color:var(--primary);"><i class="fa-solid fa-trophy"></i></div>
+        <div><div class="concl-label">Best Performer</div><div class="concl-value" id="bestCow">Lakshmi</div><div class="concl-sub">24L/day average</div></div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3 animate-in delay-2">
+      <div class="conclusion-card">
+        <div class="concl-icon" style="background:rgba(239,68,68,.1);color:var(--danger);"><i class="fa-solid fa-arrow-down"></i></div>
+        <div><div class="concl-label">Needs Attention</div><div class="concl-value" id="worstCow">Kamala</div><div class="concl-sub">11L/day average</div></div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3 animate-in delay-3">
+      <div class="conclusion-card">
+        <div class="concl-icon" style="background:var(--primary-glow);color:var(--primary);"><i class="fa-solid fa-coins"></i></div>
+        <div><div class="concl-label">Total Farm Profit</div><div class="concl-value">₹1,39,800</div><div class="concl-sub">This month</div></div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3 animate-in delay-4">
+      <div class="conclusion-card">
+        <div class="concl-icon" style="background:var(--accent-glow);color:var(--accent);"><i class="fa-solid fa-chart-line"></i></div>
+        <div><div class="concl-label">Productivity Growth</div><div class="concl-value">+14.7%</div><div class="concl-sub">vs last month</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ SETTINGS ════════════════════ -->
+<section class="section" id="settings">
+  <div class="page-header animate-in">
+    <h2>⚙️ Settings</h2>
+    <p>Customize your farm management preferences</p>
+  </div>
+  <div class="row g-4">
+    <div class="col-12 col-lg-7 animate-in delay-1">
+      <div class="form-card">
+        <div class="chart-title mb-4">Farm Configuration</div>
+        <div class="settings-row">
+          <div><div class="settings-label">Farm Name</div><div class="settings-desc">Display name for your farm</div></div>
+          <input class="form-control" style="width:200px;" value="Green Valley Dairy">
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Milk Price per Litre</div><div class="settings-desc">Current selling price</div></div>
+          <input class="form-control" style="width:120px;" value="50" id="milkPrice" type="number">
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Currency Symbol</div><div class="settings-desc">Local currency</div></div>
+          <select class="form-select" style="width:120px;"><option>₹ INR</option><option>$ USD</option><option>€ EUR</option></select>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Dark Mode</div><div class="settings-desc">Toggle dark/light theme</div></div>
+          <div class="dark-toggle"><input type="checkbox" id="darkToggle2"><label for="darkToggle2"></label></div>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Export Format</div><div class="settings-desc">Preferred report format</div></div>
+          <select class="form-select" style="width:140px;"><option>PDF</option><option>Excel</option><option>CSV</option></select>
+        </div>
+        <div class="mt-4 d-flex gap-3">
+          <button class="btn-primary-custom" onclick="showToast('Settings saved!','success')"><i class="fa-solid fa-save"></i> Save Settings</button>
+          <button class="btn-secondary-custom">Reset Defaults</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-5 animate-in delay-2">
+      <div class="form-card">
+        <div class="chart-title mb-4">System Info</div>
+        <div class="expense-row"><div class="expense-label"><i class="fa-solid fa-cow" style="color:var(--primary)"></i> Total Cows</div><div class="expense-amount" id="totalCowsInfo">8</div></div>
+        <div class="expense-row"><div class="expense-label"><i class="fa-solid fa-droplet" style="color:var(--accent)"></i> Milk Records</div><div class="expense-amount">248</div></div>
+        <div class="expense-row"><div class="expense-label"><i class="fa-solid fa-receipt" style="color:var(--warning)"></i> Expense Records</div><div class="expense-amount">32</div></div>
+        <div class="expense-row"><div class="expense-label"><i class="fa-solid fa-calendar" style="color:var(--success)"></i> Active Since</div><div class="expense-amount">Jan 2025</div></div>
+        <div class="expense-row"><div class="expense-label"><i class="fa-solid fa-database" style="color:var(--text2)"></i> Version</div><div class="expense-amount">v2.0.1</div></div>
+        <div class="mt-4">
+          <button class="btn-danger-custom w-100" onclick="showToast('All data cleared!','error')"><i class="fa-solid fa-trash me-2"></i>Reset All Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script>
+// ════════ DATA ════════
+const MILK_PRICE = () => parseFloat(document.getElementById('milkPrice')?.value || 50);
+
+let cows = [
+  {id:'COW-001',name:'Lakshmi',breed:'Holstein Friesian',age:5,price:65000,foodCost:320,milkCap:26},
+  {id:'COW-002',name:'Gowri',breed:'Jersey',age:4,price:48000,foodCost:280,milkCap:22},
+  {id:'COW-003',name:'Saraswathi',breed:'Gir',age:6,price:52000,foodCost:300,milkCap:20},
+  {id:'COW-004',name:'Kavitha',breed:'Sahiwal',age:3,price:45000,foodCost:260,milkCap:18},
+  {id:'COW-005',name:'Meena',breed:'Holstein Friesian',age:5,price:62000,foodCost:310,milkCap:24},
+  {id:'COW-006',name:'Parvathi',breed:'Jersey',age:4,price:47000,foodCost:270,milkCap:21},
+  {id:'COW-007',name:'Durga',breed:'Gir',age:7,price:55000,foodCost:290,milkCap:19},
+  {id:'COW-008',name:'Kamala',breed:'Sahiwal',age:3,price:42000,foodCost:250,milkCap:13},
+];
+
+let milkData = {
+  'COW-001':{morning:13.5,evening:11.2},
+  'COW-002':{morning:11.2,evening:9.8},
+  'COW-003':{morning:10.4,evening:9.1},
+  'COW-004':{morning:9.8,evening:8.4},
+  'COW-005':{morning:12.8,evening:10.6},
+  'COW-006':{morning:11.0,evening:9.4},
+  'COW-007':{morning:9.5,evening:8.2},
+  'COW-008':{morning:9.2,evening:8.1},
+};
+
+let expenses = {food:1200,theevanam:800,labour:600,medicine:300,electricity:350,other:200};
+
+// ════════ NAVIGATION ════════
+function showSection(id, el) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(el) el.classList.add('active');
+  const titles={dashboard:'Dashboard',addCow:'Add New Cow',milkEntry:'Daily Milk Entry',expense:'Expense Entry',performance:'Cow Performance',reports:'Reports',settings:'Settings'};
+  const subs={dashboard:'Overview · Today\'s Summary',addCow:'Register new livestock',milkEntry:'Record morning & evening milk',expense:'Track operational costs',performance:'Analytics · Productivity Metrics',reports:'Generate & Export Reports',settings:'Preferences & Configuration'};
+  document.getElementById('topbarMain').textContent=titles[id]||id;
+  document.getElementById('topbarSub').textContent=subs[id]||'';
+  if(id==='milkEntry') renderMilkEntry();
+  if(id==='addCow') renderCowList();
+  if(id==='performance') renderPerformance();
+  if(id==='expense') renderExpenseBreakdown();
+  closeSidebar();
+}
+
+// ════════ SIDEBAR MOBILE ════════
+document.getElementById('hamburger').onclick=()=>{
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+};
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+document.getElementById('sidebarOverlay').onclick=closeSidebar;
+
+// ════════ DARK MODE ════════
+function applyTheme(dark){
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  document.getElementById('darkToggle').checked=dark;
+  document.getElementById('darkToggle2').checked=dark;
+  localStorage.setItem('theme',dark?'dark':'light');
+  setTimeout(()=>{destroyAllCharts();initCharts();},100);
+}
+document.getElementById('darkToggle').onchange=e=>applyTheme(e.target.checked);
+document.getElementById('darkToggle2').onchange=e=>applyTheme(e.target.checked);
+if(localStorage.getItem('theme')==='dark') applyTheme(true);
+
+// ════════ DATE ════════
+const now=new Date();
+document.getElementById('dashDate').textContent=now.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+document.getElementById('milkDate').textContent='Date: '+now.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+// ════════ COUNTER ANIMATION ════════
+function animateCounters(){
+  document.querySelectorAll('.counter').forEach(el=>{
+    const target=parseFloat(el.dataset.target);
+    const isDecimal=String(target).includes('.');
+    let start=0,duration=1200,startTime=null;
+    function step(ts){
+      if(!startTime) startTime=ts;
+      const progress=Math.min((ts-startTime)/duration,1);
+      const ease=1-Math.pow(1-progress,3);
+      const val=start+(target-start)*ease;
+      el.textContent=isDecimal?val.toFixed(1):Math.round(val).toLocaleString('en-IN');
+      if(progress<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+}
+setTimeout(animateCounters,300);
+
+// ════════ CHARTS ════════
+let charts={};
+function destroyAllCharts(){Object.values(charts).forEach(c=>{try{c.destroy();}catch(e){}});charts={};}
+function getTextColor(){return getComputedStyle(document.documentElement).getPropertyValue('--text').trim();}
+function getGridColor(){return getComputedStyle(document.documentElement).getPropertyValue('--border').trim();}
+
+function initCharts(){
+  const textColor=getTextColor()||'#0f1f14';
+  const gridColor=getGridColor()||'rgba(34,197,94,0.15)';
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+  // Milk Chart
+  const mc=document.getElementById('milkChart');
+  if(mc){
+    charts.milk=new Chart(mc,{
+      type:'bar',
+      data:{
+        labels:days,
+        datasets:[
+          {label:'Morning',data:[82,88,85,90,87,92,87.4],backgroundColor:'rgba(34,197,94,0.75)',borderRadius:6,borderSkipped:false},
+          {label:'Evening',data:[70,75,72,78,74,80,74.8],backgroundColor:'rgba(14,165,233,0.65)',borderRadius:6,borderSkipped:false},
+        ]
+      },
+      options:{responsive:true,plugins:{legend:{labels:{color:textColor,font:{family:'Plus Jakarta Sans',size:12},boxWidth:12}},tooltip:{backgroundColor:'rgba(0,0,0,0.85)',cornerRadius:8}},scales:{x:{ticks:{color:textColor},grid:{color:gridColor}},y:{ticks:{color:textColor,callback:v=>v+'L'},grid:{color:gridColor}}}}
+    });
+  }
+
+  // Income Chart
+  const ic=document.getElementById('incomeChart');
+  if(ic){
+    const incomeDays=Array.from({length:30},(_,i)=>i+1);
+    const incomeVals=incomeDays.map(d=>6000+Math.sin(d*0.4)*1500+Math.random()*800);
+    charts.income=new Chart(ic,{
+      type:'line',
+      data:{
+        labels:incomeDays.map(d=>`${d}`),
+        datasets:[{label:'Income (₹)',data:incomeVals,borderColor:'#0ea5e9',backgroundColor:'rgba(14,165,233,0.08)',fill:true,tension:0.45,pointRadius:0,borderWidth:2.5}]
+      },
+      options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(0,0,0,0.85)',cornerRadius:8}},scales:{x:{ticks:{color:textColor,maxTicksLimit:8},grid:{display:false}},y:{ticks:{color:textColor,callback:v=>'₹'+Math.round(v/1000)+'K'},grid:{color:gridColor}}}}
+    });
+  }
+
+  // Profit Chart
+  const pc=document.getElementById('profitChart');
+  if(pc){
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const profit=[95000,102000,98000,115000,122000,118000,131000,128000,139800,null,null,null];
+    charts.profit=new Chart(pc,{
+      type:'line',
+      data:{
+        labels:months,
+        datasets:[{label:'Net Profit (₹)',data:profit,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,0.1)',fill:true,tension:0.45,pointRadius:4,pointBackgroundColor:'#22c55e',borderWidth:2.5,spanGaps:false}]
+      },
+      options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(0,0,0,0.85)',cornerRadius:8,callbacks:{label:ctx=>'₹'+ctx.raw?.toLocaleString('en-IN')}}},scales:{x:{ticks:{color:textColor},grid:{color:gridColor}},y:{ticks:{color:textColor,callback:v=>'₹'+Math.round(v/1000)+'K'},grid:{color:gridColor}}}}
+    });
+  }
+
+  // Pie chart
+  const pie=document.getElementById('cowPieChart');
+  if(pie){
+    charts.pie=new Chart(pie,{
+      type:'doughnut',
+      data:{
+        labels:cows.map(c=>c.name),
+        datasets:[{data:cows.map(c=>(milkData[c.id]?.morning||0)+(milkData[c.id]?.evening||0)),backgroundColor:['#22c55e','#0ea5e9','#f59e0b','#ef4444','#8b5cf6','#10b981','#f97316','#06b6d4'],borderWidth:0,hoverOffset:6}]
+      },
+      options:{responsive:true,cutout:'65%',plugins:{legend:{position:'bottom',labels:{color:textColor,font:{size:11,family:'Plus Jakarta Sans'},boxWidth:10,padding:8}},tooltip:{backgroundColor:'rgba(0,0,0,0.85)',cornerRadius:8,callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw.toFixed(1)}L`}}}}
+    });
+  }
+
+  // Expense donut
+  const ed=document.getElementById('expenseDonut');
+  if(ed){
+    const vals=[expenses.food,expenses.theevanam,expenses.labour,expenses.medicine,expenses.electricity,expenses.other];
+    charts.expDonut=new Chart(ed,{
+      type:'doughnut',
+      data:{labels:['Food','Theevanam','Labour','Medicine','Electricity','Other'],datasets:[{data:vals,backgroundColor:['#22c55e','#f59e0b','#0ea5e9','#ef4444','#8b5cf6','#10b981'],borderWidth:0,hoverOffset:5}]},
+      options:{responsive:true,cutout:'70%',plugins:{legend:{position:'bottom',labels:{color:textColor,font:{size:11,family:'Plus Jakarta Sans'},boxWidth:10,padding:6}},tooltip:{backgroundColor:'rgba(0,0,0,0.85)',cornerRadius:8,callbacks:{label:ctx=>`${ctx.label}: ₹${ctx.raw}`}}}}
+    });
+  }
+}
+setTimeout(initCharts,100);
+
+// ════════ TOP COWS TABLE ════════
+function renderTopCows(){
+  const tbody=document.getElementById('topCowsTable');
+  if(!tbody) return;
+  const sorted=[...cows].sort((a,b)=>{
+    const ta=(milkData[a.id]?.morning||0)+(milkData[a.id]?.evening||0);
+    const tb=(milkData[b.id]?.morning||0)+(milkData[b.id]?.evening||0);
+    return tb-ta;
+  });
+  tbody.innerHTML=sorted.map((c,i)=>{
+    const m=milkData[c.id]?.morning||0, ev=milkData[c.id]?.evening||0, total=m+ev;
+    const income=(total*MILK_PRICE()).toFixed(0);
+    const perf=total>=22?'excellent':total>=18?'good':total>=15?'average':'poor';
+    const perfLabels={excellent:'⭐ Excellent',good:'✅ Good',average:'⚠️ Average',poor:'❌ Low'};
+    return `<tr>
+      <td><div class="cow-badge"><div class="cow-avatar">${c.name[0]}</div><div><div style="font-weight:600">${c.name}</div><div style="font-size:11.5px;color:var(--text3)">${c.id}</div></div></div></td>
+      <td><span class="tag tag-green">${c.breed}</span></td>
+      <td style="color:var(--primary);font-weight:600">${m.toFixed(1)}L</td>
+      <td style="color:var(--accent);font-weight:600">${ev.toFixed(1)}L</td>
+      <td style="font-weight:700;color:var(--text)">${total.toFixed(1)}L</td>
+      <td style="font-weight:700;color:var(--primary)">₹${Number(income).toLocaleString('en-IN')}</td>
+      <td><span class="perf-badge perf-${perf}">${perfLabels[perf]}</span></td>
+    </tr>`;
+  }).join('');
+}
+setTimeout(renderTopCows,200);
+
+// ════════ MILK ENTRY ════════
+function renderMilkEntry(){
+  const tbody=document.getElementById('milkEntryTable');
+  if(!tbody) return;
+  tbody.innerHTML=cows.map((c,i)=>{
+    const m=milkData[c.id]?.morning||0, ev=milkData[c.id]?.evening||0;
+    return `<tr>
+      <td>${i+1}</td>
+      <td><div class="cow-badge"><div class="cow-avatar" style="font-size:12px">${c.name[0]}</div><div><div style="font-weight:600">${c.name}</div><div style="font-size:11px;color:var(--text3)">${c.id}</div></div></div></td>
+      <td><span class="tag tag-green">${c.breed}</span></td>
+      <td><input class="milk-input" type="number" value="${m}" step="0.1" onchange="updateMilk('${c.id}','morning',this.value)" oninput="calcMilkTotals()"></td>
+      <td><input class="milk-input" type="number" value="${ev}" step="0.1" onchange="updateMilk('${c.id}','evening',this.value)" oninput="calcMilkTotals()"></td>
+      <td id="total_${c.id}" style="font-weight:700;color:var(--primary)">${(m+ev).toFixed(1)}L</td>
+      <td id="income_${c.id}" style="font-weight:700;color:var(--primary)">₹${((m+ev)*MILK_PRICE()).toFixed(0)}</td>
+    </tr>`;
+  }).join('');
+  calcMilkTotals();
+}
+function updateMilk(id,session,val){
+  if(!milkData[id]) milkData[id]={morning:0,evening:0};
+  milkData[id][session]=parseFloat(val)||0;
+  const m=milkData[id].morning, ev=milkData[id].evening;
+  const td=document.getElementById('total_'+id);
+  const inc=document.getElementById('income_'+id);
+  if(td) td.textContent=(m+ev).toFixed(1)+'L';
+  if(inc) inc.textContent='₹'+((m+ev)*MILK_PRICE()).toFixed(0);
+  calcMilkTotals();
+}
+function calcMilkTotals(){
+  const rows=document.querySelectorAll('#milkEntryTable tr');
+  let totalM=0,totalE=0;
+  cows.forEach(c=>{totalM+=milkData[c.id]?.morning||0;totalE+=milkData[c.id]?.evening||0;});
+  const total=totalM+totalE;
+  document.getElementById('totalMorning').textContent=totalM.toFixed(1)+' L';
+  document.getElementById('totalEvening').textContent=totalE.toFixed(1)+' L';
+  document.getElementById('totalMilk').textContent=total.toFixed(1)+' L';
+  document.getElementById('totalIncome').textContent='₹'+(total*MILK_PRICE()).toFixed(0);
+}
+function saveMilkEntry(){showToast('Milk entry saved successfully! ✅','success');}
+
+// ════════ ADD COW ════════
+function addCow(){
+  const id=document.getElementById('cowId').value.trim();
+  const name=document.getElementById('cowName').value.trim();
+  const breed=document.getElementById('cowBreed').value;
+  const age=document.getElementById('cowAge').value;
+  const price=document.getElementById('cowPrice').value;
+  const food=document.getElementById('cowFoodCost').value;
+  const cap=document.getElementById('cowMilkCap').value;
+  if(!id||!name||!breed){showToast('Please fill required fields!','error');return;}
+  if(cows.find(c=>c.id===id)){showToast('Cow ID already exists!','error');return;}
+  cows.push({id,name,breed,age:parseInt(age)||0,price:parseInt(price)||0,foodCost:parseInt(food)||0,milkCap:parseInt(cap)||0});
+  milkData[id]={morning:0,evening:0};
+  clearCowForm();
+  renderCowList();
+  document.getElementById('totalCowsInfo').textContent=cows.length;
+  showToast(`${name} added successfully! 🐄`,'success');
+}
+function clearCowForm(){['cowId','cowName','cowAge','cowPrice','cowFoodCost','cowMilkCap'].forEach(id=>document.getElementById(id).value='');document.getElementById('cowBreed').value='';}
+function renderCowList(){
+  const el=document.getElementById('cowList');
+  if(!el) return;
+  el.innerHTML=cows.map(c=>`
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;">
+      <div class="cow-avatar" style="width:38px;height:38px;border-radius:10px;">${c.name[0]}</div>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;">${c.name} <span style="font-size:11px;color:var(--text3)">${c.id}</span></div>
+        <div style="font-size:12px;color:var(--text2)">${c.breed} · ${c.age}yr · Cap: ${c.milkCap}L/day</div>
+      </div>
+      <button class="btn-danger-custom" onclick="deleteCow('${c.id}')"><i class="fa-solid fa-trash"></i></button>
+    </div>
+  `).join('');
+}
+function deleteCow(id){
+  const cow=cows.find(c=>c.id===id);
+  cows=cows.filter(c=>c.id!==id);
+  delete milkData[id];
+  renderCowList();
+  document.getElementById('totalCowsInfo').textContent=cows.length;
+  showToast(`${cow?.name||'Cow'} removed.`,'error');
+}
+
+// ════════ EXPENSES ════════
+function calcExpenses(){
+  const fields=['expFood','expTheevanam','expLabour','expMedicine','expElectricity','expOther'];
+  const total=fields.reduce((sum,id)=>sum+(parseFloat(document.getElementById(id).value)||0),0);
+  document.getElementById('expTotal').textContent=total.toLocaleString('en-IN');
+}
+function saveExpenses(){
+  expenses.food=parseFloat(document.getElementById('expFood').value)||expenses.food;
+  expenses.theevanam=parseFloat(document.getElementById('expTheevanam').value)||expenses.theevanam;
+  expenses.labour=parseFloat(document.getElementById('expLabour').value)||expenses.labour;
+  expenses.medicine=parseFloat(document.getElementById('expMedicine').value)||expenses.medicine;
+  expenses.electricity=parseFloat(document.getElementById('expElectricity').value)||expenses.electricity;
+  expenses.other=parseFloat(document.getElementById('expOther').value)||expenses.other;
+  showToast('Expenses saved successfully! 💾','success');
+}
+function clearExpenses(){['expFood','expTheevanam','expLabour','expMedicine','expElectricity','expOther'].forEach(id=>document.getElementById(id).value='');document.getElementById('expTotal').textContent='0';}
+function renderExpenseBreakdown(){
+  const items=[
+    {label:'Food Cost',key:'food',color:'#22c55e'},
+    {label:'Theevanam',key:'theevanam',color:'#f59e0b'},
+    {label:'Labour',key:'labour',color:'#0ea5e9'},
+    {label:'Medicine',key:'medicine',color:'#ef4444'},
+    {label:'Electricity',key:'electricity',color:'#8b5cf6'},
+    {label:'Other',key:'other',color:'#10b981'},
+  ];
+  const total=Object.values(expenses).reduce((a,b)=>a+b,0);
+  const el=document.getElementById('expenseBreakdown');
+  if(!el) return;
+  el.innerHTML=items.map(i=>`
+    <div class="expense-row">
+      <div class="expense-label"><div class="expense-dot" style="background:${i.color}"></div>${i.label}</div>
+      <div>
+        <div class="expense-amount">₹${expenses[i.key].toLocaleString('en-IN')}</div>
+        <div class="progress-bar-custom" style="width:140px"><div class="progress-fill" style="width:${(expenses[i.key]/total*100).toFixed(1)}%;background:${i.color}"></div></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ════════ PERFORMANCE ════════
+function renderPerformance(){
+  const tbody=document.getElementById('performanceTable');
+  if(!tbody) return;
+  const sorted=[...cows].sort((a,b)=>{
+    const ta=(milkData[a.id]?.morning||0)+(milkData[a.id]?.evening||0);
+    const tb=(milkData[b.id]?.morning||0)+(milkData[b.id]?.evening||0);
+    return tb-ta;
+  });
+  tbody.innerHTML=sorted.map(c=>{
+    const m=milkData[c.id]?.morning||0, ev=milkData[c.id]?.evening||0, total=m+ev;
+    const monthDays=30, totalMilk=(total*monthDays).toFixed(0), income=(total*monthDays*MILK_PRICE()).toFixed(0);
+    const exp=(c.foodCost*monthDays).toFixed(0), profit=(income-exp).toFixed(0);
+    const eff=Math.min(100,Math.round((total/c.milkCap)*100));
+    const perf=eff>=90?'excellent':eff>=75?'good':eff>=55?'average':'poor';
+    const perfLabels={excellent:'⭐ Excellent',good:'✅ Good',average:'⚠️ Average',poor:'❌ Needs Attention'};
+    return `<tr>
+      <td><div class="cow-badge"><div class="cow-avatar">${c.name[0]}</div><div><div style="font-weight:600">${c.name}</div><div style="font-size:11px;color:var(--text3)">${c.id}</div></div></div></td>
+      <td><span class="tag tag-blue">${c.breed}</span></td>
+      <td style="font-weight:600">${Number(totalMilk).toLocaleString('en-IN')} L</td>
+      <td style="color:var(--primary);font-weight:700">₹${Number(income).toLocaleString('en-IN')}</td>
+      <td style="color:var(--danger);font-weight:600">₹${Number(exp).toLocaleString('en-IN')}</td>
+      <td style="color:${profit>0?'var(--primary)':'var(--danger)'};font-weight:800">₹${Number(profit).toLocaleString('en-IN')}</td>
+      <td>
+        <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:4px">${eff}% efficiency</div>
+        <div class="progress-bar-custom" style="width:100px"><div class="progress-fill" style="width:${eff}%;background:${eff>=80?'var(--primary)':eff>=60?'var(--warning)':'var(--danger)'}"></div></div>
+      </td>
+      <td><span class="perf-badge perf-${perf}">${perfLabels[perf]}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ════════ REPORTS ════════
+function genReport(type){
+  const titles={daily:'📅 Daily Report — '+now.toLocaleDateString('en-IN'),weekly:'📆 Weekly Report — Last 7 Days',monthly:'🗓️ Monthly Report — '+now.toLocaleDateString('en-IN',{month:'long',year:'numeric'}),yearly:'📊 Yearly Report — 2025'};
+  const data={daily:{milk:162.2,income:8110,expense:3450,profit:4660},weekly:{milk:1135,income:56780,expense:24150,profit:32630},monthly:{milk:4866,income:243300,expense:103500,profit:139800},yearly:{milk:58392,income:2919600,expense:1242000,profit:1677600}};
+  const d=data[type];
+  document.getElementById('reportTitle').textContent=titles[type];
+  const cc=document.getElementById('conclusionCards');
+  cc.innerHTML=`
+    <div class="col-6 col-md-3"><div class="conclusion-card"><div class="concl-icon" style="background:var(--primary-glow);color:var(--primary)"><i class="fa-solid fa-droplet"></i></div><div><div class="concl-label">Total Milk</div><div class="concl-value">${d.milk.toLocaleString('en-IN')} L</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="conclusion-card"><div class="concl-icon" style="background:var(--accent-glow);color:var(--accent)"><i class="fa-solid fa-indian-rupee-sign"></i></div><div><div class="concl-label">Revenue</div><div class="concl-value">₹${d.income.toLocaleString('en-IN')}</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="conclusion-card"><div class="concl-icon" style="background:rgba(239,68,68,.1);color:var(--danger)"><i class="fa-solid fa-receipt"></i></div><div><div class="concl-label">Expenses</div><div class="concl-value">₹${d.expense.toLocaleString('en-IN')}</div></div></div></div>
+    <div class="col-6 col-md-3"><div class="conclusion-card"><div class="concl-icon" style="background:rgba(139,92,246,.1);color:#8b5cf6"><i class="fa-solid fa-coins"></i></div><div><div class="concl-label">Net Profit</div><div class="concl-value">₹${d.profit.toLocaleString('en-IN')}</div></div></div></div>
+  `;
+  const ro=document.getElementById('reportOutput');
+  ro.style.display='';
+  ro.style.removeProperty('display');
+  ro.classList.add('animate-in');
+  showToast(`${titles[type]} generated! 📊`,'success');
+}
+
+// ════════ TOAST ════════
+function showToast(msg,type='success'){
+  const cont=document.getElementById('toastContainer');
+  const el=document.createElement('div');
+  const icon=type==='success'?'✅':type==='error'?'❌':'ℹ️';
+  el.className='toast-msg';
+  el.innerHTML=`<span>${icon}</span><span>${msg}</span>`;
+  cont.appendChild(el);
+  setTimeout(()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300);},3000);
+}
+
+// ════════ SEARCH ════════
+document.getElementById('globalSearch').addEventListener('input',function(){
+  const q=this.value.toLowerCase();
+  if(!q) return;
+  const found=cows.filter(c=>c.name.toLowerCase().includes(q)||c.id.toLowerCase().includes(q)||c.breed.toLowerCase().includes(q));
+  if(found.length) showToast(`Found: ${found.map(c=>c.name).join(', ')}`,'info');
+});
+
+// Init
+renderTopCows();
+</script>
+</body>
+</html>

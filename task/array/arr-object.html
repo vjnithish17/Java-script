@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!-- 
+    array =>[{},{},{}]
+     forEach()
+     map()
+     filter()
+     reduce()
+
+     forEach() => looping , should not use Return 
+
+     syntax
+     =======
+
+     array.forEach((ele,index,array)=>{
+
+     })
+
+     ** element 
+     optional
+     index, array
+
+
+     =============================
+
+     filter => 
+
+     syntax
+     =========
+
+     array.filter((ele,index,array)=>{ 
+     })
+      ** element
+     optional
+     index, array
+
+     use return
+     it will return new array every time
+     ====================
+    
+    -->
+
+    <h2>Filtered Products</h2>
+    <form action="" onclick="sumit(event)">
+        <div id="output">
+        </div>
+        <button type="submit">sumit</button>
+    </form>
+
+    <script>
+        // let arr = [100, 300, 500, 700, 80, 800]
+
+        // let ss = arr.forEach((idx,i) => {
+        //     console.log( idx,i);
+        // })
+
+        // console.log(ss);
+
+        // let arr = [100, 300, 500, 700, 80, 800]
+
+
+        // let filtered = arr.filter((ele) => {
+        //     // debugger
+        //     if (ele >= 300) {
+        //         return ele;
+        //     }
+        // })
+
+        // console.log(arr);
+
+        // console.log(filtered);
+
+        const products = [{
+            id: 1,
+            name: "Laptop",
+            price: 55000,
+            currency: "INR"
+        },
+        {
+            id: 2,
+            name: "Mobile Phone",
+            price: 15000,
+            currency: "USD"
+        },
+        {
+            id: 3,
+            name: "Headphones",
+            price: 2000,
+            currency: "USD"
+        },
+        {
+            id: 4,
+            name: "Keyboard",
+            price: 1200,
+            currency: "INR"
+        }
+        ];
+        let sumit = (event) => {
+            event.preventDefault()
+            let filted = products.filter((ele) => {
+                if (ele.price > 1000) {
+                    return ele
+                }
+            })
+
+            let output = document.getElementById("output")
+
+            filted.forEach((products) => {
+                output.innerHTML += `
+                <div>
+                    <h3>${products.name}</h3>
+                    <p>Price: ${products.price}</p>
+                    <p>Currency: ${products.currency}</p>
+                    <hr>
+                </div>`
+            })
+        }
+
+
+        // const milkRecords = [{
+        //     cowId: "COW001",
+        //     date: "2026-05-01",
+        //     morningLiters: 5.2,
+        //     eveningLiters: 4.8,
+        //     totalLiters: 10.0
+        // },
+        // {
+        //     cowId: "COW002",
+        //     date: "2026-05-01",
+        //     morningLiters: 6.0,
+        //     eveningLiters: 5.5,
+        //     totalLiters: 11.5
+        // },
+        // {
+        //     cowId: "COW001",
+        //     date: "2026-05-02",
+        //     morningLiters: 5.0,
+        //     eveningLiters: 4.6,
+        //     totalLiters: 9.6
+        // },
+        // {
+        //     cowId: "COW002",
+        //     date: "2026-05-02",
+        //     morningLiters: 6.2,
+        //     eveningLiters: 5.7,
+        //     totalLiters: 11.9
+        // }
+        // ];
+
+        // let fl = milkRecords.filter((e) => e.cowId == "COW002" && e.date == "2026-05-02")
+        // console.log(fl);
+
+        // let ss = milkRecords.filter((e) => {
+        //     if (e.morningLiters > 5) {
+        //         return e
+        //     }
+        // })
+
+        // console.log(ss);
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      forEach()
+      syntax
+   =================================
+      array.foreach((ele,index,array)=>{
+     
+      })
+
+      **element 
+      optional-- index,array
+
+-----------------------------------------------------------------
+      filter()
+      syntax
+      =================
+      array,filter((ele,index,array)=>{
+      
+      })
+    
+      use return 
+          it will return new array every time
+    
+    -->
+    <script>
+        // const mark = [50, 80, 76, 89, 10]
+        // mark.forEach((ele, idx, naveen) => {
+        //     console.log(ele, idx, naveen);
+        // })
+
+        // const mark = [50, 80, 76, 89, 10]
+
+        // for (let i=0; i<mark.length; i++) {
+        //     console.log(mark[i]);
+        // }
+
+       // for (const key in mark) {
+        //   console.log(mark[key]);
+        // } 
+
+        // for (const element of mark) {
+        //     console.log(mark);
+        // }
+
+
+// -----------------------------------------------------------
+         const mark=[50,80,76,89,10]
+          let avg= mark.filter((ele)=>{
+               if (ele>80) {
+                return ele
+               }
+           })
+           console.log(avg);
+        console.log(mark);
+
+    </script>
+
+</body>
+
+</html>
