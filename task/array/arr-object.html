@@ -79,52 +79,54 @@
 
         // console.log(filtered);
 
-        const products = [{
-            id: 1,
-            name: "Laptop",
-            price: 55000,
-            currency: "INR"
-        },
-        {
-            id: 2,
-            name: "Mobile Phone",
-            price: 15000,
-            currency: "USD"
-        },
-        {
-            id: 3,
-            name: "Headphones",
-            price: 2000,
-            currency: "USD"
-        },
-        {
-            id: 4,
-            name: "Keyboard",
-            price: 1200,
-            currency: "INR"
-        }
-        ];
-        let sumit = (event) => {
-            event.preventDefault()
-            let filted = products.filter((ele) => {
-                if (ele.price > 1000) {
-                    return ele
-                }
-            })
+        // const products = [{
+        //     id: 1,
+        //     name: "Laptop",
+        //     price: 55000,
+        //     currency: "INR"
+        // },
+        // {
+        //     id: 2,
+        //     name: "Mobile Phone",
+        //     price: 15000,
+        //     currency: "USD"
+        // },
+        // {
+        //     id: 3,
+        //     name: "Headphones",
+        //     price: 2000,
+        //     currency: "USD"
+        // },
+        // {
+        //     id: 4,
+        //     name: "Keyboard",
+        //     price: 1200,
+        //     currency: "INR"
+        // }
+        // ];
+        // let sumit = (event) => {
+        //     event.preventDefault()
+        //     let filted = products.filter((ele) => {
+        //         if (ele.price > 1000) {
+        //             return ele
+        //         }
+        //     })
 
-            let output = document.getElementById("output")
+        //     let output = document.getElementById("output")
 
-            filted.forEach((products) => {
-                output.innerHTML += `
-                <div>
-                    <h3>${products.name}</h3>
-                    <p>Price: ${products.price}</p>
-                    <p>Currency: ${products.currency}</p>
-                    <hr>
-                </div>`
-            })
-        }
+        //     filted.forEach((products) => {
+        //         output.innerHTML += `
+        //         <div>
+        //             <h3>${products.name}</h3>
+        //             <p>Price: ${products.price}</p>
+        //             <p>Currency: ${products.currency}</p>
+        //             <hr>
+        //         </div>`
+        //     })
+        // }
 
+
+// ---------------------------------------------------------------------
 
         // const milkRecords = [{
         //     cowId: "COW001",
@@ -166,6 +168,153 @@
         // })
 
         // console.log(ss);
+
+
+
+// ------------------------------------------------------------------------------------------------
+
+        // const products = [{
+        //         id: 1,
+        //         name: "Laptop",
+        //         price: 55000,
+        //         currency: "INR"
+        //     },
+        //     {
+        //         id: 2,
+        //         name: "Mobile Phone",
+        //         price: 15000,
+        //         currency: "USD"
+        //     },
+        //     {
+        //         id: 3,
+        //         name: "Headphones",
+        //         price: 2000,
+        //         currency: "USD"
+        //     },
+        //     {
+        //         id: 4,
+        //         name: "Keyboard",
+        //         price: 1200,
+        //         currency: "INR"
+        //     }
+        // ];
+
+        // console.log(products);
+
+        // let upd = products.map((ele) => {
+        //     if (ele.price == 15000) {
+        //         return {
+        //             ...ele,
+        //             name: "Tv"
+        //         }
+        //     } else {
+        //         return ele
+        //     }
+
+        // })
+// (condition) ? :
+        // let upd1 = products.map((ele)=> (ele.price == 15000) ? {...ele,name:"TV",price:18000,currency:"EUR"} : ele )
+
+        // console.log(upd1);
+
+
+
+        // let arr = [100, 300, 500, 700, 80, 800]
+
+        // console.log(arr);
+
+        //   let uarr =   arr.map((ele)=> ele+2)
+
+        //   console.log(arr);
+
+        //   console.log(uarr);
+
+
+        // let updatedarr = arr.map((ele,index) => {
+        //     if (index == 5) {
+        //         return ele + 5
+        //     }else{
+        //         return "naveen"
+        //     }
+        // })
+
+        // // [naveen,305,naveen,naveen,naveen,naveen]
+        // console.log(updatedarr);
+
+
+// -----------------------------------------------------------------------------
+
+
+        /*
+const result = array.reduce((accumulator, currentValue, currentIndex, array) => {
+  // logic to update and return the accumulator
+}, initialValue);
+
+        */
+
+        // let arr = [100,50,60,80,90]
+        // sum=0
+        // for (const element of arr) {
+        //         sum+=element
+        // }
+
+        // console.log(sum);
+
+        // let arr = [100, 50, 60, 80, 90]
+
+        // let result = arr.reduce((naveen, curval) => {
+        //     // console.log(sum, curval);
+        //     // debugger
+        //     naveen *= curval
+        //     return naveen
+        // }, 1)
+
+        // console.log(result);
+
+
+
+
+
+
+        const products = [{
+                id: 1,
+                name: "Laptop",
+                price: 55000,
+                currency: "INR"
+            },
+            {
+                id: 2,
+                name: "Mobile Phone",
+                price: 15000,
+                currency: "USD"
+            },
+            {
+                id: 3,
+                name: "Headphones",
+                price: 2000,
+                currency: "USD"
+            },
+            {
+                id: 4,
+                name: "Keyboard",
+                price: 1200,
+                currency: "INR"
+            }
+        ];
+
+        // console.log(products);
+
+
+        let result = products.reduce((totalProduct, curobj) => {
+
+            totalProduct.price += curobj.price
+            return totalProduct
+        }, {
+            Company: "TCS",
+            price: 0
+        })
+
+        console.log(result);
     </script>
 
 </body>
