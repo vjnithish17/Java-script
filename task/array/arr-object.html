@@ -173,45 +173,46 @@
 
 // ------------------------------------------------------------------------------------------------
 
-        // const products = [{
-        //         id: 1,
-        //         name: "Laptop",
-        //         price: 55000,
-        //         currency: "INR"
-        //     },
-        //     {
-        //         id: 2,
-        //         name: "Mobile Phone",
-        //         price: 15000,
-        //         currency: "USD"
-        //     },
-        //     {
-        //         id: 3,
-        //         name: "Headphones",
-        //         price: 2000,
-        //         currency: "USD"
-        //     },
-        //     {
-        //         id: 4,
-        //         name: "Keyboard",
-        //         price: 1200,
-        //         currency: "INR"
-        //     }
-        // ];
+        const products = [{
+                id: 1,
+                name: "Laptop",
+                price: 55000,
+                currency: "INR"
+            },
+            {
+                id: 2,
+                name: "Mobile Phone",
+                price: 15000,
+                currency: "USD"
+            },
+            {
+                id: 3,
+                name: "Headphones",
+                price: 2000,
+                currency: "USD"
+            },
+            {
+                id: 4,
+                name: "Keyboard",
+                price: 1200,
+                currency: "INR"
+            }
+        ];
 
         // console.log(products);
 
-        // let upd = products.map((ele) => {
-        //     if (ele.price == 15000) {
-        //         return {
-        //             ...ele,
-        //             name: "Tv"
-        //         }
-        //     } else {
-        //         return ele
-        //     }
+        let upd = products.map((ele) => {
+            if (ele.price == 15000) {
+                return {
+                    ...ele,
+                    name: "Tv"
+                }
+            } else {
+                return ele
+            }
 
-        // })
+        })
+        console.log(upd);
 // (condition) ? :
         // let upd1 = products.map((ele)=> (ele.price == 15000) ? {...ele,name:"TV",price:18000,currency:"EUR"} : ele )
 
@@ -276,45 +277,45 @@ const result = array.reduce((accumulator, currentValue, currentIndex, array) => 
 
 
 
-        const products = [{
-                id: 1,
-                name: "Laptop",
-                price: 55000,
-                currency: "INR"
-            },
-            {
-                id: 2,
-                name: "Mobile Phone",
-                price: 15000,
-                currency: "USD"
-            },
-            {
-                id: 3,
-                name: "Headphones",
-                price: 2000,
-                currency: "USD"
-            },
-            {
-                id: 4,
-                name: "Keyboard",
-                price: 1200,
-                currency: "INR"
-            }
-        ];
+        // const products = [{
+        //         id: 1,
+        //         name: "Laptop",
+        //         price: 55000,
+        //         currency: "INR"
+        //     },
+        //     {
+        //         id: 2,
+        //         name: "Mobile Phone",
+        //         price: 15000,
+        //         currency: "USD"
+        //     },
+        //     {
+        //         id: 3,
+        //         name: "Headphones",
+        //         price: 2000,
+        //         currency: "USD"
+        //     },
+        //     {
+        //         id: 4,
+        //         name: "Keyboard",
+        //         price: 1200,
+        //         currency: "INR"
+        //     }
+        // ];
 
-        // console.log(products);
+        // // console.log(products);
 
 
-        let result = products.reduce((totalProduct, curobj) => {
+        // let result = products.reduce((totalProduct, curobj) => {
 
-            totalProduct.price += curobj.price
-            return totalProduct
-        }, {
-            Company: "TCS",
-            price: 0
-        })
+        //     totalProduct.price += curobj.price
+        //     return totalProduct
+        // }, {
+        //     Company: "TCS",
+        //     price: 0
+        // })
 
-        console.log(result);
+        // console.log(result);
     </script>
 
 </body>

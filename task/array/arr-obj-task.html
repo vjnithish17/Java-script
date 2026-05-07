@@ -29,10 +29,30 @@
     
       use return 
           it will return new array every time
+
+--------------------------------------------------------------------
+      map()
+      syntax
+      ================================
+      array.map((ele,indx,arr)=>{
+      })
+      
+      like updat and change 
+
+      use return 
+--------------------------------------------------------------------
+     reduce()
+
+     syntax
+     =============================================
+     array.reduce((accumulator, currentValue, currentIndex, array) => {
+    // logic to update and return the accumulator
+     }, initialValue);
     
     -->
     <script>
         // const mark = [50, 80, 76, 89, 10]
+
         // mark.forEach((ele, idx, naveen) => {
         //     console.log(ele, idx, naveen);
         // })
@@ -43,7 +63,7 @@
         //     console.log(mark[i]);
         // }
 
-       // for (const key in mark) {
+        // for (const key in mark) {
         //   console.log(mark[key]);
         // } 
 
@@ -52,15 +72,38 @@
         // }
 
 
-// -----------------------------------------------------------
-         const mark=[50,80,76,89,10]
-          let avg= mark.filter((ele)=>{
-               if (ele>80) {
+        // -----------------------------------------------------------
+        const mark = [50, 80, 76, 89, 10]
+        // let avg = mark.filter((ele) => {
+        //     if (ele > 80) {
+        //         return ele
+        //     }
+        // })
+        // console.log(avg);
+        // console.log(mark);
+
+        // -------------------------------------------------------------
+         
+        let update=mark.map((ele,index)=>{
+            if (index == 3) {
+               return ele + 10
+            }else{
                 return ele
-               }
-           })
-           console.log(avg);
-        console.log(mark);
+            }
+        })
+        console.log(update);
+
+        // -----------------------------------------------------------------
+
+        let multi =mark.reduce((accum,curnt,index)=>{
+            if (index == 4) {
+               return curnt + 10
+            }else{
+                // return curnt
+            }
+        })
+        console.log(multi); 
+        
 
     </script>
 
