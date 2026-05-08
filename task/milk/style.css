@@ -1,0 +1,106 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#eef2f3,#dfe9f3);
+}
+
+.sidebar{
+    height: 100vh;
+    background: linear-gradient(180deg,#0f9b0f,#0575e6);
+    padding-top: 20px;
+    box-shadow: 5px 0 20px rgba(0,0,0,0.1);
+}
+
+.sidebar h3{
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.nav-link{
+    color: white;
+    margin: 12px 0;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 17px;
+    transition: 0.4s;
+}
+
+.nav-link:hover,
+.active{
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    transform: translateX(8px);
+    color: white !important;
+}
+
+h2{
+    font-weight: 700;
+    color: #222;
+}
+
+.card-box{
+    padding: 30px;
+    border-radius: 22px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    transition: 0.4s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-box::before{
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.1);
+    top: -50%;
+    left: -50%;
+    transform: rotate(45deg);
+}
+
+.card-box:hover{
+    transform: translateY(-10px) scale(1.03);
+}
+
+.card-box h5{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.card-box h2{
+    font-size: 42px;
+    font-weight: bold;
+    color: white;
+}
+
+.bg-primary{
+    background: linear-gradient(135deg,#667eea,#764ba2)!important;
+}
+
+.bg-success{
+    background: linear-gradient(135deg,#11998e,#38ef7d)!important;
+}
+
+.bg-warning{
+    background: linear-gradient(135deg,#f7971e,#ffd200)!important;
+}
+
+.bg-info{
+    background: linear-gradient(135deg,#36d1dc,#5b86e5)!important;
+}
+
+.bg-danger{
+    background: linear-gradient(135deg,#ff416c,#ff4b2b)!important;
+}
+
+.bg-dark{
+    background: linear-gradient(135deg,#232526,#414345)!important;
+}

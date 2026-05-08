@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- html 5 formvalidation -->
+    <div class="form-container">
+
+        <form action="" onsubmit="registerForm(event)">
+            <h1>Registration</h1>
+            <div class="form-control">
+                <label for="">Enter the Name</label>
+                <input type="text" id="name" placeholder="ex.john">
+                <span id="nameerr" class="error"></span>
+            </div>
+            <div class="form-control">
+                <label for="">Enter the Email</label>
+                <input type="email" id="emailid" placeholder="ex . john@gmail.com">
+                <span id="emailerr" class="error"></span>
+            </div>
+            <div class="form-control">
+                <label for="">Enter the phone</label>
+                <input type="number" id="phone" placeholder="ex . XXXXXXX">
+                <span id="phoneerr" class="error"></span>
+            </div>
+            <div class="form-control">
+                <label for="">Enter the password</label>
+                <input type="password" id="pass" placeholder="ex . XXXXXXX">
+                <span id="passerr" class="error"></span>
+            </div>
+            <div class="form-control">
+                <label for="">Enter the C.Password</label>
+                <input type="password" id="cpass" placeholder="ex . XXXXXXX">
+                <span id="cpasserr" class="error"></span>
+            </div>
+            <div class="form-control">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let userStorage = [];
+        let registerForm = (e) => {
+            e.preventDefault()
+            let name = document.getElementById("name")
+            let emailid = document.getElementById("emailid")
+            let phone = document.getElementById("phone")
+            let pass = document.getElementById("pass")
+            let cpass = document.getElementById("cpass")
+
+            let nameerr = document.getElementById("nameerr")
+            let emailerr = document.getElementById("emailerr")
+            let phoneerr = document.getElementById("phoneerr")
+            let passerr = document.getElementById("passerr")
+            let cpasserr = document.getElementById("cpasserr")
+
+            let nameCheck, emailCheck, phoneCheck, passCheck, cpassCheck = false;
+
+            debugger
+            if (name.value == "") {
+                nameerr.innerHTML = "Name is not empty";
+                nameCheck = false;
+            } else if (name.value.length < 3) {
+                nameerr.innerHTML = "Name should be minimum 3 letter"
+                nameCheck = false;
+            } else {
+                nameerr.innerHTML = ""
+                nameCheck = true;
+
+            }
+
+            let emailpatter = /^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.+-]+\.[a-zA-Z]{2,}$/
+
+            console.log();
+            if (emailid.value == "") {
+                emailerr.innerHTML = "Email is not Empty"
+                emailCheck = false;
+            } else if (!emailpatter.test(emailid.value)) {
+                emailerr.innerHTML = "Invalid email id"
+                emailCheck = false;
+            } else {
+                emailerr.innerHTML = ""
+                emailCheck = true;
+            }
+
+            let phonePattern = /^[6-9]\d{9}$/
+
+            if (phone.value == "") {
+                phoneerr.innerHTML = "Phone is not Empty"
+                phoneCheck = false
+            } else if (phone.value.length > 10) {
+                phoneerr.innerHTML = "Phone should be  10 digit"
+                phoneCheck = false
+            } else if (!phonePattern.test(phone.value)) {
+                phoneerr.innerHTML = "Invalid phone no"
+                phoneCheck = false
+            } else {
+                phoneerr.innerHTML = ""
+                phoneCheck = true
+            }
+
+
+
+            if (pass.value == "") {
+                passerr.innerHTML = "Password is not Empty"
+                passCheck = false;
+            } else if (pass.value.length < 6) {
+                passerr.innerHTML = "Password should be  min 6 charactors"
+                passCheck = false;
+            } else {
+                passerr.innerHTML = ""
+                passCheck = true;
+            }
+
+            if (cpass.value == "") {
+                cpasserr.innerHTML = "Confirm password is not Empty"
+                cpassCheck = false;
+            } else if (cpass.value.length < 6) {
+                cpasserr.innerHTML = "C Password should be  min 6 charactors"
+                cpassCheck = false;
+            } else if (pass.value != cpass.value) {
+                cpasserr.innerHTML = "password does not Match!!.."
+                cpassCheck = false;
+            } else {
+                cpasserr.innerHTML = ""
+                cpassCheck = true;
+            }
+
+
+            if (nameCheck && emailCheck && phoneCheck && passCheck && cpassCheck) {
+
+                let userObj = {
+                    name: name.value,
+                    emailid: emailid.value,
+                    phone: phone.value,
+                    password: cpass.value
+                }
+
+                console.log(userObj);
+
+                userStorage.push(userObj)
+
+                localStorage.setItem("userslist", JSON.stringify(userStorage))
+            } else {
+
+            }
+
+
+
+
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: grid;
+            place-items: center;
+            height: 100vh;
+        }
+
+        .form-reg {
+            border: 2px solid;
+        }
+
+        .content {
+            /* border: 2px solid red; */
+            padding: 6px 15px;
+            height: 13vh;
+            width: 50vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .content input{
+            height: 30px;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+        span{
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-reg">
+        <form action="" id="reset" onsubmit="reg(event)">
+            <div class="content">
+                <label for="">Enter the name</label>
+                <input type="text" id="name" placeholder="Ex.nihti">
+                <span id="nameerr"></span>
+            </div>
+            <div class="content">
+                <label for="">Enter the Email</label>
+                <input type="text" id="mail" placeholder="Ex.xxx@gmail.com">
+                <span id="mailerr"></span>
+            </div>
+            <div class="content">
+                <label for="">Enter the Phone</label>
+                <input type="text" id="ph" placeholder="Ex.xxx98">
+                <span id="pherr"></span>
+            </div>
+            <div class="content">
+                <label for="">Enter the Password</label>
+                <input type="text" id="pass" placeholder="Ex.Password">
+                <span id="passerr"></span>
+            </div>
+            <div class="content">
+                <label for="">Enter the confirmpass</label>
+                <input type="text" id="cpass" placeholder="Ex.cpass">
+                <span id="cpsserr"></span>
+            </div>
+            <div class="content">
+                <button type="submit">sumit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let reg = (e) => {
+            e.preventDefault()
+            let name = document.getElementById("name")
+            let nameerr = document.getElementById("nameerr")
+            let mail = document.getElementById("mail")
+            let mailerr = document.getElementById("mailerr")
+            let ph = document.getElementById("ph")
+            let pherr = document.getElementById("pherr")
+            let pass = document.getElementById("pass")
+            let passerr = document.getElementById("passerr")
+            let cpass = document.getElementById("cpass")
+            let cpasserr = document.getElementById("cpsserr")
+debugger
+            if (name.value == "") {
+                nameerr.innerHTML = `Name is empty`
+            } else {
+                nameerr.innerHTML = ``
+            }
+
+            if (mail.value == "") {
+                mailerr.innerHTML = `mail is empty`
+            } else {
+                nameerr.innerHTML = ``
+            }
+
+            if (ph.value == "") {
+                pherr.innerHTML = `ph is empty`
+            } else {
+                pherr.innerHTML = ``
+            }
+
+            if (pass.value == "") {
+                passerr.innerHTML = `pass is empty`
+            } else {
+                passerr.innerHTML = ``
+            }
+
+            if (cpass.value == "") {
+                cpasserr.innerHTML = `cpass is empty`
+            } else {
+                cpasserr.innerHTML = ``
+            }
+            document.getElementById("reset").reset()
+        }
+    </script>
+</body>
+
+</html>
