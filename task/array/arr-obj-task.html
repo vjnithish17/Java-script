@@ -48,6 +48,8 @@
      array.reduce((accumulator, currentValue, currentIndex, array) => {
     // logic to update and return the accumulator
      }, initialValue);
+
+     ... spread opertor
     
     -->
     <script>
@@ -84,14 +86,14 @@
 
         // -------------------------------------------------------------
          
-        let update=mark.map((ele,index)=>{
+        let updte=mark.map((ele,index)=>{
             if (index == 3) {
                return ele + 10
             }else{
                 return ele
             }
         })
-        console.log(update);
+        // console.log(update);
 
         // -----------------------------------------------------------------
 
@@ -99,11 +101,153 @@
             if (index == 4) {
                return curnt + 10
             }else{
-                // return curnt
+                return curnt
             }
         })
         console.log(multi); 
-        
+        // -------------------------------------------------------------------------
+
+        const products =[{
+            id: 1,
+            name : "laptop",
+            price : 55000,
+            currency : "INR"
+
+        },
+        {
+              id: 2,
+            name : "Mobile",
+            price : 15000,
+            currency : "USD"
+            
+        },
+        {
+              id: 3,
+            name : "Headphones",
+            price : 2000,
+            currency : "USD"
+        },
+        {
+              id: 4,
+            name : "Keyboard",
+            price : 1200,
+            currency : "INR"
+        }
+    ];
+
+    console.log(products); 
+
+    let result = products.reduce((totalproducts,curval)=>
+{
+    totalproducts+= curval.price
+    return totalproducts
+},0
+)
+console.log(result);
+
+// __________________________________________________________________________________
+
+let update=products.map((ele)=>{
+    if( ele.price == 15000){
+        return{
+            ...ele,
+            name:"Nithih",
+            price:10
+        }
+    }else{
+        return ele
+    }
+})
+console.log(update);
+
+let upt=products.map((ele)=>(ele.price==15000)?{ ...ele,name:"Nithih", price:10}:ele)
+
+console.log(upt);
+
+// ________________________________________________________________________________________________
+
+let mul=products.reduce((accum,curnt)=>{
+    accum+=curnt.price
+    return accum
+},0)
+
+console.log(mul);
+
+
+
+
+
+
+
+
+
+
+// let upd = products.map((ele)=>{
+    //     if(ele.price==15000){
+    //         return{
+    //             ...ele,
+    //             name: "TV",
+    //             currency:"euro"
+    //         }
+    //     }else{
+    //         return ele
+    //     }
+    // })
+    // console.log(upd);
+
+    // let upd2 = products.map((ele)=>(ele.price==15000) ? {...ele,name:"BOAT",price:12000}:ele)
+    // console.log(upd2);
+    
+    
+
+
+
+    // map()
+    // reduce()
+
+    // array.map((element,index,array))
+
+    // let arr = [100, 200, 300, 400, 500]
+
+//  let update = arr.map((ele)=>ele+2)
+//  console.log(update);
+//  let upd = arr.map((ele)=>{
+//     if(ele == 300){
+//         return ele+2
+//     }else{
+//         return ele
+//     }
+//  })
+//  console.log(upd);
+// ... spread opertor
+
+// let upd1 = arr.map((ele)=>{
+//     if(ele==300){
+//         return{
+//             ...ele, ele+=2
+//         }
+//     }else{
+//         return ele
+//     }
+// })
+// console.log(upd1);
+
+// reduce
+// array.reduce((accumulator,currentvallue,index,array)=>{
+
+// }initialization)
+
+// let arr = [100, 200, 300,400, 5000]
+// sum=0
+// for(const element of arr){
+//     sum+=element
+// }
+// console.log(sum);
+// let result=arr.reduce((sum,curval)=>{
+//     sum+=curval
+//     return sum
+// },0)
+// console.log(result);
 
     </script>
 
