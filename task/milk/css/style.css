@@ -104,3 +104,21 @@ h2{
 .bg-dark{
     background: linear-gradient(135deg,#232526,#414345)!important;
 }
+/* ----------------------------- */
+
+.cow-form{
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.form-control{
+    padding: 14px;
+    border-radius: 12px;
+}
+
+.btn-success{
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: bold;
+}

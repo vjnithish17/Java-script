@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: grid;
+            place-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .form-outline {
+            border: 1px solid;
+            width: 50vh;
+            padding: 10px;
+              display: grid;
+            place-items: center;
+            background-color: white;
+
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+       
+        }
+        input{
+            width: 40vh;
+            padding: 4px;
+            margin-bottom: 15px;
+            outline: none;
+            border-radius: 8px;
+        }
+        input:focus{
+            border-color: #667eea;
+        }
+        label{
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+        button{
+            border-radius: 10px;
+            padding: 10px;
+            width: 20vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-outline">
+        <form action="" onsubmit="reg(event)">
+            <label for="">Enter name</label>
+            <input type="text" id="name" placeholder="Ex.jone">
+            <span id="nameerror"></span>
+
+            <label for="">Enter Mail</label>
+            <input type="email" id="mail" placeholder="Ex.xxxxx@gmail.com">
+            <span id="mailerror"></span>
+
+            <label for="">Enter Phonenum</label>
+            <input type="number" id="phone" placeholder="Ex.xxxx8997">
+            <span id="pherror"></span>
+
+            <label for="">Enter password</label>
+            <input type="password" id="password" placeholder="Ex.xxxxxpassword">
+            <span id="passerror"></span>
+
+            <label for="">Confirm password</label>
+            <input type="password" id="conformpass" placeholder="Re-enter password">
+            <span id="conformerror"></span>
+            <button type="submit">sumit</button>
+        </form>
+    </div>
+</body>
+
+</html>

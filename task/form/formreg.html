@@ -24,12 +24,14 @@
             display: flex;
             flex-direction: column;
         }
-        .content input{
+
+        .content input {
             height: 30px;
             margin-top: 10px;
             border-radius: 10px;
         }
-        span{
+
+        span {
             color: red;
         }
     </style>
@@ -82,37 +84,104 @@
             let passerr = document.getElementById("passerr")
             let cpass = document.getElementById("cpass")
             let cpasserr = document.getElementById("cpsserr")
-debugger
+            let nameCheck, mailcheck, phoneCheck, passCheck, cpassCheck = false;
+            // debugger
             if (name.value == "") {
-                nameerr.innerHTML = `Name is empty`
-            } else {
-                nameerr.innerHTML = ``
+                nameerr.innerHTML = "Name is empty"
+                nameCheck = false
+            } else if (name.value.length < 3) {
+                nameerr.innerHTML = "name is min 3 letters"
+                nameCheck = false
             }
+            else {
+                nameerr.innerHTML = ""
+                nameCheck = true
+            }
+
+            // mail-------------------
+            //   /^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.+-]+\.[a-zA-Z]{2,}$/
+            let mailpattern = /^[a-zA-Z0-9.-_%+]+@[a-zA-Z0-9.+-]+\.[a-zA-Z]{2,}$/
 
             if (mail.value == "") {
-                mailerr.innerHTML = `mail is empty`
-            } else {
-                nameerr.innerHTML = ``
+                mailerr.innerHTML = "mail is empty"
+                mailcheck = false
+            } else if (!mailpattern.test(mail.value)) {
+                mailerr.innerHTML = "Invaild mail"
+                mailcheck = false
             }
+            else {
+                mailerr.innerHTML = ""
+                mailcheck = true
+            }
+
+            // ph--------------------------
+            // /^[6-9]\d{9}$/
+            let phonePattern = /^[6-9]\d{9}$/
 
             if (ph.value == "") {
-                pherr.innerHTML = `ph is empty`
-            } else {
-                pherr.innerHTML = ``
+                pherr.innerHTML = "ph is empty"
+                phoneCheck = false
+            } else if (ph.value.length > 10 || ph.value.length < 10) {
+                pherr.innerHTML = "Phone should be 10 digit"
+                phoneCheck = false
+            }else if (!phonePattern.test(ph.value)) {
+                pherr.innerHTML = "Invalid phone number"
+                phoneCheck = false
+            }  else {
+                pherr.innerHTML = ""
+                phoneCheck = true
             }
 
+            // pass-----------------------
+            let passpattern=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&*]).{8,}$/
+
             if (pass.value == "") {
-                passerr.innerHTML = `pass is empty`
-            } else {
-                passerr.innerHTML = ``
+                passerr.innerHTML = "pass is empty"
+                passCheck = false
+            } else if (pass.value.length < 8) {
+                passerr.innerHTML = "min 8 character"
+                passCheck = false
+            }else if(! passpattern.test(pass.value)){
+                passerr.innerHTML="pls create strong password"
+                passCheck=false
             }
+            else {
+                passerr.innerHTML = ""
+                passCheck = true
+            }
+
+            // cpass--------------------------
 
             if (cpass.value == "") {
                 cpasserr.innerHTML = `cpass is empty`
+                cpassCheck = false
+            } else if (cpass.value.length < 6) {
+                cpasserr.innerHTML = "min 6 character"
+                cpassCheck = false
+            } else if (cpass.value != pass.value) {
+                cpasserr.innerHTML = "password does not Match!!.."
+                cpassCheck = false
             } else {
-                cpasserr.innerHTML = ``
+                cpasserr.innerHTML = ""
+                cpassCheck = true
             }
-            document.getElementById("reset").reset()
+
+            // document.getElementById("reset").reset()
+            console.log(nameCheck && mailcheck && phoneCheck && passCheck && cpassCheck);
+
+            if (nameCheck && mailcheck && phoneCheck && passCheck && cpassCheck) {
+                let userObj = {
+                    name: name.value,
+                    mail: mail.value,
+                    phone: ph.value,
+                    password: pass.value,
+                    confirmpass: cpass.value
+                }
+                // console.log(userObj);
+                // userStorage.push(userObj)
+                localStorage.setItem("userlist", JSON.stringify(userObj))
+                alert("Registration Successful ✅")
+            }
         }
     </script>
 </body>
