@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<!-- 
+  string with functions 
+
+    => sequence of charactor
+
+    raja
+    table
+    apple 
+-->
+
+
+<script>
+
+// string literals
+    // let student_name = "nithis"
+
+    // let fruit = 'apple'
+    // let section = 'A'
+
+    // console.log(student_name);
+    // console.log(fruit ,section);
+
+    // // constructor
+
+    // let employeename = new String('Nithish')
+
+    // console.log(employeename);
+
+
+    // let txt = "Hi how are you?"
+    // console.log(txt);
+    
+
+    // console.log("length",txt.length);
+
+    // console.log("1 index",txt[1]);
+    // console.log("2 index",txt[2]);
+
+    // // charAt()
+    // console.log(txt.charAt(3));
+    // console.log(txt.charAt(4));
+
+    // charCodeAt(0) => return only the ascii code a-z 
+
+    /*
+0–31 & 127: Control characters (non-printable, e.g., newline, tab)
+32–64: Space, numbers, and punctuation (! " # $ % & ' ( ) * + , - . / 0-9 : ; < = > ? @)
+65–90: Uppercase letters (A-Z)
+91–96: Special characters ([ \ ] ^ _ )
+97–122: Lowercase letters (a-z)
+123–126: Special characters ({ | } ~)
+    */
+//    console.log("charcode at",txt.charCodeAt(7));
+
+// //    concat() , +
+   
+// let text1 = "nithis"
+// let text2 = "nithis"
+// let text3 = "nithis1"
+
+// console.log(text1+" "+text2);
+
+// console.log(text1.concat(" ",text2,text3," raja"));
+
+// // lowercase ,uppercase
+
+// let n = "RAJA"
+
+// console.log(n.toLowerCase());
+
+// let n2 = "raja"
+
+// console.log(n2.toUpperCase());
+
+
+// let sname = "     nithis      "
+
+// prompt("enter name")
+
+// trim() ,trimStart() ,trimEnd() 
+
+// console.log(sname);
+
+// console.log(sname.trimStart());
+// console.log(sname.trimEnd());
+// console.log(sname.trim());
+
+
+// // repeat()
+
+// let s = "nithis"
+
+// console.log(s.repeat(4));
+
+
+//  replace(old,new)
+
+// let txt = "Now Tamilnadu cm is Vijay, Vijay is TVK"
+
+// console.log(txt);
+
+// console.log(txt.replace("Vijay","Naveen"));
+
+// pattern
+// i -> insensitive, g->global
+// console.log(txt.replace(/vijay/ig,"Naveen"));
+
+
+// console.log(txt.replaceAll("Vijay","Naveen"));
+
+
+// padStart() , padEnd() XXXXXXXXX8790 , 999******55
+
+// let ac_no = "5434034"
+
+// console.log(ac_no.padStart(11,"*"));
+
+// console.log(ac_no.padEnd(10,"X"));
+
+// let ph = "999"
+
+// let phone_no = ph.padEnd(8,"*").concat("55")
+// console.log(phone_no);
+
+
+// indexOf() =>return the position of the charactor
+
+let sname = "Nithish is good boy"
+
+console.log(sname.indexOf("i"));
+console.log(sname.indexOf("good"));
+console.log(sname.indexOf("good1"));
+
+// lastIndexOf()
+
+console.log(sname.lastIndexOf("i"));
+
+
+console.log(sname.includes("good"));  // true ,false
+
+console.log(sname.includes("how"));
+
+// startsWith()
+console.log(sname.startsWith("Boopathi"));
+console.log(sname.startsWith("Na"));
+console.log("endsWith",sname.endsWith("boy"));
+
+// split() => string to array()
+
+let h = "hai|how|are|you?"
+
+console.log(h.split());
+console.log(h.split(""));
+console.log(h.split("|"));
+
+
+//template literals ${} => string interpolation
+let tdd = `${h} ${sname}`
+
+
+console.log(tdd);
+
+// slice() , substring() ,at()
+// match() , matchAll() , search()
+
+
+
+
+
+
+
+
+
+// charAt() , charCodeAt(), concat(),toLowerCase(),toUpperCase(), trim(),trimStart() ,trimEnd() ,repeat()
+
+// replace() , replaceAll() , padStart() , padEnd() ,indexOf() , lastIndexOf() ,includes,split,startsWith,endsWith
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+    
+
+    
+
+</script>
+
+</body>
+</html>
