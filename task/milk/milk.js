@@ -1,20 +1,15 @@
 // Dashboard
 if (document.getElementById("morningMilk")) {
 
-    let morningMilk = 45;
-    let eveningMilk = 40;
-    let milkRate = 50;
-    let expense = 2500;
-
-    let totalMilk = morningMilk + eveningMilk;
+    let totalMilk = morning + evening;
     let income = totalMilk * milkRate;
     let profit = income - expense;
 
-    document.getElementById("morningMilk").innerText = morningMilk + " L";
-    document.getElementById("eveningMilk").innerText = eveningMilk + " L";
+    document.getElementById("morning").innerText = morningMilk + " L";
+    document.getElementById("evening").innerText = eveningMilk + " L";
     document.getElementById("totalMilk").innerText = totalMilk + " L";
     document.getElementById("income").innerText = "₹" + income;
-    document.getElementById("expense").innerText = "₹" + expense;
+    document.getElementById("totalExpense").innerText = "₹" + total;
     document.getElementById("profit").innerText = "₹" + profit;
 
 }
@@ -87,6 +82,8 @@ function addMilkEntry() {
     let name = document.getElementById("milkCowName").value;
     let morning = Number(document.getElementById("morning").value);
     let evening = Number(document.getElementById("evening").value);
+    let cowerrror = document.getElementById("error")
+
 
     if (name == "" || morning == "" || evening == "") {
         alert("Fill all fields");
@@ -101,32 +98,82 @@ function addMilkEntry() {
         evening,
         total
     });
-
-    displayMilk();
-
-    document.getElementById("milkCowName").value = "";
-    document.getElementById("morning").value = "";
-    document.getElementById("evening").value = "";
-}
-
-function displayMilk() {
+    console.log(milkEntries);
 
     let table = document.getElementById("milkTable");
 
-    if (!table) return;
-
-    table.innerHTML = "";
-
-    milkEntries.forEach(milk => {
-
+    milkEntries.forEach((milk) => {
         table.innerHTML += `
-<tr>
-<td>${milk.name}</td>
-<td>${milk.morning} L</td>
-<td>${milk.evening} L</td>
-<td><b>${milk.total} L</b></td>
-</tr>
-`;
-
+                 <tr>
+                  <td>${milk.name}</td>
+                  <td>${milk.morning} L</td>
+                  <td>${milk.evening} L</td>
+                  <td><b>${milk.total} L</b></td>
+                  </tr>`;
     });
+}
+
+// expense
+
+let expenses = [];
+let addExpense = () => {
+    let type = document.getElementById("expenseType").value;
+    let amount = Number(document.getElementById("expenseAmount").value);
+    debugger
+    if (type == "" || amount == "") {
+        alert("Fill all fields");
+        return;
+    }
+
+    expenses.push({ type, amount });
+
+    let table = document.getElementById("expenseTable");
+    let total = 0;
+    let total1 = document.getElementById("totalExpense")
+    table.innerHTML = ``
+
+    expenses.forEach((exp) => {
+        total += exp.amount
+        table.innerHTML += `
+         <tr>
+          <td>${exp.type}</td>
+          <td>₹${exp.amount}</td>
+         </tr>`;
+    });
+    total1.innerText = `₹${total}`;
+console.log(total);
+
+    document.getElementById("expenseType").value = "";
+    document.getElementById("expenseAmount").value = "";
+
+}
+
+
+
+
+
+// reports
+
+if (document.getElementById("reportMilk")) {
+
+    let totalMilk = 85;
+    let milkRate = 50;
+    let totalIncome = totalMilk * milkRate;
+
+    let totalExpense = 2500;
+
+    let totalProfit = totalIncome - totalExpense;
+
+    document.getElementById("reportMilk").innerText =
+        totalMilk + " L";
+
+    document.getElementById("reportIncome").innerText =
+        "₹" + totalIncome;
+
+    document.getElementById("reportExpense").innerText =
+        "₹" + totalExpense;
+
+    document.getElementById("reportProfit").innerText =
+        "₹" + totalProfit;
+
 }

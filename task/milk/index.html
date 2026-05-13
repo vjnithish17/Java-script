@@ -4,87 +4,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dairy Farm Management</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  
-    <link rel="stylesheet" href="./css/style.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <div class="container-fluid">
-        <div class="row">
 
-            <!-- Sidebar -->
-            <div class="col-md-2 sidebar p-3">
-                <h3 class="text-center text-white mb-4">🐄 Dairy Farm</h3>
+    <div class="form-container">
 
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a href="./index.html" class="nav-link active">Dashboard</a></li>
-                    <li class="nav-item"><a href="./addcow.html" class="nav-link">Add Cow</a></li>
-                    <li class="nav-item"><a href="./milkentery.html" class="nav-link">Milk Entry</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Expense</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Reports</a></li>
-                </ul>
+        <form action="" onsubmit="loginform(event)">
+            <h1>Login</h1>
+
+            <div class="form-controlx">
+                <label for="">Enter the Email</label>
+                <input type="email" id="emailid" placeholder="ex . john@gmail.com">
+                <span id="emailerr" class="error"></span>
             </div>
 
-            <!-- Main -->
-            <div class="col-md-10 p-4">
-
-                <h2 class="mb-4">Dashboard</h2>
-
-                <div class="row g-4">
-
-                    <div class="col-md-4">
-                        <div class="card-box bg-primary">
-                            <h5>Morning Milk</h5>
-                            <h2 id="morningMilk">45 L</h2>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-box bg-success">
-                            <h5>Evening Milk</h5>
-                            <h2 id="eveningMilk">40 L</h2>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-box bg-warning">
-                            <h5>Total Milk</h5>
-                            <h2 id="totalMilk">85 L</h2>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-box bg-info">
-                            <h5>Income</h5>
-                            <h2 id="income">₹4250</h2>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-box bg-danger">
-                            <h5>Expense</h5>
-                            <h2 id="expense">₹2500</h2>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-box bg-dark">
-                            <h5>Profit</h5>
-                            <h2 id="profit">₹1750</h2>
-                        </div>
-                    </div>
-
-                </div>
-
+            <div class="form-controlx">
+                <label for="">Enter the password</label>
+                <input type="password" id="pass" placeholder="ex . XXXXXXX">
+                <span id="passerr" class="error"></span>
             </div>
-        </div>
+
+            <div class="form-controlx">
+                <button type="submit">Submit</button>
+            </div>
+            <a href="./formreg.html">Register</a>
+        </form>
     </div>
 
-  
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        let loginform = (event) => {
+
+            event.preventDefault();
+
+            let emailid = document.getElementById("emailid")
+            let pass = document.getElementById("pass")
+
+            let emailerr = document.getElementById("emailerr")
+            let passerr = document.getElementById("passerr")
+
+
+            let emailCheck = false;
+            let passCheck = false;
+
+            let emailpatter = /^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.+-]+\.[a-zA-Z]{2,}$/
+
+            if (emailid.value == "") {
+                emailerr.innerHTML = "Email is not Empty"
+                emailCheck = false;
+            } else if (!emailpatter.test(emailid.value)) {
+                emailerr.innerHTML = "Invalid email id"
+                emailCheck = false;
+            } else {
+                emailerr.innerHTML = ""
+                emailCheck = true;
+            }
+
+
+            if (pass.value == "") {
+                passerr.innerHTML = "Password is not Empty"
+                passCheck = false;
+            } else if (pass.value.length < 6) {
+                passerr.innerHTML = "Password should be  min 6 charactors"
+                passCheck = false;
+            } else {
+                passerr.innerHTML = ""
+                passCheck = true;
+            }
+
+            debugger
+
+            if (emailCheck && passCheck) {
+
+                let userslist = JSON.parse(localStorage.getItem("userslist"))|| []
+
+
+                let existuser = userslist.filter((ele) => ele.mail == emailid.value && ele.password == pass.value)
+                // console.log(existuser);
+                console.log(userslist);
+
+
+                if (existuser.length > 0) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "login success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html"
+                    }, 2000);
+
+                } else {
+
+                    // alert("You are not existing user, please register")
+
+                }
+            }
+
+        }
+    </script>
 </body>
 
 </html>

@@ -1,27 +1,108 @@
-*{
+@import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400..700;1,400..700&display=swap');
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Gelasio", serif;
 }
 
-body{
-    background: linear-gradient(135deg,#eef2f3,#dfe9f3);
-}
-
-.sidebar{
+body {
     height: 100vh;
-    background: linear-gradient(180deg,#0f9b0f,#0575e6);
-    padding-top: 20px;
-    box-shadow: 5px 0 20px rgba(0,0,0,0.1);
+    display: grid;
+    place-items: center;
+  
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    overflow: hidden;
 }
 
-.sidebar h3{
+.form-container {
+    width: 100%;
+    max-width: 390px;
+}
+
+form {
+    background: white;
+    padding: 20px 35px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+form h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #111827;
+}
+
+.form-controlx {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.form-controlx label {
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.form-controlx input {
+    height: 35px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+
+    
+}
+
+.form-controlx input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 8px rgba(79, 70, 229, 0.3);
+}
+
+.form-controlx button {
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    background: #4f46e5;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-controlx button:hover {
+    background: #4338ca;
+}
+
+span {
+    color: red;
+    font-size: 13px;
+    min-height: 16px;
+    display: block;
+    margin-top: 4px;
+}
+
+a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #4f46e5;
+    margin-top: 10px;
+}
+
+/* -------------------------------------------------- */
+.sidebar {
+    height: 100vh;
+    background: linear-gradient(180deg, #0f9b0f, #0575e6);
+    padding-top: 20px;
+    box-shadow: 5px 0 20px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+}
+
+.sidebar h3 {
     font-weight: 700;
     letter-spacing: 1px;
 }
 
-.nav-link{
+.nav-link {
     color: white;
     margin: 12px 0;
     padding: 14px 18px;
@@ -30,95 +111,198 @@ body{
     transition: 0.4s;
 }
 
-.nav-link:hover,
-.active{
-    background: rgba(255,255,255,0.2);
+.nav-link:hover,:active {
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     transform: translateX(8px);
     color: white !important;
 }
 
-h2{
+h2 {
     font-weight: 700;
     color: #222;
 }
 
-.card-box{
+.card-box {
     padding: 30px;
     border-radius: 22px;
     text-align: center;
     color: white;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
     transition: 0.4s;
     cursor: pointer;
     position: relative;
     overflow: hidden;
 }
 
-.card-box::before{
+.card-box::before {
     content: "";
     position: absolute;
     width: 200%;
     height: 200%;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     top: -50%;
     left: -50%;
     transform: rotate(45deg);
 }
 
-.card-box:hover{
+.card-box:hover {
     transform: translateY(-10px) scale(1.03);
 }
 
-.card-box h5{
+.card-box h5 {
     font-size: 20px;
     font-weight: 600;
 }
 
-.card-box h2{
+.card-box h2 {
     font-size: 42px;
     font-weight: bold;
     color: white;
 }
 
-.bg-primary{
-    background: linear-gradient(135deg,#667eea,#764ba2)!important;
+.bg-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
 }
 
-.bg-success{
-    background: linear-gradient(135deg,#11998e,#38ef7d)!important;
+.bg-success {
+    background: linear-gradient(135deg, #11998e, #38ef7d) !important;
 }
 
-.bg-warning{
-    background: linear-gradient(135deg,#f7971e,#ffd200)!important;
+.bg-warning {
+    background: linear-gradient(135deg, #f7971e, #ffd200) !important;
 }
 
-.bg-info{
-    background: linear-gradient(135deg,#36d1dc,#5b86e5)!important;
+.bg-info {
+    background: linear-gradient(135deg, #36d1dc, #5b86e5) !important;
 }
 
-.bg-danger{
-    background: linear-gradient(135deg,#ff416c,#ff4b2b)!important;
+.bg-danger {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b) !important;
 }
 
-.bg-dark{
-    background: linear-gradient(135deg,#232526,#414345)!important;
+.bg-dark {
+    background: linear-gradient(135deg, #232526, #414345) !important;
 }
+
 /* ----------------------------- */
 
-.cow-form{
+.cow-form {
     background: white;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-.form-control{
+.form-control {
     padding: 14px;
     border-radius: 12px;
 }
 
-.btn-success{
+.btn-success {
     padding: 14px;
     border-radius: 12px;
+    font-weight: bold;
+}
+
+/* ---------------------- */
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+body {
+    background: #f4f4f4;
+} */
+
+/* Layout */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: linear-gradient(180deg, #0f9b0f, #0575e6);
+    padding: 20px;
+    color: white;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+}
+
+.sidebar a:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* Main */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+/* Form */
+.form-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+select, input {
+    padding: 10px;
+    width: 200px;
+}
+
+button {
+    padding: 10px 20px;
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: darkgreen;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #333;
+    color: white;
+}
+
+/* Total */
+.total {
+    margin-top: 20px;
+    font-size: 20px;
     font-weight: bold;
 }

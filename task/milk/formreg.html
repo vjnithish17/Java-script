@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- <style>
         body {
             display: grid;
             place-items: center;
@@ -34,40 +35,43 @@
         span {
             color: red;
         }
-    </style>
+    </style> -->
 </head>
 
 <body>
-    <div class="form-reg">
+    <div class="form-container">
+
         <form action="" id="reset" onsubmit="reg(event)">
-            <div class="content">
-                <label for="">Enter the name</label>
+            <h1>Registration</h1>
+            <div class="form-controlx">
+                <label for="name">Enter the name</label>
                 <input type="text" id="name" placeholder="Ex.nihti">
                 <span id="nameerr"></span>
             </div>
-            <div class="content">
-                <label for="">Enter the Email</label>
+            <div class="form-controlx">
+                <label for="mail">Enter the Email</label>
                 <input type="text" id="mail" placeholder="Ex.xxx@gmail.com">
                 <span id="mailerr"></span>
             </div>
-            <div class="content">
-                <label for="">Enter the Phone</label>
+            <div class="form-controlx">
+                <label for="ph">Enter the Phone</label>
                 <input type="text" id="ph" placeholder="Ex.xxx98">
                 <span id="pherr"></span>
             </div>
-            <div class="content">
-                <label for="">Enter the Password</label>
-                <input type="text" id="pass" placeholder="Ex.Password">
+            <div class="form-controlx">
+                <label for="pass">Enter the Password</label>
+                <input type="password" id="pass" placeholder="Ex.Password">
                 <span id="passerr"></span>
             </div>
-            <div class="content">
-                <label for="">Enter the confirmpass</label>
-                <input type="text" id="cpass" placeholder="Ex.cpass">
+            <div class="form-controlx">
+                <label for="cpass">Enter the confirmpass</label>
+                <input type="password" id="cpass" placeholder="Ex.cpass">
                 <span id="cpsserr"></span>
             </div>
-            <div class="content">
+            <div class="form-controlx">
                 <button type="submit">sumit</button>
             </div>
+            <a href="./index.html">Login</a>
         </form>
     </div>
 
@@ -84,7 +88,13 @@
             let passerr = document.getElementById("passerr")
             let cpass = document.getElementById("cpass")
             let cpasserr = document.getElementById("cpsserr")
-            let nameCheck, mailcheck, phoneCheck, passCheck, cpassCheck = false;
+            let userStorage = JSON.parse(localStorage.getItem("userslist")) || [];
+            // let nameCheck, mailcheck, phoneCheck, passCheck, cpassCheck = false;
+            let nameCheck = false;
+            let mailcheck = false;
+            let phoneCheck = false;
+            let passCheck = false;
+            let cpassCheck = false;
             // debugger
             if (name.value == "") {
                 nameerr.innerHTML = "Name is empty"
@@ -124,16 +134,16 @@
             } else if (ph.value.length > 10 || ph.value.length < 10) {
                 pherr.innerHTML = "Phone should be 10 digit"
                 phoneCheck = false
-            }else if (!phonePattern.test(ph.value)) {
+            } else if (!phonePattern.test(ph.value)) {
                 pherr.innerHTML = "Invalid phone number"
                 phoneCheck = false
-            }  else {
+            } else {
                 pherr.innerHTML = ""
                 phoneCheck = true
             }
 
             // pass-----------------------
-            let passpattern=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&*]).{8,}$/
+            let passpattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&*]).{8,}$/
 
             if (pass.value == "") {
                 passerr.innerHTML = "pass is empty"
@@ -141,9 +151,9 @@
             } else if (pass.value.length < 8) {
                 passerr.innerHTML = "min 8 character"
                 passCheck = false
-            }else if(! passpattern.test(pass.value)){
-                passerr.innerHTML="pls create strong password"
-                passCheck=false
+            } else if (!passpattern.test(pass.value)) {
+                passerr.innerHTML = "pls create strong password"
+                passCheck = false
             }
             else {
                 passerr.innerHTML = ""
@@ -165,10 +175,11 @@
                 cpasserr.innerHTML = ""
                 cpassCheck = true
             }
-
+            debugger
             // document.getElementById("reset").reset()
             console.log(nameCheck && mailcheck && phoneCheck && passCheck && cpassCheck);
 
+    
             if (nameCheck && mailcheck && phoneCheck && passCheck && cpassCheck) {
                 let userObj = {
                     name: name.value,
@@ -177,10 +188,18 @@
                     password: pass.value,
                     confirmpass: cpass.value
                 }
-                // console.log(userObj);
-                // userStorage.push(userObj)
-                localStorage.setItem("userlist", JSON.stringify(userObj))
+                console.log(userObj);
+                userStorage.push(userObj)
+
+                localStorage.setItem("userslist", JSON.stringify(userStorage))
+
                 alert("Registration Successful ✅")
+                document.getElementById("reset").reset()
+
+                setTimeout(() => {
+                    window.location.href = "index.html"
+                }, 1000)
+
             }
         }
     </script>

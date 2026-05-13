@@ -9,7 +9,7 @@
 
 <body>
 
-    <h1>Intervel</h1>
+    <!-- <h1>Intervel</h1> -->
     <!-- 
     In JavaScript, the setInterval() method repeatedly calls a function or executes a code snippet with a fixed time delay between each call
 
@@ -21,24 +21,77 @@
     -->
 
 
-    <div class="timezone">
+    <!-- <div class="timezone">
 
         <span id="hour">10</span> :
         <span id="minutes">42</span> :
         <span id="seconds">10</span>
 
         <h1 id="localtimes"></h1>
+    </div> -->
+
+
+
+    <div class="timezone">
+        <span id="hour">11</span>:
+        <span id="minutes">17</span>:
+        <span id="seconds">01</span>
+        <h1 id="localtimes"></h1>
+
+        <button onclick="startClock()">Start</button>
+        <button onclick="stopClock()">Stop</button>
     </div>
 
-
-    <!-- <h1 id="time">0</h1> -->
-
-    <button onclick="startTimer()">Start</button>
-    <button onclick="stopTimer()">Stop</button>
-
-
-
     <script>
+
+        let updateTime = () => {
+            let date = new Date()
+
+            let h = date.getHours()
+            let m = date.getMinutes()
+            let s = date.getSeconds()
+
+            let hour = document.getElementById("hour")
+            let minutes = document.getElementById("minutes")
+            let seconds = document.getElementById("seconds")
+
+            hour.innerHTML = h
+            minutes.innerHTML = m
+            seconds.innerHTML = s
+
+            let localtimes = document.getElementById("localtimes")
+            localtimes.innerHTML = date.toLocaleTimeString()
+
+
+        }
+
+        let clock = setInterval(updateTime, 1000)
+        let stopClock = () => {
+            clearInterval(clock)
+        }
+
+        let startClock = () => {
+            clearInterval(clock)
+            clock = setInterval(updateTime, 1000)
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // setInterval(() => {
 
@@ -73,45 +126,45 @@
         //     }, 1000)
 
 
-            //  console.log(new Date());
+        //  console.log(new Date());
 
-            //  let date = new Date()
-            //  console.log(new Date());
+        //  let date = new Date()
+        //  console.log(new Date());
 
-            //  console.log(date.getDate());
-            //  console.log(date.getDay());
+        //  console.log(date.getDate());
+        //  console.log(date.getDay());
 
-            //  console.log(date.getFullYear());
+        //  console.log(date.getFullYear());
 
-            //  console.log(date.getHours());
-            //  console.log(date.getMilliseconds());
-            //  console.log(date.getMinutes());
-            //  console.log(date.getSeconds());
-            //  console.log(date.getTime());
+        //  console.log(date.getHours());
+        //  console.log(date.getMilliseconds());
+        //  console.log(date.getMinutes());
+        //  console.log(date.getSeconds());
+        //  console.log(date.getTime());
 
-            //  console.log(date.getMonth());
+        //  console.log(date.getMonth());
 
-            //  console.log(date.toLocaleTimeString());
-
-
-
-            let i = 0
-            let interval = setInterval(() => {
-                console.log(i++);
+        //  console.log(date.toLocaleTimeString());
 
 
-                // if (i > 5) {
-                //     clearInterval(interval)
-                // }
 
-            }, 2000);
+        let i = 0
+        let interval = setInterval(() => {
+            console.log(i++);
 
-                // let count = 0
-                // let interval = setInterval(() => {
-                //     count++
-                //     console.log(count);
-                //     document.getElementById("time").innerHTML = `count`
-                // }, 2000);
+
+            // if (i > 5) {
+            //     clearInterval(interval)
+            // }
+
+        }, 2000);
+
+        // let count = 0
+        // let interval = setInterval(() => {
+        //     count++
+        //     console.log(count);
+        //     document.getElementById("time").innerHTML = `count`
+        // }, 2000);
 
 
     </script>
