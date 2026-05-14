@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 
 <body>
@@ -16,6 +16,11 @@
         <form action="" onsubmit="loginform(event)">
             <h1>Login</h1>
 
+            <div class="form-controlx">
+                <label for="name">Enter the name</label>
+                <input type="text" id="name" placeholder="Ex.nihti">
+                <span id="nameerr"></span>
+            </div>
             <div class="form-controlx">
                 <label for="">Enter the Email</label>
                 <input type="email" id="emailid" placeholder="ex . john@gmail.com">
@@ -31,7 +36,10 @@
             <div class="form-controlx">
                 <button type="submit">Submit</button>
             </div>
-            <a href="./formreg.html">Register</a>
+            <div class="foot">
+                <h5>Don't have an account? <a href="./formreg.html">Register here</a></h5>
+
+            </div>
         </form>
     </div>
 
@@ -42,6 +50,9 @@
 
             event.preventDefault();
 
+             let name = document.getElementById("name")
+            let nameerr = document.getElementById("nameerr")
+
             let emailid = document.getElementById("emailid")
             let pass = document.getElementById("pass")
 
@@ -51,11 +62,24 @@
 
             let emailCheck = false;
             let passCheck = false;
+            let nameCheck = false
+
+            if (name.value == "") {
+                nameerr.innerHTML = "Name is empty"
+                nameCheck = false
+            } else if (name.value.length < 3) {
+                nameerr.innerHTML = "name is min 3 letters"
+                nameCheck = false
+            }
+            else {
+                nameerr.innerHTML = ""
+                nameCheck = true
+            }
 
             let emailpatter = /^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.+-]+\.[a-zA-Z]{2,}$/
 
             if (emailid.value == "") {
-                emailerr.innerHTML = "Email is not Empty"
+                emailerr.innerHTML = "Email is  Empty"
                 emailCheck = false;
             } else if (!emailpatter.test(emailid.value)) {
                 emailerr.innerHTML = "Invalid email id"
@@ -67,7 +91,7 @@
 
 
             if (pass.value == "") {
-                passerr.innerHTML = "Password is not Empty"
+                passerr.innerHTML = "Password is  Empty"
                 passCheck = false;
             } else if (pass.value.length < 6) {
                 passerr.innerHTML = "Password should be  min 6 charactors"
@@ -77,14 +101,14 @@
                 passCheck = true;
             }
 
-            debugger
+            // debugger
 
-            if (emailCheck && passCheck) {
+            if (emailCheck && passCheck && nameCheck) {
 
-                let userslist = JSON.parse(localStorage.getItem("userslist"))|| []
+                let userslist = JSON.parse(localStorage.getItem("userslist")) || []
 
 
-                let existuser = userslist.filter((ele) => ele.mail == emailid.value && ele.password == pass.value)
+                let existuser = userslist.filter((ele) => ele.mail == emailid.value && ele.password == pass.value && ele.name == name.value)
                 // console.log(existuser);
                 console.log(userslist);
 
@@ -104,7 +128,7 @@
 
                 } else {
 
-                    // alert("You are not existing user, please register")
+                    alert("You are not existing user, please register")
 
                 }
             }

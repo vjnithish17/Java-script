@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400..700;1,400..700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Gelasio", serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: linear-gradient(135deg, #4f46e5, #7c3aed);    */
+    background: url(./img/milk-background-nn4uqvyma4v02ltr.jpg);
+    background-size: cover;
+}
+
+.foot{
+    margin-top: 9px;
+}
+.form-container {
+    width: 100%;
+    max-width: 390px;
+}
+
+form {
+    background: #ffffffd7;
+    padding: 20px 35px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px #00000026;
+}
+
+form h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #111827;
+}
+
+.form-controlx {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.form-controlx label {
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.form-controlx input {
+    height: 35px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+
+
+}
+
+.form-controlx input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 8px rgba(79, 70, 229, 0.3);
+}
+
+.form-controlx button {
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    background: #4f46e5;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-controlx button:hover {
+    background: #4338ca;
+}
+
+span {
+    color: red;
+    font-size: 13px;
+    min-height: 16px;
+    display: block;
+    margin-top: 4px;
+}
+
+a {
+    text-align: center;
+    text-decoration: none;
+    color: #4f46e5;
+    margin-top: 10px;
+}

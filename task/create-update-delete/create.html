@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- curd operation -->
+
+
+    <div class="form-container">
+        <h1>To do list</h1>
+        <form action="" id="todoform" onsubmit="submitFun(event)">
+            <div class="form-control">
+                <label for="">Task Name</label>
+                <input type="text" id="task_name" placeholder="ex.john" >
+                <span id="nameerr" class="error"></span>
+            </div>
+            <div class="form-control">
+                <label for="home"><input type="radio" id="home" class="group" name="work"
+                        value="HOME_WORK">Home work</label>
+                <label for="office"><input type="radio" id="office" class="group" name="work" 
+                        value="OFFICE_WORK">OFFICE
+                    work</label>
+                <span id="nameerr" class="error"></span>
+            </div>
+            <div class="form-control">
+                <button type="submit">Add</button>
+            </div>
+        </form>
+       
+        <!-- ---------------------------------------------------------------------------------- -->
+          <h5>Lists</h5>
+        <div class="container">
+
+            <div class="taskbox">
+                <div class="box box1">
+                    <label for=""><input type="checkbox" name="" id="">task name</label>
+                </div>
+                <div class="box box2">
+                    <button type="button">delete</button>
+                    <button type="button">edit</button>
+                </div>
+            </div>
+            <div class="taskbox">
+                <div class="box box1">
+                    <label for=""><input type="checkbox" name="" id="">task name</label>
+                </div>
+                <div class="box box2">
+                    <button type="button">delete</button>
+                    <button type="button">edit</button>
+                </div>
+            </div>
+            <div class="taskbox">
+                <div class="box box1">
+                    <label for=""><input type="checkbox" name="" id="">task name</label>
+                </div>
+                <div class="box box2">
+                    <button type="button">delete</button>
+                    <button type="button">edit</button>
+                </div>
+            </div>
+            <div class="taskbox">
+                <div class="box box1">
+                    <label for=""><input type="checkbox" name="" id="">task name</label>
+                </div>
+                <div class="box box2">
+                    <button type="button">delete</button>
+                    <button type="button">edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let taskslist = [];
+        let submitFun = (event) => {
+            event.preventDefault();
+
+            let task_name = document.querySelector("#task_name")
+            let group = document.querySelector("input[name='work']:checked")
+            let todoform = document.querySelector("#todoform")
+
+            if(task_name.value == ""){
+                alert("fill data")
+                return
+            }else if(!group){
+                alert("Select")
+                return
+            }
+            console.log(task_name.value, group.value);
+
+            // add and update
+
+            let tasks = {
+                task:task_name.value,
+                gro:group.value
+            }
+
+            taskslist.push(tasks)
+
+            localStorage.setItem("taskslist", JSON.stringify(taskslist))
+            todoform.reset()
+            loadToDoList()
+        }
+
+
+
+        let loadToDoList = () => {
+            let taskslist = JSON.parse(localStorage.getItem("taskslist"))
+
+            let list = ''
+            taskslist.forEach((ele, index) => {
+                console.log(ele);
+                list += ` <div class="taskbox">
+                            <div class="box box1">
+                                <label for=""><input type="checkbox" name="" id="">${ele.task} ${ele.gro}</label>
+                            </div>
+                            <div class="box box2">
+                                <button type="button" onclick="deletelist(${index})">delete</button>
+                                <button type="button">edit</button>
+                            </div>
+                        </div>`
+            })
+
+            document.querySelector(".container").innerHTML = list
+        }
+
+        loadToDoList()
+
+
+        let deletelist = (index) => {
+            console.log(index);
+            let taskslist = JSON.parse(localStorage.getItem("taskslist"))
+
+            let c = confirm("do you want to delete?")
+
+            if (c) {
+                let filted = taskslist.filter((ele, idx) => idx != index)
+
+                console.log(filted);
+
+                localStorage.setItem("taskslist", JSON.stringify(filted))
+
+                loadToDoList()
+                alert("deleted successfully")
+            } else {
+                alert("your data is safe")
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>
