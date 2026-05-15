@@ -8,7 +8,7 @@
 }
 
 body {
-    background: url(./img/milk-bg.jpg);
+    background: url(../img/milk-bg.jpg);
     background-size: cover;
   overflow: scroll;
 }
@@ -109,6 +109,8 @@ body {
 }
 
 /* -------------------------------------------------- */
+
+
 .sidebar {
     height: 100vh;
     background: linear-gradient(180deg, #1ef879, #2cc6d1, rgba(35, 126, 230, 0.692));
@@ -144,7 +146,7 @@ h2 {
 }
 
 .card-box {
-    padding: 30px;
+    padding: 20px;
     border-radius: 22px;
     text-align: center;
     color: white;
@@ -222,4 +224,20 @@ h2 {
     padding: 14px;
     border-radius: 12px;
     font-weight: bold;
+}
+/* -----------------Card */
+
+.cow-card{
+    border-radius: 15px;
+    transition: 0.3s;
+    background: #fff;
+}
+
+.cow-card:hover{
+    transform: translateY(-5px);
+}
+
+.cow-card p{
+    margin-bottom: 8px;
+    font-size: 16px;
 }

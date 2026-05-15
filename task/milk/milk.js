@@ -8,67 +8,82 @@
 // }
 
 
-// Add Cow
+// Add Cow ---------------------------------------------------------------
 let cows = JSON.parse(localStorage.getItem("cows")) || [];
 let addCow = () => {
-    let cowId = document.getElementById("cowId")
     let cowName = document.getElementById("cowName")
     let cowType = document.getElementById("cowType")
     let age = document.getElementById("age")
     let milkCapacity = document.getElementById("milkCapacity")
+    let image = "";
 
-    if (cowId.value == "") {
-        alert("Add cowId")
-    } else if (cowName.value == "") {
+    if (cowName.value == "") {
         alert("Add cowName")
+        return
     } else if (cowType.value == "") {
         alert("Add cowType")
+        return
     } else if (age.value == "") {
         alert("Add age")
+        return
     } else if (milkCapacity.value == "") {
         alert("Add milkCapacity")
+        return
+    }
+
+    if (cowType.value == "Jersey") {
+        image = "./img/hf.jpg";
+    }
+    else if (cowType.value == "HF") {
+        image = "./img/download (1).jpg";
+    }
+    else {
+        image = "./img/download (1).jpg";
     }
 
     let data = {
-        id: cowId.value,
         name: cowName.value,
         cowType: cowType.value,
         age: age.value,
-        milkCapacity: milkCapacity.value
+        milkCapacity: milkCapacity.value,
+        img: image
     };
 
     cows.push(data);
     console.log(cows);
     localStorage.setItem("cows", JSON.stringify(cows));
-
+    document.getElementById("cowrest").reset();
+    displaycows()
 }
-let displaycows = (ele) => {
-    let cowTable = document.getElementById("cowTable")
-    cowTable.innerText = ``
+let displaycows = () => {
+
+    let cowTable = document.getElementById("cowTable");
+
+    cowTable.innerHTML = "";
 
     cows.forEach((ele) => {
+
         cowTable.innerHTML += `
-        <tr>
-            <td>${ele.id}</td>
-            <td>${ele.name}</td>
-            <td>${ele.cowType}</td>
-            <td>${ele.age}</td>
-            <td>${ele.milkCapacity}</td>
-        </tr>
-        `;
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-0 cow-card">
+                <img src="${ele.image}"  class="card-img-top cow-img" alt="cow image">
+                <div class="card-body">
+                    <p class="textcenter"><strong>Name :</strong> ${ele.name}</p>
+                    <p><strong>cowType :</strong> ${ele.cowType}</p>
+                    <p><strong>Age :</strong> ${ele.age} Years</p>
+                    <p><strong>Milk :</strong> ${ele.milkCapacity} Litre</p>
+                </div>
+            </div>
+        </div>  `
 
     });
-    cowId.value = "";
-    cowName.value = "";
-    cowType.value = "";
-    age.value = "";
-    milkCapacity.value = "";
-}
+};
+displaycows()
 
 
 
 
-// milkentry
+// milkentry---------------------------------------------------------------------
 
 let milkEntries = [];
 function addMilkEntry() {
@@ -107,39 +122,52 @@ function addMilkEntry() {
     });
 }
 
-// expense
+// expense------------------------------------------------------------
 
-let expenses = [];
-let addExpense = () => {
+
+function addExpense() {
+    let totalex = JSON.parse(localStorage.getItem("expenseamount")) || [];
     let type = document.getElementById("expenseType").value;
     let amount = Number(document.getElementById("expenseAmount").value);
-    let table = document.getElementById("expenseTable");
-    debugger
-    if (type == "" || amount == "") {
-        alert("Fill all fields");
+
+    if (type == "") {
+        alert("Select Type");
         return;
     }
 
-    expenses.push({ type, amount });
+    if (amount == "") {
+        alert("EnterAmount");
+        return;
+    }
 
+    let expenses = {
+        type,
+        amount
+    }
+    totalex.push(expenses)
+    console.log(expenses);
+    localStorage.setItem("expenseamount", JSON.stringify(totalex));
+    showexpense()
+    document.getElementById("expenseType").innerHTML = ""
+    document.getElementById("expenseAmount").innerHTML = ""
+}
 
+function showexpense() {
+    let totalex = JSON.parse(localStorage.getItem("expenseamount")) || [];
+    let table = document.getElementById("expenseTable");
     let total = 0;
-    let total1 = document.getElementById("totalExpense")
-    table.innerHTML = ``
 
-    expenses.forEach((exp) => {
-        total += exp.amount
+    totalex.forEach((exp) => {
+
+        total += exp.amount;
+
         table.innerHTML += `
-         <tr>
-          <td>${exp.type}</td>
-          <td>₹${exp.amount}</td>
-         </tr>`;
+        <tr>
+            <td>${exp.type}</td>
+            <td>₹${exp.amount}</td>
+        </tr>`;
     });
-    total1.innerText = `₹${total}`;
-    console.log(total);
-
-    document.getElementById("expenseType").value = "";
-    document.getElementById("expenseAmount").value = "";
+    document.getElementById("totalExpense").innerHTML = `₹${total}`;
 
 }
 
@@ -161,5 +189,5 @@ let btn = document.getElementById("modeBtn")
 btn.addEventListener("click", () => {
     document.body.classList.toggle("dark");
     btn.classList.toggle("bg-dark")
-  
+
 })
